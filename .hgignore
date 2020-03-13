@@ -3,4 +3,5 @@ syntax: glob
 .gitattributes
 .idea
 .git
+.github
 build
