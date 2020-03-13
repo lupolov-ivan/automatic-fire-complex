@@ -5,8 +5,12 @@ import automatic.fire.complex.lupolov.observers.Radar;
 import automatic.fire.complex.lupolov.units.AutomaticFireComplex;
 import automatic.fire.complex.lupolov.units.Enemy;
 import automatic.fire.complex.lupolov.units.Unit;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class TestAFC {
+
+    static Logger log = LoggerFactory.getLogger(TestAFC.class);
     public static void main(String[] args) {
 
         Unit unit1 = new AutomaticFireComplex(0,0, "AFC");
@@ -26,7 +30,7 @@ public class TestAFC {
         radar.register((Observer) unit2);
 
         for (int i = 0; i < 10; i++) {
-            System.out.println("============================================> Check #"+ i);
+            log.debug("============================================> Check #"+ i);
             radar.checkField(battlefield);
         }
     }

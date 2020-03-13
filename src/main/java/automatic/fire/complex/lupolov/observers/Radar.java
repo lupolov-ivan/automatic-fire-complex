@@ -1,12 +1,15 @@
 package automatic.fire.complex.lupolov.observers;
 
-import automatic.fire.complex.lupolov.Subject;
 import automatic.fire.complex.lupolov.units.Unit;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Radar implements Subject {
+
+    Logger log = LoggerFactory.getLogger(Radar.class);
 
     private List<automatic.fire.complex.lupolov.observers.Observer> complexes;
     private List<Unit> enemiesPosition;
@@ -28,8 +31,9 @@ public class Radar implements Subject {
 
     @Override
     public void notifyAllAFC() {
+        log.debug("Starting of sending enemy's position information to all AFC");
         complexes.forEach(observer -> observer.updatePosition(enemiesPosition));
-        System.out.printf("Enemy's position information send to all AFC%n");
+        log.debug("End of sending enemy's position information to all AFC");
     }
 
     public void checkField(Unit[][] battleField) {
@@ -38,17 +42,17 @@ public class Radar implements Subject {
         int width = battleField[0].length;
         int length = battleField.length;
 
-        System.out.printf("Radar are starting checking battlefield...%n");
+        log.debug("Radar are starting checking battlefield...");
         for (int y = 0; y < width; y++) {
             for (int x = 0; x < length; x++) {
                 Unit unit = battleField[y][x];
                 if (unit != null && unit.sendSecretString().equals("ENEMY")) {
                     enemiesPosition.add(unit);
-                    System.out.printf("Detected new enemy: %s%n", unit);
+                    log.debug("Detected new enemy: {}", unit);
                 }
             }
         }
-        System.out.printf("Radar finish checking battlefield%n");
+        log.debug("Radar finish checking battlefield.");
         notifyAllAFC();
     }
 }

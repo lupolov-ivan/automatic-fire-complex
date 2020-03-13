@@ -1,11 +1,15 @@
-package automatic.fire.complex.lupolov;
+package automatic.fire.complex.lupolov.systems;
 
 import automatic.fire.complex.lupolov.units.Unit;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
 import java.util.Random;
 
 public class MechanicalInertialAimSystem extends AimingSystem {
+
+    Logger log = LoggerFactory.getLogger(MechanicalInertialAimSystem.class);
 
     @Override
     public double catchTarget(List<Unit> enemies) {
@@ -14,14 +18,14 @@ public class MechanicalInertialAimSystem extends AimingSystem {
         Random random = new Random();
         int newTargetIndex = (int)(Math.random() * enemiesQuantity);
         Unit newTarget = enemies.get(newTargetIndex);
-        System.out.printf("Catch new target: %s%n", newTarget);
+        log.debug("Catch new target: {}", newTarget);
 
         if(newTarget.equals(lastTarget)) {
-            System.out.printf("Target is the same%n");
+            log.debug("Target caught is the same");
             lastTarget = newTarget;
             countShotSameTarget++;
         } else {
-            System.out.printf("Target is new%n");
+            log.debug("Target caught is new");
             lastTarget = newTarget;
             countShotSameTarget = 1;
         }

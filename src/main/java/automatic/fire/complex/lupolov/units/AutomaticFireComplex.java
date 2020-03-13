@@ -1,12 +1,16 @@
 package automatic.fire.complex.lupolov.units;
 
 import automatic.fire.complex.lupolov.observers.Observer;
-import automatic.fire.complex.lupolov.AimingSystem;
-import automatic.fire.complex.lupolov.MechanicalInertialAimSystem;
+import automatic.fire.complex.lupolov.systems.AimingSystem;
+import automatic.fire.complex.lupolov.systems.MechanicalInertialAimSystem;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
 public class AutomaticFireComplex extends Unit implements Observer {
+
+    Logger log = LoggerFactory.getLogger(AutomaticFireComplex.class);
 
     private AimingSystem aimingSystem;
     private List<Unit> lastPosition;
@@ -19,7 +23,7 @@ public class AutomaticFireComplex extends Unit implements Observer {
     @Override
     public void updatePosition(List<Unit> enemiesPosition) {
         lastPosition = enemiesPosition;
-        System.out.printf("AFC '%s' shot with accurancy factor %s%n", this, shot());
+        log.debug("AFC '{}' shot with accuracy factor {}", this, shot());
     }
 
     @Override
