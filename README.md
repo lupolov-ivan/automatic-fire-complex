@@ -1,5 +1,5 @@
 # Automatic Fire Complex
 
-### Train Task for Intern
+### Training Task for Intern
 
 For cloning this project use this: `https://github.com/lupolov-ivan/automatic-fire-complex.git`
