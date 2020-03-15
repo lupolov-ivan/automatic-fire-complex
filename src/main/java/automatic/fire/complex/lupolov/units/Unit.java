@@ -6,13 +6,12 @@ public abstract class Unit {
 
     private int posX;
     private int posY;
+    private boolean isAlive;
 
-    private String type;
-
-    public Unit(int posX, int posY, String type) {
+    public Unit(int posX, int posY) {
         this.posX = posX;
         this.posY = posY;
-        this.type = type;
+        this.isAlive = true;
     }
 
     abstract public String sendSecretString();
@@ -22,7 +21,6 @@ public abstract class Unit {
         return "Unit{" +
                 "posX=" + posX +
                 ", posY=" + posY +
-                ", type='" + type + '\'' +
                 '}';
     }
 
@@ -44,11 +42,23 @@ public abstract class Unit {
         return posX;
     }
 
+    public void setPosX(int posX) {
+        this.posX = posX;
+    }
+
     public int getPosY() {
         return posY;
     }
 
-    public String getType() {
-        return type;
+    public void setPosY(int posY) {
+        this.posY = posY;
+    }
+
+    public boolean isAlive() {
+        return isAlive;
+    }
+
+    public void setAlive(boolean alive) {
+        isAlive = alive;
     }
 }
