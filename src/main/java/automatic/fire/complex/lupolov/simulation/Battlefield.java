@@ -1,6 +1,11 @@
-package automatic.fire.complex.lupolov.units;
+package automatic.fire.complex.lupolov.simulation;
+
+import automatic.fire.complex.lupolov.units.Unit;
+
+import java.util.List;
 
 public class Battlefield {
+
     private int width;
     private int length;
     private Unit[][] battlefield;
@@ -22,6 +27,20 @@ public class Battlefield {
         return false;
     }
 
+    public boolean putUnits(List<Unit> units) {
+        units.forEach(
+                unit -> {
+                    int x = unit.getPosX();
+                    int y = unit.getPosY();
+
+                    if (battlefield[x][y] == null) {
+                        battlefield[x][y] = unit;
+                    }
+                }
+        );
+        return true;
+    }
+
     public void clearCellValue(int x, int y) {
         if (battlefield[x][y] != null) {
             battlefield[x][y] = null;
@@ -32,15 +51,15 @@ public class Battlefield {
         return battlefield[x][y];
     }
 
+    public boolean isEmpty(int x, int y) {
+        return battlefield[x][y] == null;
+    }
+
     public int getWidth() {
         return width;
     }
 
     public int getLength() {
         return length;
-    }
-
-    public Unit[][] getBattlefield() {
-        return battlefield;
     }
 }

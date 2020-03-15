@@ -1,13 +1,13 @@
 package automatic.fire.complex.lupolov.systems;
 
-import automatic.fire.complex.lupolov.units.Unit;
+import automatic.fire.complex.lupolov.simulation.EnemyData;
 
 import java.util.List;
 
 public abstract class AimingSystem {
 
-    protected Unit lastTarget;
+    protected EnemyData lastTarget;
     protected int countShotSameTarget = 1;
 
-    public abstract double catchTarget(List<Unit> enemies);
+    public abstract EnemyData catchTarget(List<EnemyData> enemies);
 }
