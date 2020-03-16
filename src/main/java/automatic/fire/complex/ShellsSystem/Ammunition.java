@@ -6,55 +6,42 @@ import java.util.List;
 import java.util.Map;
 
 public class Ammunition {
-    private Map<Cassette, Integer> stockOfCassettes = new HashMap<>();
-    private List<Cassette> returnedList = new LinkedList<>();
+    public List<Cassette<ArmorPiercingShell>> listOfArmorPS = new LinkedList<>();
+    List<Cassette<BurstingShell>> listOfBurstingS = new LinkedList<>();
 
-    public void addCassette(Cassette cassette, int quantity) {
-        if (stockOfCassettes.containsKey(cassette)){
-            int currentQuantity = stockOfCassettes.get(cassette);
-            int newQuantity = quantity + currentQuantity;
-            stockOfCassettes.remove(cassette);
-            stockOfCassettes.put(cassette, newQuantity);
-        } else {
-            stockOfCassettes.put(cassette, quantity);
+
+
+    public void addCassette (Cassette cassette) {
+        if (cassette.getShell().getClass() == ArmorPiercingShell.class) {
+            listOfArmorPS.add(cassette);
+        } else if (cassette.getShell().getClass() == BurstingShell.class){
+            listOfBurstingS.add(cassette);
         }
     }
 
-    public Map<Cassette, Integer> getStockOfCassettes() {
-        return stockOfCassettes;
-    }
-
-    public Cassette getCassette(Cassette typeOfShells) {
-        int currentQuantity = stockOfCassettes.get(typeOfShells);
-        currentQuantity--;
-        stockOfCassettes.remove(typeOfShells);
-        stockOfCassettes.put(typeOfShells, currentQuantity);
-        System.out.println("cassette was return");
-        return typeOfShells;
-    }
-
-    public void returnNotEmptyCassette(Cassette returnedCassette, int balance) {
-        returnedList.add(returnedCassette);
-    }
-    
-    public boolean hasNext(Cassette typeOfShells) {
-        if (stockOfCassettes.containsKey(typeOfShells) && stockOfCassettes.get(typeOfShells) > 0) {
-            return true;
+    public boolean hasNext(Cassette cassette) {
+        if (cassette.getShell().getClass() == ArmorPiercingShell.class) {
+            if (cassette.getBalance() > 0) {
+                return true;
+            } else {
+                return false;
+            }
         } else {
-            return false;
-        }
-    }
-
-    public List<Cassette> getReturnedList() {
-        return returnedList;
-    }
-
-    public Cassette getCassetteFromReturned(Cassette typeOfCassette) {
-        for (Cassette cassetteFromReturnedList : returnedList) {
-            if (cassetteFromReturnedList.getValue().getClass() == typeOfCassette.getValue().getClass()) {
-                return cassetteFromReturnedList;
+            if (cassette.getBalance() > 0) {
+                return true;
+            }else {
+                return false;
             }
         }
-        return null;
+    }
+
+    public Cassette getCassette(Cassette cassette) {
+        if (cassette.getShell().getClass() == ArmorPiercingShell.class) {
+            listOfArmorPS.remove(listOfArmorPS.size() - 1);
+            return listOfArmorPS.get(listOfArmorPS.size());
+        } else {
+            listOfBurstingS.remove(listOfBurstingS.size() - 1);
+            return listOfBurstingS.get(listOfBurstingS.size());
+        }
     }
 }
