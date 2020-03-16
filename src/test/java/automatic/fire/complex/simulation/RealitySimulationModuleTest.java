@@ -12,16 +12,13 @@ public class RealitySimulationModuleTest {
     private Battlefield battlefield;
     private RealitySimulationModule rsm;
     private Tank tank;
-    private Infantry infantry;
 
     @Before
     public void setUp() {
         battlefield = new Battlefield(3,4);
         rsm = new RealitySimulationModule(battlefield);
         tank = new Tank(0,0, 10);
-        infantry = new Infantry(2,1, 10);
         battlefield.putUnit(tank);
-        battlefield.putUnit(infantry);
     }
 
     @Test
@@ -42,6 +39,6 @@ public class RealitySimulationModuleTest {
 
         rsm.toDamage(data);
 
-        assertEquals(7,tank.getProtectionLevel(), 0);
+        assertEquals(3, tank.getDamageTaken(), 0);
     }
 }

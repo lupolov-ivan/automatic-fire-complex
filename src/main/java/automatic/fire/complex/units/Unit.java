@@ -6,11 +6,14 @@ public abstract class Unit {
 
     private int posX;
     private int posY;
+    private int protectionLevel;
+    private double damageTaken = 0;
     private boolean isAlive;
 
-    public Unit(int posX, int posY) {
+    public Unit(int posX, int posY, int protectionLevel) {
         this.posX = posX;
         this.posY = posY;
+        this.protectionLevel = protectionLevel;
         this.isAlive = true;
     }
 
@@ -60,5 +63,17 @@ public abstract class Unit {
 
     public void setAlive(boolean alive) {
         isAlive = alive;
+    }
+
+    public int getProtectionLevel() {
+        return protectionLevel;
+    }
+
+    public void setDamageTaken(double damageTaken) {
+        this.damageTaken = damageTaken;
+    }
+
+    public double getDamageTaken() {
+        return damageTaken;
     }
 }

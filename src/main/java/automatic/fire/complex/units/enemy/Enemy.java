@@ -4,20 +4,10 @@ import automatic.fire.complex.units.Unit;
 
 public abstract class Enemy extends Unit {
 
-    protected double protectionLevel;
     protected int hitCount = 0;
 
-    public Enemy(int posX, int posY, double protectionLevel) {
-        super(posX, posY);
-        this.protectionLevel = protectionLevel;
-    }
-
-    public double getProtectionLevel() {
-        return protectionLevel;
-    }
-
-    public void setProtectionLevel(double protectionLevel) {
-        this.protectionLevel = protectionLevel;
+    public Enemy(int posX, int posY, int protectionLevel) {
+        super(posX, posY, protectionLevel);
     }
 
     public int getHitCount() {
