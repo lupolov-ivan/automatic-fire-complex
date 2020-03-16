@@ -1,6 +1,7 @@
 package automatic.fire.complex.systems;
 
 import automatic.fire.complex.simulation.EnemyData;
+import automatic.fire.complex.units.enemy.EnemyType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -32,8 +33,8 @@ public class MechanicalInertialAimSystem extends AimingSystem {
         return lastTarget;
     }
 
-    private double computeAccuracyFactor(int shotSameTarget, String type) {
-        if (type.equals("Tank")) {
+    private double computeAccuracyFactor(int shotSameTarget, EnemyType type) {
+        if (type == EnemyType.TANK) {
             if(shotSameTarget == 1) {
                 double min = 0.2;
                 double max = 0.6;
@@ -48,7 +49,7 @@ public class MechanicalInertialAimSystem extends AimingSystem {
                 return getCoefficient(min, max);
             }
         }
-        if (type.equals("Infantry")) {
+        if (type == EnemyType.INFANTRY) {
             if(shotSameTarget == 1) {
                 double min = 0.2;
                 double max = 1.0;

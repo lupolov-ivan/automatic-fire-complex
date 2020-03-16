@@ -1,11 +1,12 @@
 package automatic.fire.complex.simulation;
 
 import automatic.fire.complex.units.Unit;
+import automatic.fire.complex.units.enemy.EnemyType;
 
 public class EnemyData {
 
     private Unit unit;
-    private String type;
+    private EnemyType type;
     private double damage = 0;
 
     public Unit getUnit() {
@@ -16,11 +17,11 @@ public class EnemyData {
         this.unit = unit;
     }
 
-    public String getType() {
+    public EnemyType getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(EnemyType type) {
         this.type = type;
     }
 

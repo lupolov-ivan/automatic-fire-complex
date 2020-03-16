@@ -17,11 +17,9 @@ public class AutomaticFireComplex extends Unit implements Observer {
     private AimingSystem aimingSystem;
     private RealitySimulationModule rsm;
     private List<EnemyData> lastPosition;
-    private double protectionLevel;
 
-    public AutomaticFireComplex(int posX, int posY, double protectionLevel, AimingSystem aimingSystem, RealitySimulationModule rsm) {
-        super(posX, posY);
-        this.protectionLevel = protectionLevel;
+    public AutomaticFireComplex(int posX, int posY, int protectionLevel, AimingSystem aimingSystem, RealitySimulationModule rsm) {
+        super(posX, posY, protectionLevel);
         this.aimingSystem = aimingSystem;
         this.rsm = rsm;
     }

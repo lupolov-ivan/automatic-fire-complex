@@ -3,6 +3,7 @@ package automatic.fire.complex.simulation;
 import automatic.fire.complex.observer.Observer;
 import automatic.fire.complex.observer.Subject;
 import automatic.fire.complex.units.Unit;
+import automatic.fire.complex.units.enemy.EnemyType;
 import automatic.fire.complex.units.enemy.Infantry;
 import automatic.fire.complex.units.enemy.Tank;
 import org.slf4j.Logger;
@@ -75,13 +76,13 @@ public class Radar implements Subject {
         notifyAllAFC();
     }
 
-    private String determineEnemyType(Unit unit) {
+    private EnemyType determineEnemyType(Unit unit) {
         if (unit.getClass() == Tank.class) {
-            return "Tank";
+            return EnemyType.TANK;
         }
         if (unit.getClass() == Infantry.class) {
-            return "Infantry";
+            return EnemyType.INFANTRY;
         }
-        return "Unknown";
+        return EnemyType.UNKNOWN;
     }
 }
