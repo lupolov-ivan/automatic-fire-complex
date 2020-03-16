@@ -22,11 +22,12 @@ public class SimulationTest {
 
         Battlefield battlefield = new Battlefield(4,4);
         RealitySimulationModule rsm = new RealitySimulationModule(battlefield);
-        AimingSystem aimingSystem = new MechanicalInertialAimSystem();
+        AimingSystem aim1 = new MechanicalInertialAimSystem();
+        AimingSystem aim2 = new MechanicalInertialAimSystem();
         List<Unit> units = new ArrayList<>();
 
-        AutomaticFireComplex afc1 = new AutomaticFireComplex(0, 0,10, aimingSystem, rsm);
-        AutomaticFireComplex afc2 = new AutomaticFireComplex(3, 3,10, aimingSystem, rsm);
+        AutomaticFireComplex afc1 = new AutomaticFireComplex(0, 0,10, aim1, rsm);
+        AutomaticFireComplex afc2 = new AutomaticFireComplex(3, 3,10, aim2, rsm);
         units.add(afc1);
         units.add(afc2);
         units.add(new Tank(1,1, 10));
