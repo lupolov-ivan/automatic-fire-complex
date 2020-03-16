@@ -1,10 +1,10 @@
-package automatic.fire.complex.lupolov.simulation;
+package automatic.fire.complex.simulation;
 
-import automatic.fire.complex.lupolov.observer.Observer;
-import automatic.fire.complex.lupolov.observer.Subject;
-import automatic.fire.complex.lupolov.units.Unit;
-import automatic.fire.complex.lupolov.units.enemy.Infantry;
-import automatic.fire.complex.lupolov.units.enemy.Tank;
+import automatic.fire.complex.observer.Observer;
+import automatic.fire.complex.observer.Subject;
+import automatic.fire.complex.units.Unit;
+import automatic.fire.complex.units.enemy.Infantry;
+import automatic.fire.complex.units.enemy.Tank;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

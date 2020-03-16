@@ -1,6 +1,6 @@
-package automatic.fire.complex.lupolov.units.enemy;
+package automatic.fire.complex.units.enemy;
 
-import automatic.fire.complex.lupolov.units.Unit;
+import automatic.fire.complex.units.Unit;
 
 public abstract class Enemy extends Unit {
 

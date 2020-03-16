@@ -1,14 +1,14 @@
-package automatic.fire.complex.lupolov;
+package automatic.fire.complex;
 
-import automatic.fire.complex.lupolov.simulation.Battlefield;
-import automatic.fire.complex.lupolov.simulation.Radar;
-import automatic.fire.complex.lupolov.simulation.RealitySimulationModule;
-import automatic.fire.complex.lupolov.systems.AimingSystem;
-import automatic.fire.complex.lupolov.systems.MechanicalInertialAimSystem;
-import automatic.fire.complex.lupolov.units.Unit;
-import automatic.fire.complex.lupolov.units.enemy.Infantry;
-import automatic.fire.complex.lupolov.units.enemy.Tank;
-import automatic.fire.complex.lupolov.units.gun.AutomaticFireComplex;
+import automatic.fire.complex.simulation.Battlefield;
+import automatic.fire.complex.simulation.Radar;
+import automatic.fire.complex.simulation.RealitySimulationModule;
+import automatic.fire.complex.systems.AimingSystem;
+import automatic.fire.complex.systems.MechanicalInertialAimSystem;
+import automatic.fire.complex.units.Unit;
+import automatic.fire.complex.units.enemy.Infantry;
+import automatic.fire.complex.units.enemy.Tank;
+import automatic.fire.complex.units.gun.AutomaticFireComplex;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -1,4 +1,4 @@
-package automatic.fire.complex.lupolov.units;
+package automatic.fire.complex.units;
 
 import java.util.Objects;
 

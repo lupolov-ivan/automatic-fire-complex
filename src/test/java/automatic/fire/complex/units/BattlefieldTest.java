@@ -1,8 +1,8 @@
-package automatic.fire.complex.lupolov.units;
+package automatic.fire.complex.units;
 
-import automatic.fire.complex.lupolov.simulation.Battlefield;
-import automatic.fire.complex.lupolov.units.enemy.Infantry;
-import automatic.fire.complex.lupolov.units.enemy.Tank;
+import automatic.fire.complex.simulation.Battlefield;
+import automatic.fire.complex.units.enemy.Infantry;
+import automatic.fire.complex.units.enemy.Tank;
 import org.junit.Before;
 import org.junit.Test;
 

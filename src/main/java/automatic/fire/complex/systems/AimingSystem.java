@@ -1,6 +1,6 @@
-package automatic.fire.complex.lupolov.systems;
+package automatic.fire.complex.systems;
 
-import automatic.fire.complex.lupolov.simulation.EnemyData;
+import automatic.fire.complex.simulation.EnemyData;
 
 import java.util.List;
 

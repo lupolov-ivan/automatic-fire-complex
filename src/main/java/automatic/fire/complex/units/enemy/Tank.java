@@ -1,4 +1,4 @@
-package automatic.fire.complex.lupolov.units.enemy;
+package automatic.fire.complex.units.enemy;
 
 public class Tank extends Enemy {
 

@@ -1,6 +1,6 @@
-package automatic.fire.complex.lupolov.simulation;
+package automatic.fire.complex.simulation;
 
-import automatic.fire.complex.lupolov.units.Unit;
+import automatic.fire.complex.units.Unit;
 
 import java.util.List;
 
