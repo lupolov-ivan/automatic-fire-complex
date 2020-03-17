@@ -25,12 +25,12 @@ public class RealitySimulationModule {
 
     public void toDamage(EnemyData data) {
 
-        Enemy enemy = (Enemy) data.getUnit();
+        Enemy enemy = (Enemy) getUnit(data.getPosX(), data.getPosY());
 
         int currentHitCount = enemy.getHitCount();
-        log.debug("Number of hit before shot: {}", currentHitCount);
+        log.debug("Current number of hit: {}", currentHitCount);
         double currentTakenDamage = enemy.getDamageTaken();
-        log.debug("Taken damage before shot: {}", currentTakenDamage);
+        log.debug("Current taken damage: {}", currentTakenDamage);
 
         enemy.setHitCount(++currentHitCount);
         enemy.setDamageTaken(currentTakenDamage + data.getDamage());

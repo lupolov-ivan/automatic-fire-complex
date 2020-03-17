@@ -34,7 +34,8 @@ public class RealitySimulationModuleTest {
     @Test
     public void givenBattlefieldW3L4_whenSetDamageUnit_thenUnitProtectionLevelDecreases() {
         EnemyData data = new EnemyData();
-        data.setUnit(tank);
+        data.setPosX(tank.getPosX());
+        data.setPosY(tank.getPosY());
         data.setDamage(3);
 
         rsm.toDamage(data);
