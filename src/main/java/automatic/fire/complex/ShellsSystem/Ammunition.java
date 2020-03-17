@@ -1,47 +1,42 @@
 package automatic.fire.complex.ShellsSystem;
 
-import java.util.HashMap;
+import automatic.fire.complex.units.Unit;
+import automatic.fire.complex.units.enemy.Infantry;
+import automatic.fire.complex.units.enemy.Tank;
+
 import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
 
 public class Ammunition {
-    public List<Cassette<ArmorPiercingShell>> listOfArmorPS = new LinkedList<>();
-    List<Cassette<BurstingShell>> listOfBurstingS = new LinkedList<>();
+    private LinkedList<Cassette<ArmorPiercingShell>> listOfArmorPS = new LinkedList<>();
+    private LinkedList<Cassette<BurstingShell>> listOfBurstingS = new LinkedList<>();
 
 
 
-    public void addCassette (Cassette cassette) {
-        if (cassette.getInstanceInnerElement().getClass() == ArmorPiercingShell.class) {
-            listOfArmorPS.add(cassette);
-        } else if (cassette.getInstanceInnerElement().getClass() == BurstingShell.class){
-            listOfBurstingS.add(cassette);
+    public <T extends Shell> void addCassette (Cassette<T> cassette) {
+        if (cassette.getBalance() > 0) {
+            if (cassette.getInstanceInnerElement().getClass() == ArmorPiercingShell.class) {
+                listOfArmorPS.add((Cassette<ArmorPiercingShell>) cassette);
+            } else if (cassette.getInstanceInnerElement().getClass() == BurstingShell.class) {
+                listOfBurstingS.add((Cassette<BurstingShell>) cassette);
+            }
         }
     }
 
     public boolean hasNext(Cassette cassette) {
         if (cassette.getInstanceInnerElement().getClass() == ArmorPiercingShell.class) {
-            if (cassette.getBalance() > 0) {
-                return true;
-            } else {
-                return false;
-            }
+            return listOfArmorPS.size() > 0;
         } else {
-            if (cassette.getBalance() > 0) {
-                return true;
-            }else {
-                return false;
-            }
+            return listOfBurstingS.size() > 0;
         }
     }
 
-    public Cassette getCassette(Cassette cassette) {
-        if (cassette.getInstanceInnerElement().getClass() == ArmorPiercingShell.class) {
-            listOfArmorPS.remove(listOfArmorPS.size()-1);
-            return listOfArmorPS.get(0);
-        } else if (cassette.getInstanceInnerElement().getClass() == BurstingShell.class){
-            listOfBurstingS.remove(listOfBurstingS.size()-1);
-            return listOfBurstingS.get(0);
+    public Cassette<? extends Shell> getCassette(Unit unit) {
+        if (unit.getClass() == Tank.class) {
+            listOfArmorPS.remove(listOfArmorPS.getLast());
+            return listOfArmorPS.getFirst();
+        } else if (unit.getClass() == Infantry.class){
+            listOfBurstingS.remove(listOfBurstingS.getLast());
+            return listOfBurstingS.getFirst();
         } else {
             return null;
         }
