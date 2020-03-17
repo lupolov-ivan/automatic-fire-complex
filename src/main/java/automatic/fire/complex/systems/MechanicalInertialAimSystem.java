@@ -18,7 +18,7 @@ public class MechanicalInertialAimSystem extends AimingSystem {
         int newTargetIndex = (int)(Math.random() * enemiesQuantity);
 
         EnemyData newTarget = enemies.get(newTargetIndex);
-        log.debug("Catch new target: {}", newTarget.getUnit());
+        log.debug("Catch new target: {}", newTarget);
 
         if(equalsCoordinate(newTarget, lastTarget)) {
             log.debug("Target caught is the same");
@@ -71,6 +71,6 @@ public class MechanicalInertialAimSystem extends AimingSystem {
         if (one == null || two == null) {
             return false;
         }
-        return one.getUnit().getPosX() == two.getUnit().getPosX() && one.getUnit().getPosY() == two.getUnit().getPosY();
+        return one.getPosX() == two.getPosX() && one.getPosY() == two.getPosY();
     }
 }

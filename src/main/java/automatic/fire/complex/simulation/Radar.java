@@ -65,7 +65,8 @@ public class Radar implements Subject {
                     unit.sendSecretString().equals("ENEMY")
                 ) {
                     EnemyData data = new EnemyData();
-                    data.setUnit(unit);
+                    data.setPosX(x);
+                    data.setPosY(y);
                     data.setType(determineEnemyType(unit));
                     enemiesPosition.add(data);
                     log.debug("Detected new enemy: {}", unit);
