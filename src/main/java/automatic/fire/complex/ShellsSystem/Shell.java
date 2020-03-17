@@ -1,8 +1,9 @@
 package automatic.fire.complex.ShellsSystem;
 
-abstract class Shell {
+public abstract class Shell {
     int damageEnergy;
     int maxSizeOfCassette;
+
 
     public abstract int getDamageEnergy();
     public abstract int getMaxSizeOfCassette();
