@@ -7,8 +7,10 @@ public class EnemyData {
     private int posX;
     private int posY;
     private EnemyType type;
-    private double damage = 0;
 
+    private double accuracyFactor;
+
+    private double damage;
     public int getPosX() {
         return posX;
     }
@@ -33,6 +35,14 @@ public class EnemyData {
         this.type = type;
     }
 
+    public double getAccuracyFactor() {
+        return accuracyFactor;
+    }
+
+    public void setAccuracyFactor(double accuracyFactor) {
+        this.accuracyFactor = accuracyFactor;
+    }
+
     public double getDamage() {
         return damage;
     }
@@ -40,7 +50,7 @@ public class EnemyData {
     public void setDamage(double damage) {
         this.damage = damage;
     }
-  
+
     @Override
     public String toString() {
         return "EnemyData{" +
