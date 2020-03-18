@@ -13,7 +13,8 @@ public abstract class FireSystem {
     private AutomationLoadingSystem automationLoadingSystem;  //
 
 
-    abstract public boolean makeShot(EnemyData data, double accuracyFactor);
+    //   abstract public boolean makeShot(EnemyData data, double accuracyFactor);
+    abstract public boolean makeShot(EnemyData data);
 
     protected void isJammed() throws ShellJammedException {
         Random random = new Random();

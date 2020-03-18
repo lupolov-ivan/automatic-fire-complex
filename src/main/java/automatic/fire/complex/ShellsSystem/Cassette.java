@@ -31,6 +31,7 @@ public class Cassette<T extends Shell> {
     }
 
     public T getShell() {
+        balance --;
         return shells.remove(0);
     }
 

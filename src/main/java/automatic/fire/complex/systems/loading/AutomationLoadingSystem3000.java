@@ -24,7 +24,7 @@ public class AutomationLoadingSystem3000 implements AutomationLoadingSystem {
     }
 
     // @Override
-    public Cassette<?> disconnectCassette() {
+    public Cassette<? extends Shell> disconnectCassette() {
         // вернуть кассету в амуницию (лучше всего в конец списка);
 
         if (currentCassette != null && currentCassette.getBalance() == 0) {
@@ -64,7 +64,7 @@ public class AutomationLoadingSystem3000 implements AutomationLoadingSystem {
 
     }
 
-    public Cassette<?> getCurrentCassette() {
+    public Cassette<? extends Shell> getCurrentCassette() {
         return currentCassette;
     }
 }

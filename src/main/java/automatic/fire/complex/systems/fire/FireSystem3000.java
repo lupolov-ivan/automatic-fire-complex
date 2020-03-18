@@ -1,5 +1,7 @@
 package automatic.fire.complex.systems.fire;
 
+import automatic.fire.complex.ShellsSystem.Cassette;
+import automatic.fire.complex.ShellsSystem.Shell;
 import automatic.fire.complex.exceptions.ShellJammedException;
 import automatic.fire.complex.simulation.EnemyData;
 import automatic.fire.complex.systems.loading.AutomationLoadingSystem;
@@ -20,7 +22,8 @@ public class FireSystem3000 extends FireSystem {
 
 
     @Override
-    public boolean makeShot(EnemyData data, double accuracyFactor) {
+    public boolean makeShot(EnemyData data) {
+        Cassette<? extends Shell> currentCassette = automationLoadingSystem.getCurrentCassette();
 
         try {
             isJammed();
@@ -29,12 +32,11 @@ public class FireSystem3000 extends FireSystem {
             //todo logger if will be need
         }
 
-        int balance = automationLoadingSystem.getCurrentCassette().getBalance();
+        if  (currentCassette.hasNext()) {
 
-        if (balance > 0) {
-
+            currentCassette.getShell();
             double currentDamage = data.getDamage();
-            data.setDamage(currentDamage + accuracyFactor);
+            data.setDamage(currentDamage + data.getAccuracyFactor());
             try {
                 Thread.sleep((long) (shotPeriod * 1000));
             } catch (InterruptedException ignored) {}
