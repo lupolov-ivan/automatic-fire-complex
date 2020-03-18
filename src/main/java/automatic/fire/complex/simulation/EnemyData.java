@@ -1,26 +1,35 @@
 package automatic.fire.complex.simulation;
 
-import automatic.fire.complex.units.Unit;
+import automatic.fire.complex.units.enemy.EnemyType;
 
 public class EnemyData {
 
-    private Unit unit;
-    private String type;
+    private int posX;
+    private int posY;
+    private EnemyType type;
     private double damage = 0;
 
-    public Unit getUnit() {
-        return unit;
+    public int getPosX() {
+        return posX;
     }
 
-    public void setUnit(Unit unit) {
-        this.unit = unit;
+    public int getPosY() {
+        return posY;
     }
 
-    public String getType() {
+    public void setPosX(int posX) {
+        this.posX = posX;
+    }
+
+    public void setPosY(int posY) {
+        this.posY = posY;
+    }
+
+    public EnemyType getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(EnemyType type) {
         this.type = type;
     }
 
@@ -30,5 +39,15 @@ public class EnemyData {
 
     public void setDamage(double damage) {
         this.damage = damage;
+    }
+  
+    @Override
+    public String toString() {
+        return "EnemyData{" +
+                "posX=" + posX +
+                ", posY=" + posY +
+                ", type=" + type +
+                ", damage=" + damage +
+                '}';
     }
 }

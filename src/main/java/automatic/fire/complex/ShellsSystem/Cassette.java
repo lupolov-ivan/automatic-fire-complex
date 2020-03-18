@@ -1,35 +1,46 @@
 package automatic.fire.complex.ShellsSystem;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Cassette<T extends Shell> {
-    private T val;
-    private int maxSizeForCurrentShells;
+    private List<T> shells;
+    private int startQuantity;
     private int balance;
 
-    public Cassette(){}
-
-    public Cassette(T arg) {
-        val = arg;
-        maxSizeForCurrentShells = val.getMaxSizeOfCassette();
-        balance = maxSizeForCurrentShells;
+    public Cassette(int startQuantity) {
+        this.startQuantity = startQuantity;
+        shells = new ArrayList<>(startQuantity);
     }
 
-    public Cassette(T arg, int balance) {
-        val = arg;
-        this.balance = balance;
+    public boolean add(T shell) {
+        if (shells.size() < startQuantity) {
+            shells.add(shell);
+            balance = shells.size();
+            return true;
+        }else {
+            return false;
+        }
     }
 
-    public T getValue() {
-        return val;
+    public boolean hasNext() {
+        if (balance > 0) {
+            return true;
+        }else {
+            return false;
+        }
     }
-    public String toString() {
-        return "{" + val + "}";
+
+    public T getShell() {
+        shells.remove(shells.size()-1);
+        balance = shells.size();
+        return shells.get(0);
     }
 
     public int getBalance() {
         return balance;
     }
-
-    public void setBalance(int balance) {
-        this.balance = balance;
+    public T getInstanceInnerElement() {
+        return shells.get(0);
     }
 }

@@ -2,6 +2,7 @@ package automatic.fire.complex.simulation;
 
 import automatic.fire.complex.units.Unit;
 import automatic.fire.complex.units.enemy.Enemy;
+import automatic.fire.complex.units.enemy.EnemyType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,19 +25,24 @@ public class RealitySimulationModule {
 
     public void toDamage(EnemyData data) {
 
-        Enemy enemy = (Enemy) data.getUnit();
+        Enemy enemy = (Enemy) getUnit(data.getPosX(), data.getPosY());
 
         int currentHitCount = enemy.getHitCount();
-        log.debug("Number of hit before shot: {}", currentHitCount);
-        double currentProtectionLevel = enemy.getProtectionLevel();
-        log.debug("Protection level before shot: {}", currentProtectionLevel);
+        log.debug("Current number of hit: {}", currentHitCount);
+        double currentTakenDamage = enemy.getDamageTaken();
+        log.debug("Current taken damage: {}", currentTakenDamage);
 
         enemy.setHitCount(++currentHitCount);
-        enemy.setProtectionLevel(currentProtectionLevel - data.getDamage());
+        enemy.setDamageTaken(currentTakenDamage + data.getDamage());
 
-        if (enemy.getProtectionLevel() <= 0) {
+        if (data.getType() == EnemyType.TANK && enemy.getProtectionLevel() <= enemy.getDamageTaken()) {
             enemy.setAlive(false);
-            log.debug("Target '{}' destroyed", enemy);
+            log.debug("Target '{}' destroyed. Type: {}", enemy, data.getType().toString());
+        }
+
+        if (data.getType() == EnemyType.INFANTRY && (enemy.getProtectionLevel()*0.7) <= enemy.getDamageTaken()) {
+            enemy.setAlive(false);
+            log.debug("Target '{}' destroyed. Type: {}", enemy, data.getType().toString());
         }
     }
 
