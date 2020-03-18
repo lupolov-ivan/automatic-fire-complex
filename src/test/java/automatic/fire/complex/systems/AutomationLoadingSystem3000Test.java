@@ -13,7 +13,7 @@ public class AutomationLoadingSystem3000Test {
     @Before
     public void setUp() {
         als = new AutomationLoadingSystem3000();
-        cassette = new Cassette<>(new BurstingShell()); // У касеты страниый констр
+        cassette = new Cassette<>(2); // У касеты страниый констр
 
 
     }

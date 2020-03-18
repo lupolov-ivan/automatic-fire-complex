@@ -19,11 +19,12 @@ public class FireSystem3000Test {
     public void setUp() {
 
         automationLoadingSystem = new AutomationLoadingSystem3000();
-        automationLoadingSystem.loadCassette(new Cassette<>(new BurstingShell()));
+        automationLoadingSystem.loadCassette(new Cassette<>(2));
         fireSystem = new FireSystem3000(automationLoadingSystem);
         unit = new Infantry(1, 1, 3);
         enemyData = new EnemyData();
-        enemyData.setUnit(unit);
+        enemyData.setPosX(unit.getPosX());
+        enemyData.setPosY(unit.getPosY());
 
     }
 
