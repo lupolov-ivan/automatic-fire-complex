@@ -1,21 +1,22 @@
 package automatic.fire.complex.ShellsSystem;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 public class Cassette<T extends Shell> {
-    private ArrayList<T> shells;
+    private LinkedList<T> shells;
     private int startQuantity;
     private int balance;
 
     public Cassette(int startQuantity) {
         this.startQuantity = startQuantity;
-        shells = new ArrayList<>(startQuantity);
+        shells = new LinkedList<>();
     }
 
     public boolean add(T shell) {
         if (shells.size() < startQuantity) {
-            shells.add(shell);
-            balance = shells.size();
+                shells.add(shell);
+                balance = shells.size();
             return true;
         }else {
             return false;
@@ -44,4 +45,5 @@ public class Cassette<T extends Shell> {
     public void setBalance(int balance) {
         this.balance = balance;
     }
+
 }
