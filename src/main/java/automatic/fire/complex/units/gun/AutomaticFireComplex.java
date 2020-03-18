@@ -3,7 +3,7 @@ package automatic.fire.complex.units.gun;
 import automatic.fire.complex.observer.Observer;
 import automatic.fire.complex.simulation.EnemyData;
 import automatic.fire.complex.simulation.RealitySimulationModule;
-import automatic.fire.complex.systems.AimingSystem;
+import automatic.fire.complex.systems.aim.AimingSystem;
 import automatic.fire.complex.units.Unit;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -1,6 +1,5 @@
 package automatic.fire.complex.ShellsSystem;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 
 public class Cassette<T extends Shell> {
@@ -41,9 +40,4 @@ public class Cassette<T extends Shell> {
     public T getInstanceInnerElement() {
         return shells.get(0);
     }
-
-    public void setBalance(int balance) {
-        this.balance = balance;
-    }
-
 }

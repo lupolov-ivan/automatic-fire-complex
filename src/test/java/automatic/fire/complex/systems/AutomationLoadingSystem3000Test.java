@@ -2,6 +2,8 @@ package automatic.fire.complex.systems;
 
 import automatic.fire.complex.ShellsSystem.BurstingShell;
 import automatic.fire.complex.ShellsSystem.Cassette;
+import automatic.fire.complex.systems.loading.AutomationLoadingSystem;
+import automatic.fire.complex.systems.loading.AutomationLoadingSystem3000;
 import org.junit.Before;
 import org.junit.Test;
 

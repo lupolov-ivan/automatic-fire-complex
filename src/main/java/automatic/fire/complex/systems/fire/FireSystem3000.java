@@ -1,7 +1,8 @@
-package automatic.fire.complex.systems;
+package automatic.fire.complex.systems.fire;
 
 import automatic.fire.complex.exceptions.ShellJammedException;
 import automatic.fire.complex.simulation.EnemyData;
+import automatic.fire.complex.systems.loading.AutomationLoadingSystem;
 
 public class FireSystem3000 extends FireSystem {
 
@@ -31,8 +32,6 @@ public class FireSystem3000 extends FireSystem {
         int balance = automationLoadingSystem.getCurrentCassette().getBalance();
 
         if (balance > 0) {
-
-            automationLoadingSystem.getCurrentCassette().setBalance(--balance);
 
             double currentDamage = data.getDamage();
             data.setDamage(currentDamage + accuracyFactor);

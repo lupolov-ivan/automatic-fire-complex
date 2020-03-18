@@ -1,8 +1,9 @@
-package automatic.fire.complex.systems;
+package automatic.fire.complex.systems.fire;
 
 
 import automatic.fire.complex.exceptions.ShellJammedException;
 import automatic.fire.complex.simulation.EnemyData;
+import automatic.fire.complex.systems.loading.AutomationLoadingSystem;
 
 import java.util.Random;
 

@@ -1,11 +1,11 @@
-package automatic.fire.complex.systems;
+package automatic.fire.complex.systems.loading;
 
 import automatic.fire.complex.ShellsSystem.Cassette;
 import automatic.fire.complex.ShellsSystem.Shell;
 
 public class AutomationLoadingSystem3000 implements AutomationLoadingSystem {
 
-    private Cassette<?> currentCassette;
+    private Cassette<? extends Shell> currentCassette;
 
     // @Override
     public boolean loadCassette(Cassette<? extends Shell> cassette) {  // мы возврат кассеты

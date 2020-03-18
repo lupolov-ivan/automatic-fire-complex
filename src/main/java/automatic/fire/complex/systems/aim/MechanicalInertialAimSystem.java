@@ -1,4 +1,4 @@
-package automatic.fire.complex.systems;
+package automatic.fire.complex.systems.aim;
 
 import automatic.fire.complex.simulation.EnemyData;
 import automatic.fire.complex.units.enemy.EnemyType;
