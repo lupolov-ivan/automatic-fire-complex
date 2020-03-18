@@ -31,6 +31,7 @@ public class AutomaticFireComplex extends Unit implements Observer {
             log.debug("All enemies destroyed");
             return;
         }
+
         EnemyData enemyData = fire();
         log.debug("AFC '{}' shot to target '{}'", this, enemyData);
     }

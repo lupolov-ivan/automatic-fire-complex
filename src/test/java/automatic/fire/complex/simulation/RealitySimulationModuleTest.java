@@ -39,7 +39,6 @@ public class RealitySimulationModuleTest {
         data.setDamage(3);
 
         rsm.toDamage(data);
-
         assertEquals(3, tank.getDamageTaken(), 0);
     }
 }

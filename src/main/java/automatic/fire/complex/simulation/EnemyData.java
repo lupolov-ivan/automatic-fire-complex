@@ -40,7 +40,7 @@ public class EnemyData {
     public void setDamage(double damage) {
         this.damage = damage;
     }
-
+  
     @Override
     public String toString() {
         return "EnemyData{" +

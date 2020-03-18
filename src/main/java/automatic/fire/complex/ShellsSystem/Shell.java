@@ -1,7 +1,8 @@
 package automatic.fire.complex.ShellsSystem;
 
-abstract class Shell {
+public abstract class Shell {
     int damageEnergy;
+
 
     public abstract int getDamageEnergy();
 }
