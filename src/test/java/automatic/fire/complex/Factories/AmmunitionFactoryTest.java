@@ -37,14 +37,11 @@ public class AmmunitionFactoryTest {
         assertTrue(ammunition.getListOfArmorPS().size() == 0);
         assertTrue(ammunition.getListOfBurstingS().size() == 0);
 
-        Cassette<Shell> cassette = new Cassette<>();
-        cassette = CassetteFactory.createCassette(5, TypeShell.ARMOR);
+        Cassette<Shell> cassette = CassetteFactory.createCassette(5, TypeShell.ARMOR);
 
         ammunition.addCassette(cassette);
 
         assertTrue(ammunition.getListOfArmorPS().size() == 1);
         assertTrue(ammunition.getListOfArmorPS().getLast().getBalance() == 5);
     }
-
-
 }
