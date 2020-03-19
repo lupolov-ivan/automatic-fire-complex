@@ -25,5 +25,4 @@ public class AmmunitionFactory {
             return initListOfCassette(quantityCassettes, typeShell, QUANTITY_SHELLS_IN_B_CASSETTES);
         }
     }
-
 }
