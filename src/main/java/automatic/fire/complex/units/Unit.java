@@ -20,14 +20,6 @@ public abstract class Unit {
     abstract public String sendSecretString();
 
     @Override
-    public String toString() {
-        return "Unit{" +
-                "posX=" + posX +
-                ", posY=" + posY +
-                '}';
-    }
-
-    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
@@ -75,5 +67,16 @@ public abstract class Unit {
 
     public double getDamageTaken() {
         return damageTaken;
+    }
+
+    @Override
+    public String toString() {
+        return "Unit{" +
+                "posX=" + posX +
+                ", posY=" + posY +
+                ", protectionLevel=" + protectionLevel +
+                ", damageTaken=" + damageTaken +
+                ", isAlive=" + isAlive +
+                '}';
     }
 }

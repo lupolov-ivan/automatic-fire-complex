@@ -36,7 +36,7 @@ public class RealitySimulationModuleTest {
         EnemyData data = new EnemyData();
         data.setPosX(tank.getPosX());
         data.setPosY(tank.getPosY());
-        data.setAccuracyFactor(3);
+        data.setDamage(3);
 
         rsm.toDamage(data);
         assertEquals(3, tank.getDamageTaken(), 0);

@@ -33,8 +33,8 @@ public class MechanicalInertialAimSystem extends AimingSystem {
         return lastTarget;
     }
 
-    private double computeAccuracyFactor(int shotSameTarget, EnemyType type) {
-        if (type == EnemyType.TANK) {
+    private double computeAccuracyFactor(int shotSameTarget, EnemyType enemyType) {
+        if (enemyType.equals(EnemyType.TANK)) {
             if(shotSameTarget == 1) {
                 double min = 0.2;
                 double max = 0.6;
@@ -49,7 +49,7 @@ public class MechanicalInertialAimSystem extends AimingSystem {
                 return getCoefficient(min, max);
             }
         }
-        if (type == EnemyType.INFANTRY) {
+        if (enemyType.equals(EnemyType.INFANTRY)) {
             if(shotSameTarget == 1) {
                 double min = 0.2;
                 double max = 1.0;
