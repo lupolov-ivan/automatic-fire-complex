@@ -11,10 +11,13 @@ public class FireSystem3000 extends FireSystem {
     private final double shotPeriod = 1;
     private AutomationLoadingSystem automationLoadingSystem;
 
+    public FireSystem3000(){}
+
     public FireSystem3000(AutomationLoadingSystem automationLoadingSystem) {
 
         this.automationLoadingSystem = automationLoadingSystem;
     }
+
 
     public double getShotPeriod() {
         return shotPeriod;
@@ -48,4 +51,7 @@ public class FireSystem3000 extends FireSystem {
 
     }
 
+    public AutomationLoadingSystem getAutomationLoadingSystem() {
+        return automationLoadingSystem;
+    }
 }

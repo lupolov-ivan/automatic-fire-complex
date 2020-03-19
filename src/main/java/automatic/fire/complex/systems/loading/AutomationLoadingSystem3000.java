@@ -7,7 +7,7 @@ public class AutomationLoadingSystem3000 implements AutomationLoadingSystem {
 
     private Cassette<? extends Shell> currentCassette;
 
-    // @Override
+    @Override
     public boolean loadCassette(Cassette<? extends Shell> cassette) {  // мы возврат кассеты
 
         if (currentCassette == null) {
@@ -23,22 +23,23 @@ public class AutomationLoadingSystem3000 implements AutomationLoadingSystem {
 
     }
 
-    // @Override
+     @Override
     public Cassette<? extends Shell> disconnectCassette() {
         // вернуть кассету в амуницию (лучше всего в конец списка);
-
-        if (currentCassette != null && currentCassette.getBalance() == 0) {
+         Cassette<?> tempCassette;
+              if (currentCassette != null && currentCassette.getBalance() == 0 ){
             try {
                 Thread.sleep(2000);
             } catch (InterruptedException ex) {
                 //todo
             }
+            tempCassette = currentCassette;
             currentCassette = null;
-            return null; // НА СВОЙ СТРАХ
+            return tempCassette;
 
         }
         if (currentCassette != null && currentCassette.getBalance() != 0) {
-            Cassette<?> tempCassette = currentCassette;
+             tempCassette = currentCassette;
             try {
                 Thread.sleep(2000);
             } catch (InterruptedException ex) {
