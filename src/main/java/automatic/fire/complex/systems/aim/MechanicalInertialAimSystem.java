@@ -29,7 +29,7 @@ public class MechanicalInertialAimSystem extends AimingSystem {
             lastTarget = newTarget;
             countShotSameTarget = 1;
         }
-        lastTarget.setDamage(computeAccuracyFactor(countShotSameTarget, lastTarget.getType()));
+        lastTarget.setAccuracyFactor(computeAccuracyFactor(countShotSameTarget, lastTarget.getType()));
         return lastTarget;
     }
 

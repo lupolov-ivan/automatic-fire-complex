@@ -11,10 +11,10 @@ public class EnemyData {
     private double accuracyFactor;
 
     private double damage;
+
     public int getPosX() {
         return posX;
     }
-
     public int getPosY() {
         return posY;
     }
@@ -57,6 +57,7 @@ public class EnemyData {
                 "posX=" + posX +
                 ", posY=" + posY +
                 ", type=" + type +
+                ", accuracyFactor=" + accuracyFactor +
                 ", damage=" + damage +
                 '}';
     }

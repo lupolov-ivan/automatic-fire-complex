@@ -1,7 +1,7 @@
-package automatic.fire.complex.simulation;
+package automatic.fire.complex.systems;
 
-import automatic.fire.complex.observer.Observer;
-import automatic.fire.complex.observer.Subject;
+import automatic.fire.complex.simulation.EnemyData;
+import automatic.fire.complex.simulation.RealitySimulationModule;
 import automatic.fire.complex.units.Unit;
 import automatic.fire.complex.units.enemy.EnemyType;
 import automatic.fire.complex.units.enemy.Infantry;
@@ -12,45 +12,19 @@ import org.slf4j.LoggerFactory;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Radar implements Subject {
+public class Radar {
 
     Logger log = LoggerFactory.getLogger(Radar.class);
 
     private RealitySimulationModule rsm;
 
-    public List<EnemyData> getEnemiesPosition() {
-        return enemiesPosition;
-    }
-
-    private List<Observer> complexes;
-    private List<EnemyData> enemiesPosition;
-
     public Radar(RealitySimulationModule realitySimulation) {
         this.rsm = realitySimulation;
-        this.complexes = new ArrayList<>();
-        this.enemiesPosition = new ArrayList<>();
     }
 
-    @Override
-    public void register(Observer complex) {
-        complexes.add(complex);
-    }
+    public List<EnemyData> checkField() {
 
-    @Override
-    public void remove(Observer complex) {
-        complexes.remove(complex);
-    }
-
-    @Override
-    public void notifyAllAFC() {
-        log.debug("Starting of sending enemy's position information to all AFC");
-        complexes.forEach(observer -> observer.updatePosition(enemiesPosition));
-        log.debug("End of sending enemy's position information to all AFC");
-    }
-
-    public void checkField() {
-
-        enemiesPosition.clear();
+        List<EnemyData> enemiesPosition = new ArrayList<>();
 
         int width = rsm.getBattlefield().getWidth();
         int length = rsm.getBattlefield().getLength();
@@ -60,21 +34,19 @@ public class Radar implements Subject {
             for (int y = 0; y < length; y++) {
                 Unit unit = rsm.getUnit(x, y);
 
-                if (unit != null &&
-                    unit.isAlive() &&
-                    unit.sendSecretString().equals("ENEMY")
-                ) {
+                if (unit != null && unit.isAlive() && unit.sendSecretString().equals("ENEMY")) {
                     EnemyData data = new EnemyData();
                     data.setPosX(x);
                     data.setPosY(y);
                     data.setType(determineEnemyType(unit));
+
                     enemiesPosition.add(data);
                     log.debug("Detected new enemy: {}", unit);
                 }
             }
         }
         log.debug("Radar finish checking battlefield. Enemy count: {}", enemiesPosition.size());
-        notifyAllAFC();
+        return enemiesPosition;
     }
 
     private EnemyType determineEnemyType(Unit unit) {

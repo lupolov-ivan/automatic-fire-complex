@@ -10,20 +10,20 @@ public class RealitySimulationModule {
 
     Logger log = LoggerFactory.getLogger(RealitySimulationModule.class);
 
-    private Battlefield battlefield;
+    private volatile Battlefield battlefield;
 
     public RealitySimulationModule(Battlefield battlefield) {
         this.battlefield = battlefield;
     }
 
-    public Unit getUnit(int x, int y) {
+    public synchronized Unit getUnit(int x, int y) {
         if(battlefield.isEmpty(x, y)) {
             return null;
         }
         return battlefield.getCellValue(x, y);
     }
 
-    public void toDamage(EnemyData data) {
+    public synchronized void toDamage(EnemyData data) {
 
         Enemy enemy = (Enemy) getUnit(data.getPosX(), data.getPosY());
 
@@ -33,7 +33,7 @@ public class RealitySimulationModule {
         log.debug("Current taken damage: {}", currentTakenDamage);
 
         enemy.setHitCount(++currentHitCount);
-        enemy.setDamageTaken(currentTakenDamage + data.getDamage());
+        enemy.setDamageTaken(data.getAccuracyFactor() + currentTakenDamage);
 
         if (data.getType() == EnemyType.TANK && enemy.getProtectionLevel() <= enemy.getDamageTaken()) {
             enemy.setAlive(false);
