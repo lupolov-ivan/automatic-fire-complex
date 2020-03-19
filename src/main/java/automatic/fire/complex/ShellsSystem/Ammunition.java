@@ -15,7 +15,6 @@ public class Ammunition {
     public Ammunition(int quantityOfArmor, int quantityOfBurst){
         listOfArmorPS = AmmunitionFactory.initListOfCassette(quantityOfArmor, TypeShell.ARMOR);
         listOfBurstingS = AmmunitionFactory.initListOfCassette(quantityOfBurst, TypeShell.BURST);
-
     }
 
     public <T extends Shell> void addCassette (Cassette<T> cassette) {
