@@ -7,6 +7,8 @@ public class Cassette<T extends Shell> {
     private int startQuantity;
     private int balance;
 
+    public Cassette(){}
+
     public Cassette(int startQuantity) {
         this.startQuantity = startQuantity;
         shells = new LinkedList<>();
