@@ -1,7 +1,7 @@
 package automatic.fire.complex;
 
 import automatic.fire.complex.simulation.Battlefield;
-import automatic.fire.complex.simulation.Radar;
+import automatic.fire.complex.systems.Radar;
 import automatic.fire.complex.simulation.RealitySimulationModule;
 import automatic.fire.complex.systems.aim.AimingSystem;
 import automatic.fire.complex.systems.aim.MechanicalInertialAimSystem;
@@ -14,13 +14,16 @@ import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class SimulationTest {
 
     static Logger log = LoggerFactory.getLogger(SimulationTest.class);
     public static void main(String[] args) {
 
-        Battlefield battlefield = new Battlefield(4,4);
+        Battlefield battlefield = new Battlefield(10,10);
         RealitySimulationModule rsm = new RealitySimulationModule(battlefield);
 
         AimingSystem aim1 = new MechanicalInertialAimSystem();
@@ -28,28 +31,29 @@ public class SimulationTest {
         List<Unit> units = new ArrayList<>();
 
         AutomaticFireComplex afc1 = new AutomaticFireComplex(0, 0,10, aim1, rsm);
-        AutomaticFireComplex afc2 = new AutomaticFireComplex(3, 3,10, aim2, rsm);
+        AutomaticFireComplex afc2 = new AutomaticFireComplex(9, 9,10, aim2, rsm);
 
         units.add(afc1);
         units.add(afc2);
-        units.add(new Tank(1,1, 10));
-        units.add(new Tank(2,2, 10));
-        units.add(new Infantry(2,1, 10));
-        units.add(new Infantry(1,2, 10));
+
+        units.add(new Tank(1,1, 5));
+        units.add(new Tank(2,2, 5));
+        units.add(new Tank(3,3, 5));
+        units.add(new Tank(4,4, 5));
+        units.add(new Infantry(5,5, 3));
+        units.add(new Infantry(6,6, 3));
+        units.add(new Infantry(7,7, 3));
+        units.add(new Infantry(8,8, 3));
 
         battlefield.putUnits(units);
 
-        Radar radar = new Radar(rsm);
-        radar.register(afc1);
-        radar.register(afc2);
+        afc1.fire();
 
-        int countEnemies = -1;
-        int count = 1;
+        ExecutorService executorService = Executors.newCachedThreadPool();
 
-        while (countEnemies != 0) {
-            log.debug("============================================> Check #" + count++);
-            radar.checkField();
-            countEnemies = radar.getEnemiesPosition().size();
-        }
+        executorService.submit(afc1);
+        executorService.submit(afc2);
+
+        executorService.shutdown();
     }
 }
