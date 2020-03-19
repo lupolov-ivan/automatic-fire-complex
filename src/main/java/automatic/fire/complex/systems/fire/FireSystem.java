@@ -24,4 +24,12 @@ public abstract class FireSystem {
     public int getShotPeriod() {
         return shotPeriod;
     }
+
+    public AutomationLoadingSystem getAutomationLoadingSystem() {
+        return automationLoadingSystem;
+    }
+
+    public void setAutomationLoadingSystem(AutomationLoadingSystem automationLoadingSystem) {
+        this.automationLoadingSystem = automationLoadingSystem;
+    }
 }

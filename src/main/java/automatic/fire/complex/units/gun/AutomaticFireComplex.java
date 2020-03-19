@@ -1,39 +1,41 @@
 package automatic.fire.complex.units.gun;
 
-import automatic.fire.complex.ammunition.Ammunition;
+import automatic.fire.complex.ShellsSystem.*;
 import automatic.fire.complex.simulation.EnemyData;
 import automatic.fire.complex.simulation.RealitySimulationModule;
 import automatic.fire.complex.systems.Radar;
 import automatic.fire.complex.systems.aim.AimingSystem;
-import automatic.fire.complex.systems.aim.MechanicalInertialAimSystem;
 import automatic.fire.complex.systems.fire.FireSystem;
-import automatic.fire.complex.systems.fire.FireSystem3000;
-import automatic.fire.complex.systems.loading.AutomationLoadingSystem3000;
+import automatic.fire.complex.systems.loading.AutomationLoadingSystem;
 import automatic.fire.complex.units.Unit;
 import automatic.fire.complex.units.enemy.EnemyType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class AutomaticFireComplex extends Unit implements Runnable {
 
     Logger log = LoggerFactory.getLogger(AutomaticFireComplex.class);
 
-    private RealitySimulationModule rsm;
     private AimingSystem aimingSystem;
-    private FireSystem fireSystem;
+    private RealitySimulationModule rsm;
+    private List<EnemyData> lastPosition;
     private Radar radar;
     private Ammunition ammunition;
+    private FireSystem fireSystem;
+    private AutomationLoadingSystem automationLoadingSystem;
 
-    public AutomaticFireComplex(int posX, int posY, int protectionLevel, Ammunition ammunition, RealitySimulationModule rsm) {
+    public AutomaticFireComplex(int posX, int posY, int protectionLevel, AimingSystem aimingSystem,
+                                RealitySimulationModule rsm, AutomationLoadingSystem automationLoadingSystem,
+                                FireSystem fireSystem) {
         super(posX, posY, protectionLevel);
-        this.rsm = rsm;
-        this.aimingSystem = new MechanicalInertialAimSystem();
-        this.fireSystem = new FireSystem3000(new AutomationLoadingSystem3000(ammunition));
         this.radar = new Radar(rsm);
-        this.ammunition = ammunition;
+        this.aimingSystem = aimingSystem;
+        this.rsm = rsm;
+        this.automationLoadingSystem = automationLoadingSystem;
+        this.fireSystem = fireSystem;
+        //   fireSystem.setAutomationLoadingSystem(automationLoadingSystem);
     }
 
     @Override
@@ -41,51 +43,48 @@ public class AutomaticFireComplex extends Unit implements Runnable {
         return "ALLY";
     }
 
-    public void patrol() {
+    public void fire() {
         while (true) {
-
-            List<EnemyData> lastPosition = radar.checkField();
-
+            lastPosition = radar.checkField();
             if (lastPosition.size() == 0) {
-                log.debug("There is no enemies to destroy. Stopping fire...");
                 break;
             }
-
             EnemyData target = aimingSystem.catchTarget(lastPosition);
+            //////
 
-            if(!fireSystem.makeShot(target)) {
-                continue;
+            Cassette<? extends Shell> currentCassette = automationLoadingSystem.getCurrentCassette();
+
+            if (currentCassette == null || currentCassette.getBalance() == 0) {
+                automationLoadingSystem.loadCassette(ammunition.getCassette(target));
+                fireSystem.setAutomationLoadingSystem(automationLoadingSystem);
+
+            } else if (target.getType() == EnemyType.TANK &&
+                    currentCassette.getInstanceInnerElement().getClass() == BurstingShell.class) {
+
+                ammunition.addCassette(automationLoadingSystem.disconnectCassette());
+                automationLoadingSystem.loadCassette(ammunition.getCassette(target));
+                fireSystem.setAutomationLoadingSystem(automationLoadingSystem);
+
+            } else if (target.getType() == EnemyType.INFANTRY &&
+                    currentCassette.getInstanceInnerElement().getClass() == ArmorPiercingShell.class) {
+
+                ammunition.addCassette(automationLoadingSystem.disconnectCassette());
+                automationLoadingSystem.loadCassette(ammunition.getCassette(target));
+                fireSystem.setAutomationLoadingSystem(automationLoadingSystem);
             }
-
-            if (ammunition.getCurrentCassette().getBalance() == 0) {
-                if (!isShootingPossible(lastPosition)) {
-                    List<Unit> remainingEnemy = new ArrayList<>();
-                    lastPosition.forEach(e -> remainingEnemy.add(rsm.getUnit(e.getPosX(), e.getPosY())));
-                    log.debug("Shooting is not possible. No shells of the required type. \nRemaining enemies: \n{}", remainingEnemy);
-                    break;
-                }
-            }
-
+            fireSystem.makeShot(target);
             log.debug("AFC '{}' shot to target '{}'", this, target);
-
             rsm.toDamage(target);
         }
+        log.debug("All enemies destroyed. Stopping fire...");
+    }
+
+    public void setAimingSystem(AimingSystem aimingSystem) {
+        this.aimingSystem = aimingSystem;
     }
 
     @Override
     public void run() {
-        patrol();
-    }
-
-    private boolean isShootingPossible(List<EnemyData> enemies) {
-        EnemyType type = enemies.get(0).getType();
-        for (int i = 1; i < enemies.size(); i++) {
-            EnemyType currentType = enemies.get(i).getType();
-            if (!currentType.equals(type)) {
-                return ammunition.hasNext(currentType);
-            }
-        }
-
-        return ammunition.hasNext(type);
+        fire();
     }
 }
