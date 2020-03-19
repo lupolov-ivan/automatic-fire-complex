@@ -47,8 +47,6 @@ public class SimulationTest {
 
         battlefield.putUnits(units);
 
-        afc1.fire();
-
         ExecutorService executorService = Executors.newCachedThreadPool();
 
         executorService.submit(afc1);
