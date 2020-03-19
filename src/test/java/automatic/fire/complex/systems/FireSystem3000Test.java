@@ -13,6 +13,9 @@ import automatic.fire.complex.units.enemy.Infantry;
 import org.junit.Before;
 import org.junit.Test;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
 public class FireSystem3000Test {
 
     private FireSystem fireSystem;
@@ -31,30 +34,17 @@ public class FireSystem3000Test {
         enemyData = new EnemyData();
         enemyData.setPosX(unit.getPosX());
         enemyData.setPosY(unit.getPosY());
-
-
     }
 
     @Test
     public void makeShotTestDamage() {
         enemyData.setAccuracyFactor(0.3);
         fireSystem.makeShot(enemyData);
-        assert (enemyData.getDamage() == 0.3);
+        assertEquals(0.3, enemyData.getDamage(),0);
 
         enemyData.setAccuracyFactor(0.4);
         fireSystem.makeShot(enemyData);
-        assert (enemyData.getDamage() == 0.7);
-    }
-
-    @Test
-    public void makeShotTestShotPeriodTime() {
-        long startTime = System.currentTimeMillis();
-        enemyData.setAccuracyFactor(0.3);
-        fireSystem.makeShot(enemyData);
-
-        enemyData.setAccuracyFactor(0.4);
-        fireSystem.makeShot(enemyData);
-        assert ((System.currentTimeMillis() - startTime) > 2000);
+        assertEquals(0.7, enemyData.getDamage(),0);
     }
 
     @Test
@@ -63,16 +53,15 @@ public class FireSystem3000Test {
         enemyData.setAccuracyFactor(0.3);
         fireSystem.makeShot(enemyData);
         int balanceAfterShot = automationLoadingSystem.getCurrentCassette().getBalance();
-        assert (startBalance == (balanceAfterShot + 1));
+        assertEquals(startBalance - 1, balanceAfterShot);
     }
 
 
-    public Cassette<? extends Shell> getNewCassette() {
+    private Cassette<? extends Shell> getNewCassette() {
         Cassette<BurstingShell> cassette = new Cassette<>(10);
         for (int i = 0; i < 10; i++) {
             cassette.add(new BurstingShell());
         }
         return cassette;
     }
-
 }
