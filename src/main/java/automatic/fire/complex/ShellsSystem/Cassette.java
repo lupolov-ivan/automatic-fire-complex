@@ -23,21 +23,18 @@ public class Cassette<T extends Shell> {
     }
 
     public boolean hasNext() {
-        if (balance > 0) {
-            return true;
-        }else {
-            return false;
-        }
+        return balance > 0;
     }
 
     public T getShell() {
-        balance --;
+        balance--;
         return shells.remove(0);
     }
 
     public int getBalance() {
         return balance;
     }
+
     public T getInstanceInnerElement() {
         return shells.get(0);
     }

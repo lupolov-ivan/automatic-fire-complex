@@ -22,4 +22,23 @@ public class CassetteTest {
         assertTrue(cassetteAps.add(aps));
         assertFalse(cassetteAps.add(aps));
     }
+
+    @Test
+    public void givenSizeAndHasNext_whenGetShellFromCassette_thenBalanceDecrementAndTrueIfCassetteIsNotEmpty() {
+        cassetteAps.add(aps);
+        cassetteAps.add(aps);
+        assertTrue(cassetteAps.hasNext());
+        assertEquals(cassetteAps.getInstanceInnerElement(), cassetteAps.getShell());
+        assertTrue(cassetteAps.getBalance() == 1);
+        assertTrue(cassetteAps.hasNext());
+        assertEquals(cassetteAps.getInstanceInnerElement(), cassetteAps.getShell());
+        assertTrue(cassetteAps.getBalance() == 0);
+        assertFalse(cassetteAps.hasNext());
+    }
+
+    @Test(expected = IndexOutOfBoundsException.class)
+    public void givenShellFromCassette_whenBalanceOfCassetteIsEmpty_ThenIndexOutOfBoundsException() {
+        cassetteAps.getShell();
+    }
 }
+
