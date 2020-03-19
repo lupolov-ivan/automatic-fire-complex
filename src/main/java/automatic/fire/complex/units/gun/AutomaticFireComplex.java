@@ -1,10 +1,16 @@
 package automatic.fire.complex.units.gun;
 
+import automatic.fire.complex.ammunition.Ammunition;
 import automatic.fire.complex.simulation.EnemyData;
 import automatic.fire.complex.simulation.RealitySimulationModule;
 import automatic.fire.complex.systems.Radar;
 import automatic.fire.complex.systems.aim.AimingSystem;
+import automatic.fire.complex.systems.aim.MechanicalInertialAimSystem;
+import automatic.fire.complex.systems.fire.FireSystem;
+import automatic.fire.complex.systems.fire.FireSystem3000;
+import automatic.fire.complex.systems.loading.AutomationLoadingSystem3000;
 import automatic.fire.complex.units.Unit;
+import automatic.fire.complex.units.enemy.EnemyType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -14,16 +20,19 @@ public class AutomaticFireComplex extends Unit implements Runnable {
 
     Logger log = LoggerFactory.getLogger(AutomaticFireComplex.class);
 
-    private AimingSystem aimingSystem;
     private RealitySimulationModule rsm;
-    private List<EnemyData> lastPosition;
+    private AimingSystem aimingSystem;
+    private FireSystem fireSystem;
     private Radar radar;
+    private Ammunition ammunition;
 
-    public AutomaticFireComplex(int posX, int posY, int protectionLevel, AimingSystem aimingSystem, RealitySimulationModule rsm) {
+    public AutomaticFireComplex(int posX, int posY, int protectionLevel, Ammunition ammunition, RealitySimulationModule rsm) {
         super(posX, posY, protectionLevel);
-        this.radar = new Radar(rsm);
-        this.aimingSystem = aimingSystem;
         this.rsm = rsm;
+        this.aimingSystem = new MechanicalInertialAimSystem();
+        this.fireSystem = new FireSystem3000(new AutomationLoadingSystem3000(ammunition));
+        this.radar = new Radar(rsm);
+        this.ammunition = ammunition;
     }
 
     @Override
@@ -31,25 +40,51 @@ public class AutomaticFireComplex extends Unit implements Runnable {
         return "ALLY";
     }
 
-    public void fire() {
+    public void patrol() {
         while (true) {
-            lastPosition = radar.checkField();
+
+            List<EnemyData> lastPosition = radar.checkField();
+
             if (lastPosition.size() == 0) {
+                log.debug("There is no enemies to destroy. Stopping fire...");
                 break;
             }
+
+            if (!canShoot(lastPosition)) {
+                log.debug("Shooting is not possible. No shells of the required type. \nRemaining enemies: \n{}", lastPosition);
+                break;
+            }
+
             EnemyData target = aimingSystem.catchTarget(lastPosition);
+
+            if(!fireSystem.makeShot(target)) {
+                continue;
+            }
+
             log.debug("AFC '{}' shot to target '{}'", this, target);
+
             rsm.toDamage(target);
         }
-        log.debug("All enemies destroyed. Stopping fire...");
-    }
-
-    public void setAimingSystem(AimingSystem aimingSystem) {
-        this.aimingSystem = aimingSystem;
     }
 
     @Override
     public void run() {
-        fire();
+        patrol();
+    }
+
+    private boolean canShoot(List<EnemyData> enemies) {
+        EnemyType type = enemies.get(0).getType();
+        for (int i = 1; i < enemies.size(); i++) {
+            EnemyType currentType = enemies.get(i).getType();
+            if (!currentType.equals(type)) {
+                return isAmmunitionNotEmpty();
+            }
+        }
+
+        return ammunition.hasNext(type);
+    }
+
+    private boolean isAmmunitionNotEmpty() {
+        return ammunition.hasNext(EnemyType.INFANTRY) && ammunition.hasNext(EnemyType.INFANTRY);
     }
 }

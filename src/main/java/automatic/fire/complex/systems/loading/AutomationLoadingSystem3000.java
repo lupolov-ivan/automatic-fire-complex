@@ -1,71 +1,48 @@
 package automatic.fire.complex.systems.loading;
 
-import automatic.fire.complex.ShellsSystem.Cassette;
-import automatic.fire.complex.ShellsSystem.Shell;
+import automatic.fire.complex.ammunition.Ammunition;
+import automatic.fire.complex.units.enemy.EnemyType;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-public class AutomationLoadingSystem3000 implements AutomationLoadingSystem {
+public class AutomationLoadingSystem3000 extends AutomationLoadingSystem {
 
-    private Cassette<? extends Shell> currentCassette;
+    Logger log = LoggerFactory.getLogger(AutomationLoadingSystem3000.class);
 
-    // @Override
-    public boolean loadCassette(Cassette<? extends Shell> cassette) {  // мы возврат кассеты
-
-        if (currentCassette == null) {
-            try {
-                Thread.sleep(3000);
-            } catch (InterruptedException e) {//todo}
-            }
-            currentCassette = cassette;
-            return true;
-        } else {
-            return false;
-        }
-
+    public AutomationLoadingSystem3000(Ammunition ammunition) {
+        super(ammunition);
     }
 
-    // @Override
-    public Cassette<? extends Shell> disconnectCassette() {
-        // вернуть кассету в амуницию (лучше всего в конец списка);
+    @Override
+    public boolean loadCassette(EnemyType enemyType) {
 
-        if (currentCassette != null && currentCassette.getBalance() == 0) {
-            try {
-                Thread.sleep(2000);
-            } catch (InterruptedException ex) {
-                //todo
-            }
-            currentCassette = null;
-            return null; // НА СВОЙ СТРАХ
-
+        if (currentCassette != null) {
+            disconnectCassette();
         }
-        if (currentCassette != null && currentCassette.getBalance() != 0) {
-            Cassette<?> tempCassette = currentCassette;
-            try {
-                Thread.sleep(2000);
-            } catch (InterruptedException ex) {
-                //todo
-            }
-            currentCassette = null;
-            return tempCassette;
 
+        if(ammunition.hasNext(enemyType)) {
+            currentCassette = ammunition.getCassette(enemyType);
+            currentEnemyTypeCassette = enemyType;
+            log.info("Next cassette received");
+            return true;
         } else {
-            // случай когда пушка пустая, должен ли поток ждать 2с.?
-            return null;
+            log.info("Shells for target with type '{}' is over.", enemyType);
+            return false;
         }
+    }
+
+    @Override
+    public void disconnectCassette() {
+        if (currentCassette != null && currentCassette.getBalance() != 0) {
+            ammunition.addCassette(currentCassette);
+        }
+        currentEnemyTypeCassette = null;
+        currentCassette = null;
     }
 
     @Override
     public void extractShell() {
 
-        try {
-            Thread.sleep(10000);
-        } catch (InterruptedException ex) {
-            //todo
-        }
-
-    }
-
-    public Cassette<? extends Shell> getCurrentCassette() {
-        return currentCassette;
     }
 }
 
