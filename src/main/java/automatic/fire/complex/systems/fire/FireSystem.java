@@ -1,15 +1,16 @@
 package automatic.fire.complex.systems.fire;
 
 
-import automatic.fire.complex.ammunition.Shell;
 import automatic.fire.complex.exceptions.ShellJammedException;
 import automatic.fire.complex.simulation.EnemyData;
+import automatic.fire.complex.systems.loading.AutomationLoadingSystem;
+
 import java.util.Random;
 
 public abstract class FireSystem {
-
     protected int shotPeriod;
-    protected Shell currentShell;
+
+    protected AutomationLoadingSystem automationLoadingSystem;  //
 
     abstract public boolean makeShot(EnemyData data);
 
@@ -19,10 +20,7 @@ public abstract class FireSystem {
         if (random.nextInt() <= 5) {
             throw new ShellJammedException("Shell is Jammed");
         }
-    }
 
-    public int getShotPeriod() {
-        return shotPeriod;
     }
 
     public AutomationLoadingSystem getAutomationLoadingSystem() {
