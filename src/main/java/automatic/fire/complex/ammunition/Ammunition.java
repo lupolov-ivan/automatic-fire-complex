@@ -18,6 +18,8 @@ public class Ammunition {
     private int quantityArmorPiercingCassette;
     private int balanceArmorPiercingCassette;
 
+    private Cassette currentCassette;
+
     private Ammunition(int quantityBurstingCassette, int quantityArmorPiercingCassette) {
         this.burstingCassettes = new ArrayList<>(quantityBurstingCassette);
         this.armorPiercingCassettes = new ArrayList<>(quantityArmorPiercingCassette);
@@ -72,11 +74,20 @@ public class Ammunition {
     public Cassette getCassette(EnemyType enemyData) {
         if (enemyData.equals(EnemyType.TANK)) {
             balanceArmorPiercingCassette--;
-            return armorPiercingCassettes.remove(0);
+            return setCurrentCassette(armorPiercingCassettes.remove(0));
         } else {
             balanceBurstingCassette--;
-            return burstingCassettes.remove(0);
+            return setCurrentCassette(burstingCassettes.remove(0));
         }
+    }
+
+    private Cassette setCurrentCassette(Cassette cassette){
+        currentCassette = cassette;
+        return currentCassette;
+    }
+
+    public Cassette getCurrentCassette(){
+        return currentCassette;
     }
 
     @Override
