@@ -57,6 +57,10 @@ public class AutomaticFireComplex extends Unit implements Runnable {
                 continue;
             }
 
+            log.debug("AFC '{}' shot to target '{}'", this, target);
+
+            rsm.toDamage(target);
+
             if (ammunition.getCurrentCassette().getBalance() == 0) {
                 if (!isShootingPossible(lastPosition)) {
                     List<Unit> remainingEnemy = new ArrayList<>();
@@ -65,10 +69,6 @@ public class AutomaticFireComplex extends Unit implements Runnable {
                     break;
                 }
             }
-
-            log.debug("AFC '{}' shot to target '{}'", this, target);
-
-            rsm.toDamage(target);
         }
     }
 
