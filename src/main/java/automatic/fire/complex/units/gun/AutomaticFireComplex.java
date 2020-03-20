@@ -51,17 +51,19 @@ public class AutomaticFireComplex extends Unit implements Runnable {
                 break;
             }
 
-            if (!isShootingPossible(lastPosition)) {
-                List<Unit> remainingEnemy = new ArrayList<>();
-                lastPosition.forEach(e -> remainingEnemy.add(rsm.getUnit(e.getPosX(), e.getPosY())));
-                log.debug("Shooting is not possible. No shells of the required type. \nRemaining enemies: \n{}", remainingEnemy);
-                break;
-            }
-
             EnemyData target = aimingSystem.catchTarget(lastPosition);
 
             if(!fireSystem.makeShot(target)) {
                 continue;
+            }
+
+            if (ammunition.getCurrentCassette().getBalance() == 0) {
+                if (!isShootingPossible(lastPosition)) {
+                    List<Unit> remainingEnemy = new ArrayList<>();
+                    lastPosition.forEach(e -> remainingEnemy.add(rsm.getUnit(e.getPosX(), e.getPosY())));
+                    log.debug("Shooting is not possible. No shells of the required type. \nRemaining enemies: \n{}", remainingEnemy);
+                    break;
+                }
             }
 
             log.debug("AFC '{}' shot to target '{}'", this, target);
@@ -80,14 +82,10 @@ public class AutomaticFireComplex extends Unit implements Runnable {
         for (int i = 1; i < enemies.size(); i++) {
             EnemyType currentType = enemies.get(i).getType();
             if (!currentType.equals(type)) {
-                return isAmmunitionNotEmpty();
+                return ammunition.hasNext(currentType);
             }
         }
 
         return ammunition.hasNext(type);
-    }
-
-    private boolean isAmmunitionNotEmpty() {
-        return ammunition.hasNext(EnemyType.INFANTRY) && ammunition.hasNext(EnemyType.TANK);
     }
 }
