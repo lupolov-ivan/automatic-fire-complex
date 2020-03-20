@@ -14,6 +14,7 @@ import automatic.fire.complex.units.enemy.EnemyType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class AutomaticFireComplex extends Unit implements Runnable {
@@ -50,8 +51,10 @@ public class AutomaticFireComplex extends Unit implements Runnable {
                 break;
             }
 
-            if (!canShoot(lastPosition)) {
-                log.debug("Shooting is not possible. No shells of the required type. \nRemaining enemies: \n{}", lastPosition);
+            if (!isShootingPossible(lastPosition)) {
+                List<Unit> remainingEnemy = new ArrayList<>();
+                lastPosition.forEach(e -> remainingEnemy.add(rsm.getUnit(e.getPosX(), e.getPosY())));
+                log.debug("Shooting is not possible. No shells of the required type. \nRemaining enemies: \n{}", remainingEnemy);
                 break;
             }
 
@@ -72,7 +75,7 @@ public class AutomaticFireComplex extends Unit implements Runnable {
         patrol();
     }
 
-    private boolean canShoot(List<EnemyData> enemies) {
+    private boolean isShootingPossible(List<EnemyData> enemies) {
         EnemyType type = enemies.get(0).getType();
         for (int i = 1; i < enemies.size(); i++) {
             EnemyType currentType = enemies.get(i).getType();
@@ -85,6 +88,6 @@ public class AutomaticFireComplex extends Unit implements Runnable {
     }
 
     private boolean isAmmunitionNotEmpty() {
-        return ammunition.hasNext(EnemyType.INFANTRY) && ammunition.hasNext(EnemyType.INFANTRY);
+        return ammunition.hasNext(EnemyType.INFANTRY) && ammunition.hasNext(EnemyType.TANK);
     }
 }
