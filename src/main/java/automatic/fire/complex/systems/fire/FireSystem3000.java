@@ -9,7 +9,7 @@ import automatic.fire.complex.systems.loading.AutomationLoadingSystem;
 public class FireSystem3000 extends FireSystem {
 
     private final double shotPeriod = 1;
-    private AutomationLoadingSystem automationLoadingSystem;
+ //   private AutomationLoadingSystem automationLoadingSystem;
 
     public FireSystem3000(){}
 

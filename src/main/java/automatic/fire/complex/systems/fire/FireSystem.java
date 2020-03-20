@@ -9,11 +9,9 @@ import java.util.Random;
 
 public abstract class FireSystem {
     protected int shotPeriod;
-    //  protected Cassette<?> currentCassette; // хз
-    private AutomationLoadingSystem automationLoadingSystem;  //
 
+    protected AutomationLoadingSystem automationLoadingSystem;  //
 
-    //   abstract public boolean makeShot(EnemyData data, double accuracyFactor);
     abstract public boolean makeShot(EnemyData data);
 
     protected void isJammed() throws ShellJammedException {

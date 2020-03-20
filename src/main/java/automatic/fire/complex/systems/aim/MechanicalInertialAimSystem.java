@@ -65,7 +65,7 @@ public class MechanicalInertialAimSystem extends AimingSystem {
 
     private double getCoefficient(double min, double max) {
         return Math.random() * (max - min) + min;
-    }
+    } // ?
 
     private boolean equalsCoordinate(EnemyData one, EnemyData two) {
         if (one == null || two == null) {

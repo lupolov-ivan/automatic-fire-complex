@@ -28,13 +28,14 @@ public class AutomaticFireComplex extends Unit implements Runnable {
 
     public AutomaticFireComplex(int posX, int posY, int protectionLevel, AimingSystem aimingSystem,
                                 RealitySimulationModule rsm, AutomationLoadingSystem automationLoadingSystem,
-                                FireSystem fireSystem) {
+                                FireSystem fireSystem, Ammunition ammunition) {
         super(posX, posY, protectionLevel);
         this.radar = new Radar(rsm);
         this.aimingSystem = aimingSystem;
         this.rsm = rsm;
         this.automationLoadingSystem = automationLoadingSystem;
         this.fireSystem = fireSystem;
+        this.ammunition = ammunition;
         //   fireSystem.setAutomationLoadingSystem(automationLoadingSystem);
     }
 
@@ -50,7 +51,6 @@ public class AutomaticFireComplex extends Unit implements Runnable {
                 break;
             }
             EnemyData target = aimingSystem.catchTarget(lastPosition);
-            //////
 
             Cassette<? extends Shell> currentCassette = automationLoadingSystem.getCurrentCassette();
 

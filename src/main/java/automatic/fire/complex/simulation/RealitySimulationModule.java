@@ -33,7 +33,7 @@ public class RealitySimulationModule {
         log.debug("Current taken damage: {}", currentTakenDamage);
 
         enemy.setHitCount(++currentHitCount);
-        enemy.setDamageTaken(data.getAccuracyFactor() + currentTakenDamage);
+        enemy.setDamageTaken(data.getAccuracyFactor() + currentTakenDamage);  // data.getAccuracyFactor() ->  data.getDamage
 
         if (data.getType() == EnemyType.TANK && enemy.getProtectionLevel() <= enemy.getDamageTaken()) {
             enemy.setAlive(false);
