@@ -58,7 +58,8 @@ public class AutomaticFireComplex extends Unit implements Runnable {
 
             if (currentCassette == null) {
                 fireSystem.setCurrentCassette(chooseCassette(target.getType()));
-            } else if (currentCassette.getBalance() == 0 || isTargetTypeChanged(target)) {
+            }
+            if (currentCassette.getBalance() == 0 || isTargetTypeChanged(target)) {
                 if (!fireSystem.changeCassette(chooseCassette(target.getType()))) {
                     break;
                 }
