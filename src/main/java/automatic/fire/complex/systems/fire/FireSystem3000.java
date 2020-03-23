@@ -23,8 +23,9 @@ public class FireSystem3000 extends FireSystem {
         if(!loadingSystem.getCurrentCassette().hasNext()) {
             loadingSystem.loadCassette(enemyData.getType());
         }
-        currentShell = loadingSystem.getCurrentCassette().getShell();
-        enemyData.setDamage(currentShell.getDamageEnergy() * enemyData.getAccuracyFactor());
-        return true;
+
+            currentShell = loadingSystem.getCurrentCassette().getShell();
+            enemyData.setDamage(currentShell.getDamageEnergy() * enemyData.getAccuracyFactor());
+            return true;
     }
 }

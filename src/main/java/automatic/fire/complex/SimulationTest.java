@@ -25,9 +25,9 @@ public class SimulationTest {
     public static void main(String[] args) {
 
         /* Parameters for creating ammunition */
-        int quantityBurstingCassette = 4;
+        int quantityBurstingCassette = 2;
         int capacityBurstingCassette = 5;
-        int quantityArmorPiercingCassette = 4;
+        int quantityArmorPiercingCassette = 20;
         int capacityArmorPiercingCassette = 10;
 
         log.info("Create ammunition...");
@@ -41,22 +41,22 @@ public class SimulationTest {
         log.info("Create units and put them to battlefield...");
         List<Unit> guns = new ArrayList<>();
 
-        AutomaticFireComplex afc1 = new AutomaticFireComplex(0, 0, 10, ammo1, rsm);
-        AutomaticFireComplex afc2 = new AutomaticFireComplex(9, 9, 10, ammo2, rsm);
+        AutomaticFireComplex afc1 = new AutomaticFireComplex(0, 2, 10, ammo1, rsm);
+//        AutomaticFireComplex afc2 = new AutomaticFireComplex(0, 7, 10, ammo2, rsm);
 
         guns.add(afc1);
-        guns.add(afc2);
+//        guns.add(afc2);
 
         List<Unit> enemies = new ArrayList<>();
 
-        enemies.add(new Tank(1,1, 5));
-        enemies.add(new Tank(2,2, 5));
-        enemies.add(new Tank(3,3, 5));
-        enemies.add(new Tank(4,4, 5));
+        enemies.add(new Tank(2,1, 5));
+        enemies.add(new Tank(3,6, 5));
+        enemies.add(new Tank(7,8, 5));
+        enemies.add(new Tank(8,4, 5));
         enemies.add(new Infantry(5,5, 2));
-        enemies.add(new Infantry(6,6, 2));
-        enemies.add(new Infantry(7,7, 2));
-        enemies.add(new Infantry(8,8, 2));
+        enemies.add(new Infantry(4,1, 2));
+        enemies.add(new Infantry(2,8, 2));
+        enemies.add(new Infantry(7,2, 2));
 
         battlefield.putUnits(guns);
         battlefield.putUnits(enemies);
@@ -65,12 +65,12 @@ public class SimulationTest {
 
         Thread t1 = new Thread(afc1);
         t1.start();
-        Thread t2 = new Thread(afc2);
-        t2.start();
+//        Thread t2 = new Thread(afc2);
+//        t2.start();
 
         try {
             t1.join();
-            t2.join();
+//            t2.join();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -78,7 +78,7 @@ public class SimulationTest {
         log.info("Fight end");
 
         List<Unit> remainingEnemies = rsm.getAllUnits();
-        //remainingEnemies.removeIf(unit -> !unit.isAlive());
+        remainingEnemies.removeIf(unit -> !unit.isAlive());
 
         log.debug("Remaining enemies: \n{}", remainingEnemies);
 

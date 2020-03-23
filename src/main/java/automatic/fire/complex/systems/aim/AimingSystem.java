@@ -11,19 +11,6 @@ public abstract class AimingSystem {
 
     protected EnemyData lastTarget;
     protected int countShotSameTarget = 1;
-    protected Set<EnemyType> ignoreTypes;
-
-    public AimingSystem() {
-        this.ignoreTypes = new HashSet<>();
-    }
 
     public abstract EnemyData catchTarget(List<EnemyData> enemies);
-
-    public boolean addTypeToIgnore(EnemyType type) {
-        return ignoreTypes.add(type);
-    }
-
-    public boolean removeTypeToIgnore(EnemyType type) {
-        return ignoreTypes.remove(type);
-    }
 }
