@@ -1,6 +1,7 @@
 package automatic.fire.complex.systems.aim;
 
 import automatic.fire.complex.simulation.EnemyData;
+import automatic.fire.complex.units.Unit;
 import automatic.fire.complex.units.enemy.EnemyType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -8,35 +9,55 @@ import org.slf4j.LoggerFactory;
 import java.util.ArrayList;
 import java.util.List;
 
+import static java.lang.Math.*;
+
 public class MechanicalInertialAimSystem extends AimingSystem {
 
     Logger log = LoggerFactory.getLogger(MechanicalInertialAimSystem.class);
 
-    public MechanicalInertialAimSystem() {
-        super();
+    private int posX;
+    private int posY;
+
+    public MechanicalInertialAimSystem(int posX, int posY) {
+        this.posX = posX;
+        this.posY = posY;
     }
 
     @Override
     public EnemyData catchTarget(List<EnemyData> enemies) {
 
-        List<EnemyData> noIgnore = new ArrayList<>(enemies);
+        if(enemies.size() == 1) return enemies.get(0);
 
-        noIgnore.removeIf(enemy -> ignoreTypes.contains(enemy.getType()));
+        EnemyData closestTarget = enemies.get(0);
+        int currentMinDistance = abs(posX - closestTarget.getPosX()) + abs(posY - closestTarget.getPosX());
 
-        if (noIgnore.size() == 0) return null;
+        for (int i = 1; i < enemies.size(); i++) {
 
-        int newTargetIndex = (int)(Math.random() * noIgnore.size());
+            EnemyData currentTarget = enemies.get(i);
 
-        EnemyData newTarget = noIgnore.get(newTargetIndex);
-        log.debug("Catch new target: {}", newTarget);
+            int currentTargetPosX = currentTarget.getPosX();
+            int currentTargetPosY = currentTarget.getPosY();
 
-        if(equalsCoordinate(newTarget, lastTarget)) {
+            int distance = abs(posX - currentTargetPosX) + abs(posY - currentTargetPosY);
+            if (distance < currentMinDistance) {
+                currentMinDistance = distance;
+                closestTarget = currentTarget;
+            } else if(distance == currentMinDistance) {
+                if (min(currentTargetPosY, closestTarget.getPosY()) == currentTargetPosY) {
+                    closestTarget = currentTarget;
+                }
+            }
+        }
+
+        log.debug("Catch new target: {}", closestTarget);
+
+        if(closestTarget.equals(lastTarget)) {
             log.debug("Target caught is the same");
-            lastTarget = newTarget;
+            lastTarget = closestTarget;
             countShotSameTarget++;
         } else {
             log.debug("Target caught is new");
-            lastTarget = newTarget;
+            lastTarget = closestTarget;
             countShotSameTarget = 1;
         }
         lastTarget.setAccuracyFactor(computeAccuracyFactor(countShotSameTarget, lastTarget.getType()));
@@ -74,13 +95,6 @@ public class MechanicalInertialAimSystem extends AimingSystem {
     }
 
     private double getCoefficient(double min, double max) {
-        return Math.random() * (max - min) + min;
-    }
-
-    private boolean equalsCoordinate(EnemyData one, EnemyData two) {
-        if (one == null || two == null) {
-            return false;
-        }
-        return one.getPosX() == two.getPosX() && one.getPosY() == two.getPosY();
+        return random() * (max - min) + min;
     }
 }

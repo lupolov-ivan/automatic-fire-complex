@@ -2,19 +2,29 @@ package automatic.fire.complex.simulation;
 
 import automatic.fire.complex.units.enemy.EnemyType;
 
+import java.util.Objects;
+
 public class EnemyData {
 
     private int posX;
     private int posY;
     private EnemyType type;
-
     private double accuracyFactor;
-
     private double damage;
+
+    public EnemyData() {
+    }
+
+    public EnemyData(int posX, int posY, EnemyType type) {
+        this.posX = posX;
+        this.posY = posY;
+        this.type = type;
+    }
 
     public int getPosX() {
         return posX;
     }
+
     public int getPosY() {
         return posY;
     }
@@ -49,6 +59,20 @@ public class EnemyData {
 
     public void setDamage(double damage) {
         this.damage = damage;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        EnemyData data = (EnemyData) o;
+        return posX == data.posX &&
+                posY == data.posY;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(posX, posY);
     }
 
     @Override
