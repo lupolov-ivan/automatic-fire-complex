@@ -42,10 +42,10 @@ public class SimulationTest {
         List<Unit> guns = new ArrayList<>();
 
         AutomaticFireComplex afc1 = new AutomaticFireComplex(0, 2, 10, ammo1, rsm);
-//        AutomaticFireComplex afc2 = new AutomaticFireComplex(0, 7, 10, ammo2, rsm);
+        AutomaticFireComplex afc2 = new AutomaticFireComplex(0, 7, 10, ammo2, rsm);
 
         guns.add(afc1);
-//        guns.add(afc2);
+        guns.add(afc2);
 
         List<Unit> enemies = new ArrayList<>();
 
@@ -65,12 +65,12 @@ public class SimulationTest {
 
         Thread t1 = new Thread(afc1);
         t1.start();
-//        Thread t2 = new Thread(afc2);
-//        t2.start();
+        Thread t2 = new Thread(afc2);
+        t2.start();
 
         try {
             t1.join();
-//            t2.join();
+            t2.join();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

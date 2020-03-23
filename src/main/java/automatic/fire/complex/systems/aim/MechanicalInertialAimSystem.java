@@ -1,12 +1,10 @@
 package automatic.fire.complex.systems.aim;
 
 import automatic.fire.complex.simulation.EnemyData;
-import automatic.fire.complex.units.Unit;
 import automatic.fire.complex.units.enemy.EnemyType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static java.lang.Math.*;
@@ -26,7 +24,11 @@ public class MechanicalInertialAimSystem extends AimingSystem {
     @Override
     public EnemyData catchTarget(List<EnemyData> enemies) {
 
-        if(enemies.size() == 1) return enemies.get(0);
+        if(enemies.size() == 1) {
+            lastTarget = enemies.get(0);
+            lastTarget.setAccuracyFactor(computeAccuracyFactor(countShotSameTarget, lastTarget.getType()));
+            return lastTarget;
+        }
 
         EnemyData closestTarget = enemies.get(0);
         int currentMinDistance = abs(posX - closestTarget.getPosX()) + abs(posY - closestTarget.getPosX());

@@ -54,6 +54,9 @@ public class RealitySimulationModule {
         enemy.setHitCount(++currentHitCount);
         enemy.setDamageTaken(data.getDamage() + currentTakenDamage);
 
+        log.debug("Current number of hit: {}", enemy.getHitCount());
+        log.debug("Current taken damage: {}", enemy.getDamageTaken());
+
         if (data.getType() == EnemyType.TANK && enemy.getProtectionLevel() <= enemy.getDamageTaken()) {
             enemy.setAlive(false);
             log.debug("Target '{}' destroyed. Type: {}", enemy, data.getType().toString());
@@ -64,8 +67,6 @@ public class RealitySimulationModule {
             log.debug("Target '{}' destroyed. Type: {}", enemy, data.getType().toString());
         }
 
-        log.debug("Current number of hit: {}", enemy.getHitCount());
-        log.debug("Current taken damage: {}", enemy.getDamageTaken());
     }
 
     public Battlefield getBattlefield() {
