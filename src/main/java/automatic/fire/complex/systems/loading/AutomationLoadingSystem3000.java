@@ -1,20 +1,19 @@
 package automatic.fire.complex.systems.loading;
 
-import automatic.fire.complex.ShellsSystem.Cassette;
-import automatic.fire.complex.ShellsSystem.Shell;
+import automatic.fire.complex.ammunition.Cassette;
 
-public class AutomationLoadingSystem3000 implements AutomationLoadingSystem {
+public class AutomationLoadingSystem3000 extends AutomationLoadingSystem {
 
-    private Cassette<? extends Shell> currentCassette;
+    private Cassette currentCassette;
 
     @Override
-    public boolean loadCassette(Cassette<? extends Shell> cassette) {  // мы возврат кассеты
+    public boolean loadCassette(Cassette cassette) {  // мы возврат кассеты
 
         if (currentCassette == null) {
-            try {
-                Thread.sleep(3000);
-            } catch (InterruptedException e) {//todo}
-            }
+//            try {
+//                Thread.sleep(3000);
+//            } catch (InterruptedException e) {//todo}
+//            }
             currentCassette = cassette;
             return true;
         } else {
@@ -23,28 +22,28 @@ public class AutomationLoadingSystem3000 implements AutomationLoadingSystem {
 
     }
 
-     @Override
-    public Cassette<? extends Shell> disconnectCassette() {
+    @Override
+    public Cassette disconnectCassette() {
         // вернуть кассету в амуницию (лучше всего в конец списка);
-         Cassette<?> tempCassette;
-              if (currentCassette != null && currentCassette.getBalance() == 0 ){
-            try {
-                Thread.sleep(2000);
-            } catch (InterruptedException ex) {
-                //todo
-            }
+        Cassette tempCassette;
+        if (currentCassette != null && currentCassette.getBalance() == 0) {
+//            try {
+//                Thread.sleep(2000);
+//            } catch (InterruptedException ex) {
+//                todo
+//            }
             tempCassette = currentCassette;
             currentCassette = null;
             return tempCassette;
 
         }
         if (currentCassette != null && currentCassette.getBalance() != 0) {
-             tempCassette = currentCassette;
-            try {
-                Thread.sleep(2000);
-            } catch (InterruptedException ex) {
-                //todo
-            }
+            tempCassette = currentCassette;
+//            try {
+//                Thread.sleep(2000);
+//            } catch (InterruptedException ex) {
+//                //todo
+//            }
             currentCassette = null;
             return tempCassette;
 
@@ -57,15 +56,15 @@ public class AutomationLoadingSystem3000 implements AutomationLoadingSystem {
     @Override
     public void extractShell() {
 
-        try {
-            Thread.sleep(10000);
-        } catch (InterruptedException ex) {
+//        try {
+//            Thread.sleep(10000);
+//        } catch (InterruptedException ex) {
             //todo
-        }
+//        }
 
     }
 
-    public Cassette<? extends Shell> getCurrentCassette() {
+    public Cassette getCurrentCassette() {
         return currentCassette;
     }
 }

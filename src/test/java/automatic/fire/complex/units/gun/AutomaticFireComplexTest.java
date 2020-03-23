@@ -1,6 +1,7 @@
 package automatic.fire.complex.units.gun;
 
-import automatic.fire.complex.ShellsSystem.*;
+//import automatic.fire.complex.ShellsSystem.*;
+import automatic.fire.complex.ammunition.Ammunition;
 import automatic.fire.complex.simulation.Battlefield;
 import automatic.fire.complex.simulation.EnemyData;
 import automatic.fire.complex.simulation.RealitySimulationModule;
@@ -39,24 +40,25 @@ public class AutomaticFireComplexTest {
     @Before
     public void setUp() {
 
+        battlefield = new Battlefield(3, 3);
         aimingSystem = new MechanicalInertialAimSystem();
         automationLoadingSystem = new AutomationLoadingSystem3000();
         fireSystem = new FireSystem3000();
-        ammunition = creatAmmunition();
+        ammunition = Ammunition.createAmmunition();
 
     }
 
     @Test
     public void fireOnBattlefieldWithOneEnemy() {
 
-        long startTime = System.currentTimeMillis();
+     //   long startTime = System.currentTimeMillis();
         realitySimulationModule = new RealitySimulationModule(creatBattlefieldWithOneEnemy());
         radar = new Radar(realitySimulationModule);
         automaticFireComplex = new AutomaticFireComplex(0, 0, 88, aimingSystem,
                 realitySimulationModule, automationLoadingSystem, fireSystem, ammunition);
         automaticFireComplex.run();
         long finishTime = System.currentTimeMillis();
-        assert (finishTime - startTime >= 4000);
+    //    assert (finishTime - startTime >= 4000);
         assert(!unit1.isAlive());
 
     }
@@ -71,6 +73,22 @@ public class AutomaticFireComplexTest {
         automaticFireComplex.run();
         assert(!unit1.isAlive());
         assert(!unit2.isAlive());
+    }
+
+
+    @Test
+   public void fireOnBattlefieldWithOneSuperEnemy(){
+
+        battlefield = new Battlefield(3, 3);
+        unit1 = new Infantry(1, 1, 30000);
+        battlefield.putUnit(unit1);
+
+        realitySimulationModule = new RealitySimulationModule(battlefield);
+        radar = new Radar(realitySimulationModule);
+        automaticFireComplex = new AutomaticFireComplex(0, 0, 88, aimingSystem,
+                realitySimulationModule, automationLoadingSystem, fireSystem, ammunition);
+        automaticFireComplex.run();
+        assert(unit1.isAlive());
     }
 
     public Battlefield creatBattlefieldWithOneEnemy() {
@@ -89,20 +107,7 @@ public class AutomaticFireComplexTest {
         return battlefield;
     }
 
-    public Ammunition creatAmmunition() {
-        Ammunition ammunition = new Ammunition();
-        Cassette<Shell> cassetteAPS = new Cassette<>(10);
-        Cassette<Shell> cassetteBS = new Cassette<>(10);
-        for (int i = 0; i < 10; i++) {
-            cassetteAPS.add(new ArmorPiercingShell());
-            cassetteBS.add(new BurstingShell());
-        }
 
-        ammunition.addCassette(cassetteAPS);
-        ammunition.addCassette(cassetteBS);
-        return ammunition;
-
-    }
 
 
 }

@@ -7,16 +7,16 @@ import automatic.fire.complex.units.enemy.EnemyType;
 public abstract class AutomationLoadingSystem {
 
     protected Cassette currentCassette;
-    protected EnemyType currentEnemyTypeCassette;
-    protected Ammunition ammunition;
+//    protected EnemyType currentEnemyTypeCassette;
+//    protected Ammunition ammunition;
 
-    protected AutomationLoadingSystem(Ammunition ammunition) {
-        this.ammunition = ammunition;
-    }
+//    protected AutomationLoadingSystem(Ammunition ammunition) {
+//        this.ammunition = ammunition;
+//    }
 
-    abstract public boolean loadCassette(EnemyType data);
+    abstract public boolean loadCassette(Cassette Cassette);
 
-    abstract public void disconnectCassette();
+    abstract public Cassette disconnectCassette();
 
     abstract public void extractShell();
 
@@ -24,7 +24,7 @@ public abstract class AutomationLoadingSystem {
         return currentCassette;
     }
 
-    public EnemyType getCurrentEnemyTypeCassette() {
-        return currentEnemyTypeCassette;
-    }
+  //  public EnemyType getCurrentEnemyTypeCassette() {
+//        return currentEnemyTypeCassette;
+//    }
 }

@@ -39,10 +39,11 @@ public class SimulationTest {
         log.info("Create units and put them to battlefield...");
         List<Unit> guns = new ArrayList<>();
 
-        AutomaticFireComplex afc1 = new AutomaticFireComplex(0, 0, 10, ammo1, rsm);
+//        AutomaticFireComplex afc1 = new AutomaticFireComplex(0, 0, 10, ammo1, rsm);
+
 //        AutomaticFireComplex afc2 = new AutomaticFireComplex(0, 0, 10, ammo2, rsm);
 
-        guns.add(afc1);
+//        guns.add(afc1);
 //        guns.add(afc2);
 
         List<Unit> enemies = new ArrayList<>();
@@ -61,23 +62,23 @@ public class SimulationTest {
 
         log.info("Starting fight...");
 
-        Thread t1 = new Thread(afc1);
-        t1.start();
+//        Thread t1 = new Thread(afc1);
+//        t1.start();
 //        Thread t2 = new Thread(afc2);
 //        t2.start();
 
-        try {
-            t1.join();
+//        try {
+//            t1.join();
 //            t2.join();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
 
         log.info("Fight end");
 
         log.info("Ammunition report");
 
-        log.info("Gun's '{}' remaining ammunition:\n{}", afc1, ammo1);
+//        log.info("Gun's '{}' remaining ammunition:\n{}", afc1, ammo1);
 //        log.info("Gun's '{}' remaining ammunition:\n{}", afc2, ammo2);
     }
 }

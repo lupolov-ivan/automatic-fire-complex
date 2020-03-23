@@ -1,6 +1,10 @@
 package automatic.fire.complex.units.gun;
 
-import automatic.fire.complex.ShellsSystem.*;
+//import automatic.fire.complex.ShellsSystem.*;
+
+import automatic.fire.complex.ammunition.Ammunition;
+import automatic.fire.complex.ammunition.Cassette;
+import automatic.fire.complex.ammunition.TypeShell;
 import automatic.fire.complex.simulation.EnemyData;
 import automatic.fire.complex.simulation.RealitySimulationModule;
 import automatic.fire.complex.systems.Radar;
@@ -52,31 +56,51 @@ public class AutomaticFireComplex extends Unit implements Runnable {
             }
             EnemyData target = aimingSystem.catchTarget(lastPosition);
 
-            Cassette<? extends Shell> currentCassette = automationLoadingSystem.getCurrentCassette();
+            Cassette currentCassette = automationLoadingSystem.getCurrentCassette();
 
-            if (currentCassette == null || currentCassette.getBalance() == 0) {
-                automationLoadingSystem.loadCassette(ammunition.getCassette(target));
-                fireSystem.setAutomationLoadingSystem(automationLoadingSystem);
-
-            } else if (target.getType() == EnemyType.TANK &&
-                    currentCassette.getInstanceInnerElement().getClass() == BurstingShell.class) {
-
-                ammunition.addCassette(automationLoadingSystem.disconnectCassette());
-                automationLoadingSystem.loadCassette(ammunition.getCassette(target));
-                fireSystem.setAutomationLoadingSystem(automationLoadingSystem);
-
-            } else if (target.getType() == EnemyType.INFANTRY &&
-                    currentCassette.getInstanceInnerElement().getClass() == ArmorPiercingShell.class) {
-
-                ammunition.addCassette(automationLoadingSystem.disconnectCassette());
-                automationLoadingSystem.loadCassette(ammunition.getCassette(target));
-                fireSystem.setAutomationLoadingSystem(automationLoadingSystem);
+            if (!changeСassette(currentCassette, target)) {
+                break;
             }
+
             fireSystem.makeShot(target);
             log.debug("AFC '{}' shot to target '{}'", this, target);
             rsm.toDamage(target);
         }
         log.debug("All enemies destroyed. Stopping fire...");
+    }
+
+
+    private boolean changeСassette(Cassette currentCassette, EnemyData enemyData) {
+
+        if (!ammunition.hasNext(enemyData.getType())) {
+            return false;
+        }
+
+        if (currentCassette == null || currentCassette.getBalance() == 0) {
+
+            automationLoadingSystem.loadCassette(ammunition.getCassette(enemyData.getType()));
+            fireSystem.setAutomationLoadingSystem(automationLoadingSystem);
+            return true;
+
+        } else if (enemyData.getType() == EnemyType.TANK &&
+                currentCassette.getTypeShell().equals(TypeShell.BURSTING)) {
+
+
+            ammunition.addCassette(automationLoadingSystem.disconnectCassette());
+            automationLoadingSystem.loadCassette(ammunition.getCassette(enemyData.getType()));
+            fireSystem.setAutomationLoadingSystem(automationLoadingSystem);
+            return true;
+
+        } else if (enemyData.getType() == EnemyType.INFANTRY &&
+                currentCassette.getTypeShell().equals(TypeShell.ARMOR_PIERCING)) {
+
+            ammunition.addCassette(automationLoadingSystem.disconnectCassette());
+            automationLoadingSystem.loadCassette(ammunition.getCassette(enemyData.getType()));
+            fireSystem.setAutomationLoadingSystem(automationLoadingSystem);
+            return true;
+        }
+        return true;
+
     }
 
     public void setAimingSystem(AimingSystem aimingSystem) {
