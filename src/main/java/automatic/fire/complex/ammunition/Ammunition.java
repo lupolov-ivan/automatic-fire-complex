@@ -18,7 +18,7 @@ public class Ammunition {
     private int quantityArmorPiercingCassette;
     private int balanceArmorPiercingCassette;
 
-    private Cassette currentCassette;
+    private Cassette lastReceivedCassette;
 
     private Ammunition(int quantityBurstingCassette, int quantityArmorPiercingCassette) {
         this.burstingCassettes = new ArrayList<>(quantityBurstingCassette);
@@ -74,20 +74,13 @@ public class Ammunition {
     public Cassette getCassette(EnemyType enemyData) {
         if (enemyData.equals(EnemyType.TANK)) {
             balanceArmorPiercingCassette--;
-            return setCurrentCassette(armorPiercingCassettes.remove(0));
-        } else {
-            balanceBurstingCassette--;
-            return setCurrentCassette(burstingCassettes.remove(0));
+            lastReceivedCassette = armorPiercingCassettes.remove(0);
         }
-    }
-
-    private Cassette setCurrentCassette(Cassette cassette){
-        currentCassette = cassette;
-        return currentCassette;
-    }
-
-    public Cassette getCurrentCassette(){
-        return currentCassette;
+        if (enemyData.equals(EnemyType.INFANTRY)) {
+            balanceBurstingCassette--;
+            lastReceivedCassette = burstingCassettes.remove(0);
+        }
+        return lastReceivedCassette;
     }
 
     @Override
@@ -95,10 +88,11 @@ public class Ammunition {
         return "Ammunition{" +
                 "burstingCassettes=" + burstingCassettes +
                 ", armorPiercingCassettes=" + armorPiercingCassettes +
-                ", capacityBurstingCassette=" + quantityBurstingCassette +
+                ", quantityBurstingCassette=" + quantityBurstingCassette +
                 ", balanceBurstingCassette=" + balanceBurstingCassette +
-                ", capacityArmorPiercingCassette=" + quantityArmorPiercingCassette +
+                ", quantityArmorPiercingCassette=" + quantityArmorPiercingCassette +
                 ", balanceArmorPiercingCassette=" + balanceArmorPiercingCassette +
+                ", lastReceivedCassette=" + lastReceivedCassette +
                 '}';
     }
 }

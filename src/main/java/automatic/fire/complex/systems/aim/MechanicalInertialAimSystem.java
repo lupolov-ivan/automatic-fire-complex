@@ -5,19 +5,29 @@ import automatic.fire.complex.units.enemy.EnemyType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MechanicalInertialAimSystem extends AimingSystem {
 
     Logger log = LoggerFactory.getLogger(MechanicalInertialAimSystem.class);
 
+    public MechanicalInertialAimSystem() {
+        super();
+    }
+
     @Override
     public EnemyData catchTarget(List<EnemyData> enemies) {
 
-        int enemiesQuantity = enemies.size();
-        int newTargetIndex = (int)(Math.random() * enemiesQuantity);
+        List<EnemyData> noIgnore = new ArrayList<>(enemies);
 
-        EnemyData newTarget = enemies.get(newTargetIndex);
+        noIgnore.removeIf(enemy -> ignoreTypes.contains(enemy.getType()));
+
+        if (noIgnore.size() == 0) return null;
+
+        int newTargetIndex = (int)(Math.random() * noIgnore.size());
+
+        EnemyData newTarget = noIgnore.get(newTargetIndex);
         log.debug("Catch new target: {}", newTarget);
 
         if(equalsCoordinate(newTarget, lastTarget)) {
