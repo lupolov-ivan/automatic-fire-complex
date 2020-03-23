@@ -14,8 +14,10 @@ import automatic.fire.complex.units.enemy.Tank;
 import automatic.fire.complex.units.gun.AutomaticFireComplex;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.w3c.dom.ls.LSOutput;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class SimulationTest {
@@ -41,25 +43,27 @@ public class SimulationTest {
         log.info("Create units and put them to battlefield...");
         List<Unit> guns = new ArrayList<>();
 
-        AutomaticFireComplex afc1 = new AutomaticFireComplex(0, 2, 10, ammo1, rsm);
-        AutomaticFireComplex afc2 = new AutomaticFireComplex(0, 7, 10, ammo2, rsm);
+        AutomaticFireComplex afc1 = new AutomaticFireComplex(2, 0, 10, ammo1, rsm);
+        AutomaticFireComplex afc2 = new AutomaticFireComplex(7, 0, 10, ammo2, rsm);
 
         guns.add(afc1);
         guns.add(afc2);
 
         List<Unit> enemies = new ArrayList<>();
 
-        enemies.add(new Tank(2,1, 5));
-        enemies.add(new Tank(3,6, 5));
-        enemies.add(new Tank(7,8, 5));
-        enemies.add(new Tank(8,4, 5));
+        enemies.add(new Tank(1,2, 5));
+        enemies.add(new Tank(6,3, 5));
+        enemies.add(new Tank(8,7, 5));
+        enemies.add(new Tank(4,8, 5));
         enemies.add(new Infantry(5,5, 2));
-        enemies.add(new Infantry(4,1, 2));
-        enemies.add(new Infantry(2,8, 2));
-        enemies.add(new Infantry(7,2, 2));
+        enemies.add(new Infantry(1,4, 2));
+        enemies.add(new Infantry(8,2, 2));
+        enemies.add(new Infantry(2,7, 2));
 
         battlefield.putUnits(guns);
         battlefield.putUnits(enemies);
+
+        prettyPrintBattlefield(battlefield);
 
         log.info("Starting fight...");
 
@@ -86,5 +90,45 @@ public class SimulationTest {
 
         log.info("Gun #1 remaining ammunition:\n{}", ammo1);
         log.info("Gun #2 remaining ammunition:\n{}", ammo2);
+    }
+
+    private static void prettyPrintBattlefield(Battlefield battlefield) {
+
+        int width = battlefield.getWidth();
+        int length = battlefield.getLength();
+
+        for (int y = -1; y < length; y++) {
+            if (y == -1) {
+                for (int i = 0; i < width; i++) {
+                    System.out.print("\t"+ i +"\t");
+                }
+                System.out.println();
+                continue;
+            }
+            System.out.print(y +" |");
+            for (int x = 0; x < width; x++) {
+
+                Unit unit = battlefield.getCellValue(x,y);
+                if (unit == null) {
+                    System.out.print("\t" + "\t|");
+                } else {
+                    System.out.print("\t" + getLetter(unit) + "\t|");
+                }
+            }
+            System.out.println();
+        }
+    }
+
+    private static String getLetter(Unit unit) {
+        if (unit.getClass() == Tank.class) {
+            return "T";
+        }
+        if (unit.getClass() == Infantry.class) {
+            return "I";
+        }
+        if (unit.getClass() == AutomaticFireComplex.class) {
+            return "A";
+        }
+        return "U";
     }
 }

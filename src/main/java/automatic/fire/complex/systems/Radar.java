@@ -35,8 +35,8 @@ public class Radar {
         int length = rsm.getBattlefield().getLength();
 
         log.debug("Radar are starting checking battlefield...");
-        for (int x = 0; x < width; x++) {
-            for (int y = 0; y < length; y++) {
+        for (int y = 0; y < length; y++) {
+            for (int x = 0; x < width; x++) {
                 Unit unit = rsm.getUnit(x, y);
 
                 if (unit != null && unit.isAlive() && unit.sendSecretString().equals("ENEMY") && !ignoreTypes.contains(determineEnemyType(unit))) {
@@ -51,9 +51,6 @@ public class Radar {
             }
         }
         log.debug("Radar finish checking battlefield. Enemy count: {}", enemiesPosition.size());
-
-//        List<EnemyData> noIgnore = new ArrayList<>(enemiesPosition);
-//        noIgnore.removeIf(enemy -> ignoreTypes.contains(enemy.getType()));
 
         return enemiesPosition;
     }

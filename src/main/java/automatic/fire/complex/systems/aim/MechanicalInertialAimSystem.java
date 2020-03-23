@@ -24,14 +24,23 @@ public class MechanicalInertialAimSystem extends AimingSystem {
     @Override
     public EnemyData catchTarget(List<EnemyData> enemies) {
 
+        EnemyData closestTarget = enemies.get(0);
+        int currentMinDistance = abs(posX - closestTarget.getPosX()) + abs(posY - closestTarget.getPosY());
+
         if(enemies.size() == 1) {
-            lastTarget = enemies.get(0);
+            log.debug("Catch last target: {}", closestTarget);
+
+            if(closestTarget.equals(lastTarget)) {
+                log.debug("Target caught is the same");
+                countShotSameTarget++;
+            } else {
+                log.debug("Target caught is new");
+                countShotSameTarget = 1;
+            }
+            lastTarget = closestTarget;
             lastTarget.setAccuracyFactor(computeAccuracyFactor(countShotSameTarget, lastTarget.getType()));
             return lastTarget;
         }
-
-        EnemyData closestTarget = enemies.get(0);
-        int currentMinDistance = abs(posX - closestTarget.getPosX()) + abs(posY - closestTarget.getPosX());
 
         for (int i = 1; i < enemies.size(); i++) {
 
@@ -45,7 +54,7 @@ public class MechanicalInertialAimSystem extends AimingSystem {
                 currentMinDistance = distance;
                 closestTarget = currentTarget;
             } else if(distance == currentMinDistance) {
-                if (min(currentTargetPosY, closestTarget.getPosY()) == currentTargetPosY) {
+                if (currentTargetPosY <= closestTarget.getPosY()) {
                     closestTarget = currentTarget;
                 }
             }
