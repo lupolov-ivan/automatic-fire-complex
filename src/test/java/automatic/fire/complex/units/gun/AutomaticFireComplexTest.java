@@ -42,8 +42,9 @@ public class AutomaticFireComplexTest {
 
         battlefield = new Battlefield(3, 3);
         aimingSystem = new MechanicalInertialAimSystem();
-        automationLoadingSystem = new AutomationLoadingSystem3000();
-        fireSystem = new FireSystem3000();
+        ammunition= Ammunition.createAmmunition();
+        automationLoadingSystem = new AutomationLoadingSystem3000(ammunition);
+        fireSystem = new FireSystem3000(automationLoadingSystem);
         ammunition = Ammunition.createAmmunition();
 
     }
@@ -55,7 +56,7 @@ public class AutomaticFireComplexTest {
         realitySimulationModule = new RealitySimulationModule(creatBattlefieldWithOneEnemy());
         radar = new Radar(realitySimulationModule);
         automaticFireComplex = new AutomaticFireComplex(0, 0, 88, aimingSystem,
-                realitySimulationModule, automationLoadingSystem, fireSystem, ammunition);
+                realitySimulationModule, fireSystem);
         automaticFireComplex.run();
         long finishTime = System.currentTimeMillis();
     //    assert (finishTime - startTime >= 4000);
@@ -69,7 +70,7 @@ public class AutomaticFireComplexTest {
         realitySimulationModule = new RealitySimulationModule(creatBattlefieldWithTwoEnemy());
         radar = new Radar(realitySimulationModule);
         automaticFireComplex = new AutomaticFireComplex(0, 0, 88, aimingSystem,
-                realitySimulationModule, automationLoadingSystem, fireSystem, ammunition);
+                realitySimulationModule, fireSystem);
         automaticFireComplex.run();
         assert(!unit1.isAlive());
         assert(!unit2.isAlive());
@@ -86,7 +87,7 @@ public class AutomaticFireComplexTest {
         realitySimulationModule = new RealitySimulationModule(battlefield);
         radar = new Radar(realitySimulationModule);
         automaticFireComplex = new AutomaticFireComplex(0, 0, 88, aimingSystem,
-                realitySimulationModule, automationLoadingSystem, fireSystem, ammunition);
+                realitySimulationModule, fireSystem);
         automaticFireComplex.run();
         assert(unit1.isAlive());
     }

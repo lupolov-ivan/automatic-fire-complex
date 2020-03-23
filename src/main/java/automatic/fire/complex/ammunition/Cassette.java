@@ -33,8 +33,8 @@ public class Cassette {
 
     public boolean add(Shell shell) {
         if (shell.getType().equals(typeShell) && shells.size() < capacity) {
-                shells.add(shell);
-                balance = shells.size();
+            shells.add(shell);
+            balance = shells.size();
             return true;
         } else {
             return false;

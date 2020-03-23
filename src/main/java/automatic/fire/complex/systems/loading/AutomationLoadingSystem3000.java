@@ -1,55 +1,58 @@
 package automatic.fire.complex.systems.loading;
 
+import automatic.fire.complex.ammunition.Ammunition;
 import automatic.fire.complex.ammunition.Cassette;
+import automatic.fire.complex.ammunition.TypeShell;
 
 public class AutomationLoadingSystem3000 extends AutomationLoadingSystem {
 
     private Cassette currentCassette;
 
-    @Override
-    public boolean loadCassette(Cassette cassette) {  // мы возврат кассеты
+    public AutomationLoadingSystem3000(Ammunition ammunition) {
+        super(ammunition);
+    }
 
-        if (currentCassette == null) {
+    @Override
+    public boolean loadCassette(TypeShell typeShell) {
+        if (!ammunition.hasNext(typeShell)){
+            return false;
+        }
+            if (currentCassette == null) {
 //            try {
 //                Thread.sleep(3000);
 //            } catch (InterruptedException e) {//todo}
 //            }
-            currentCassette = cassette;
-            return true;
-        } else {
-            return false;
-        }
+                currentCassette = ammunition.getCassette(typeShell);
+                return true;
+            } else {
+                return false;
+            }
 
     }
 
     @Override
-    public Cassette disconnectCassette() {
-        // вернуть кассету в амуницию (лучше всего в конец списка);
-        Cassette tempCassette;
+    public void disconnectCassette() {
+
         if (currentCassette != null && currentCassette.getBalance() == 0) {
 //            try {
 //                Thread.sleep(2000);
 //            } catch (InterruptedException ex) {
 //                todo
 //            }
-            tempCassette = currentCassette;
             currentCassette = null;
-            return tempCassette;
 
         }
         if (currentCassette != null && currentCassette.getBalance() != 0) {
-            tempCassette = currentCassette;
+
 //            try {
 //                Thread.sleep(2000);
 //            } catch (InterruptedException ex) {
 //                //todo
 //            }
-            currentCassette = null;
-            return tempCassette;
 
-        } else {
-            // случай когда пушка пустая, должен ли поток ждать 2с.?
-            return null;
+            ammunition.addCassette(currentCassette);
+            currentCassette = null;
+
         }
     }
 
@@ -59,7 +62,7 @@ public class AutomationLoadingSystem3000 extends AutomationLoadingSystem {
 //        try {
 //            Thread.sleep(10000);
 //        } catch (InterruptedException ex) {
-            //todo
+        //todo
 //        }
 
     }

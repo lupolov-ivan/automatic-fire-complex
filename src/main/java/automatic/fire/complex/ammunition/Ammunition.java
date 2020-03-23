@@ -42,7 +42,7 @@ public class Ammunition {
         return createAmmunition(DEFAULT_BURSTING_CASSETTE_QUANTITY, 10, DEFAULT_ARMOR_PIERCING_CASSETTE_QUANTITY, 10);
     }
 
-    public boolean addCassette (Cassette cassette) {
+    public boolean addCassette(Cassette cassette) {
         if (cassette.getTypeShell().equals(TypeShell.BURSTING)) {
             if (burstingCassettes.size() < quantityBurstingCassette) {
                 burstingCassettes.add(cassette);
@@ -61,16 +61,29 @@ public class Ammunition {
         return false;
     }
 
+    @Deprecated
     public boolean hasNext(EnemyType enemyType) {
         if (enemyType.equals(EnemyType.TANK)) {
             return balanceArmorPiercingCassette > 0;
         }
-        if (enemyType.equals(EnemyType.INFANTRY)){
+        if (enemyType.equals(EnemyType.INFANTRY)) {
             return balanceBurstingCassette > 0;
         }
         return false;
     }
 
+    public boolean hasNext(TypeShell typeShell) {
+        if (typeShell.equals(TypeShell.BURSTING)) {
+            return balanceBurstingCassette > 0;
+        }
+
+        if (typeShell.equals(TypeShell.ARMOR_PIERCING)) {
+            return balanceArmorPiercingCassette > 0;
+        }
+
+        return false;
+    }
+@Deprecated
     public Cassette getCassette(EnemyType enemyData) {
         if (enemyData.equals(EnemyType.TANK)) {
             balanceArmorPiercingCassette--;
@@ -81,12 +94,24 @@ public class Ammunition {
         }
     }
 
-    private Cassette setCurrentCassette(Cassette cassette){
+
+    public Cassette getCassette( TypeShell typeShell) {
+        if (typeShell.equals(TypeShell.BURSTING)) {
+            balanceBurstingCassette--;
+            return setCurrentCassette(burstingCassettes.remove(0));
+        } else {
+            balanceArmorPiercingCassette--;
+            return setCurrentCassette(armorPiercingCassettes.remove(0));
+        }
+    }
+
+
+    private Cassette setCurrentCassette(Cassette cassette) {
         currentCassette = cassette;
         return currentCassette;
     }
 
-    public Cassette getCurrentCassette(){
+    public Cassette getCurrentCassette() {
         return currentCassette;
     }
 

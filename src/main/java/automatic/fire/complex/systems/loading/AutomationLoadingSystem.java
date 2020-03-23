@@ -2,21 +2,23 @@ package automatic.fire.complex.systems.loading;
 
 import automatic.fire.complex.ammunition.Ammunition;
 import automatic.fire.complex.ammunition.Cassette;
+import automatic.fire.complex.ammunition.TypeShell;
 import automatic.fire.complex.units.enemy.EnemyType;
 
 public abstract class AutomationLoadingSystem {
 
     protected Cassette currentCassette;
+    protected Ammunition ammunition;
 //    protected EnemyType currentEnemyTypeCassette;
 //    protected Ammunition ammunition;
 
-//    protected AutomationLoadingSystem(Ammunition ammunition) {
-//        this.ammunition = ammunition;
-//    }
+    protected AutomationLoadingSystem(Ammunition ammunition) {
+        this.ammunition = ammunition;
+    }
 
-    abstract public boolean loadCassette(Cassette Cassette);
+    abstract public boolean loadCassette(TypeShell typeShell);
 
-    abstract public Cassette disconnectCassette();
+    abstract public void disconnectCassette();
 
     abstract public void extractShell();
 
@@ -27,4 +29,6 @@ public abstract class AutomationLoadingSystem {
   //  public EnemyType getCurrentEnemyTypeCassette() {
 //        return currentEnemyTypeCassette;
 //    }
+
+
 }

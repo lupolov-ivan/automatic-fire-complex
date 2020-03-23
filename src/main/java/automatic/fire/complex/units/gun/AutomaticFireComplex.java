@@ -26,21 +26,19 @@ public class AutomaticFireComplex extends Unit implements Runnable {
     private RealitySimulationModule rsm;
     private List<EnemyData> lastPosition;
     private Radar radar;
-    private Ammunition ammunition;
     private FireSystem fireSystem;
     private AutomationLoadingSystem automationLoadingSystem;
+    private EnemyType previousEnemyType;
+
 
     public AutomaticFireComplex(int posX, int posY, int protectionLevel, AimingSystem aimingSystem,
-                                RealitySimulationModule rsm, AutomationLoadingSystem automationLoadingSystem,
-                                FireSystem fireSystem, Ammunition ammunition) {
+                                RealitySimulationModule rsm, FireSystem fireSystem) {
         super(posX, posY, protectionLevel);
         this.radar = new Radar(rsm);
         this.aimingSystem = aimingSystem;
         this.rsm = rsm;
-        this.automationLoadingSystem = automationLoadingSystem;
         this.fireSystem = fireSystem;
-        this.ammunition = ammunition;
-        //   fireSystem.setAutomationLoadingSystem(automationLoadingSystem);
+
     }
 
     @Override
@@ -56,51 +54,41 @@ public class AutomaticFireComplex extends Unit implements Runnable {
             }
             EnemyData target = aimingSystem.catchTarget(lastPosition);
 
-            Cassette currentCassette = automationLoadingSystem.getCurrentCassette();
+            Cassette currentCassette = fireSystem.getCurrentCassette();
 
-            if (!changeСassette(currentCassette, target)) {
-                break;
+            if (currentCassette == null) {
+                fireSystem.setCurrentCassette(chooseCassette(target.getType()));
+            } else if (currentCassette.getBalance() == 0 || isTargetTypeChanged(target)) {
+                if (!fireSystem.changeCassette(chooseCassette(target.getType()))) {
+                    break;
+                }
             }
 
-            fireSystem.makeShot(target);
+            previousEnemyType = target.getType();
+
+            if (!fireSystem.makeShot(target)) {  // нечем стрелять
+                break;
+            }
             log.debug("AFC '{}' shot to target '{}'", this, target);
             rsm.toDamage(target);
         }
         log.debug("All enemies destroyed. Stopping fire...");
     }
 
-
-    private boolean changeСassette(Cassette currentCassette, EnemyData enemyData) {
-
-        if (!ammunition.hasNext(enemyData.getType())) {
+    private boolean isTargetTypeChanged(EnemyData newTarget) {
+        if (!previousEnemyType.equals(newTarget.getType())) {
+            return true;
+        } else {
             return false;
         }
+    }
 
-        if (currentCassette == null || currentCassette.getBalance() == 0) {
-
-            automationLoadingSystem.loadCassette(ammunition.getCassette(enemyData.getType()));
-            fireSystem.setAutomationLoadingSystem(automationLoadingSystem);
-            return true;
-
-        } else if (enemyData.getType() == EnemyType.TANK &&
-                currentCassette.getTypeShell().equals(TypeShell.BURSTING)) {
-
-
-            ammunition.addCassette(automationLoadingSystem.disconnectCassette());
-            automationLoadingSystem.loadCassette(ammunition.getCassette(enemyData.getType()));
-            fireSystem.setAutomationLoadingSystem(automationLoadingSystem);
-            return true;
-
-        } else if (enemyData.getType() == EnemyType.INFANTRY &&
-                currentCassette.getTypeShell().equals(TypeShell.ARMOR_PIERCING)) {
-
-            ammunition.addCassette(automationLoadingSystem.disconnectCassette());
-            automationLoadingSystem.loadCassette(ammunition.getCassette(enemyData.getType()));
-            fireSystem.setAutomationLoadingSystem(automationLoadingSystem);
-            return true;
+    private TypeShell chooseCassette(EnemyType enemyType) {
+        if (enemyType.equals(EnemyType.INFANTRY)) {
+            return TypeShell.ARMOR_PIERCING;
+        } else {
+            return TypeShell.BURSTING;
         }
-        return true;
-
     }
 
     public void setAimingSystem(AimingSystem aimingSystem) {
