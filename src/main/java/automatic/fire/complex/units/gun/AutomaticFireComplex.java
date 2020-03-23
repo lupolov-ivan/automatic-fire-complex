@@ -52,13 +52,13 @@ public class AutomaticFireComplex extends Unit implements Runnable {
 
             EnemyData target = aimingSystem.catchTarget(lastPosition);
 
-            if (target == null) {
-                log.debug("Shooting is not possible. No shells of the required type.");
-                break;
-            }
+//            if (target == null) {
+//                log.debug("Shooting is not possible. No shells of the required type.");
+//                break;
+//            }
 
             if(!fireSystem.makeShot(target)) {
-                aimingSystem.addTypeToIgnore(target.getType());
+                radar.addTypeToIgnore(target.getType());
                 log.info("============================================================> No shells for {} \n{}", target.getType().toString(), ammunition);
                 continue;
             }

@@ -10,7 +10,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class Radar {
 
@@ -18,8 +20,11 @@ public class Radar {
 
     private RealitySimulationModule rsm;
 
+    private Set<EnemyType> ignoreTypes;
+
     public Radar(RealitySimulationModule realitySimulation) {
         this.rsm = realitySimulation;
+        this.ignoreTypes = new HashSet<>();
     }
 
     public List<EnemyData> checkField() {
@@ -34,7 +39,7 @@ public class Radar {
             for (int y = 0; y < length; y++) {
                 Unit unit = rsm.getUnit(x, y);
 
-                if (unit != null && unit.isAlive() && unit.sendSecretString().equals("ENEMY")) {
+                if (unit != null && unit.isAlive() && unit.sendSecretString().equals("ENEMY") && !ignoreTypes.contains(determineEnemyType(unit))) {
                     EnemyData data = new EnemyData();
                     data.setPosX(x);
                     data.setPosY(y);
@@ -46,7 +51,19 @@ public class Radar {
             }
         }
         log.debug("Radar finish checking battlefield. Enemy count: {}", enemiesPosition.size());
+
+//        List<EnemyData> noIgnore = new ArrayList<>(enemiesPosition);
+//        noIgnore.removeIf(enemy -> ignoreTypes.contains(enemy.getType()));
+
         return enemiesPosition;
+    }
+
+    public boolean addTypeToIgnore(EnemyType type) {
+        return ignoreTypes.add(type);
+    }
+
+    public boolean removeTypeFromIgnore(EnemyType enemyType){
+        return ignoreTypes.remove(enemyType);
     }
 
     private EnemyType determineEnemyType(Unit unit) {
