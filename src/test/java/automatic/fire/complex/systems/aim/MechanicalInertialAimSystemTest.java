@@ -2,6 +2,8 @@ package automatic.fire.complex.systems.aim;
 
 import automatic.fire.complex.simulation.EnemyData;
 import automatic.fire.complex.units.enemy.EnemyType;
+import automatic.fire.complex.units.enemy.Infantry;
+import automatic.fire.complex.units.enemy.Tank;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -39,7 +41,7 @@ public class MechanicalInertialAimSystemTest {
 
     @Test
     public void givenListEnemies_whenFieldContainsSingleEnemy_thenReturnIt() {
-        EnemyData expected = new EnemyData(3, 1, EnemyType.TANK);
+        EnemyData expected = new EnemyData(1, 3, EnemyType.TANK);
         enemies.add(expected);
 
         EnemyData actual = aimingSystem.catchTarget(enemies);
@@ -52,16 +54,17 @@ public class MechanicalInertialAimSystemTest {
     0 |   |   | A |   |   |
     1 |   |   |   |   |   |
     2 |(E)|   |   |   |   |
-    3 |   |   |   |   |   |
+    3 |   |   |   |   | E |
     4 |   |   |   | E |   |
      */
 
     @Test
-    public void givenListEnemies_whenFieldContainsTwoEnemiesWithDifferentDistance_thenReturnClosest() {
-        EnemyData expected = new EnemyData(2, 0, EnemyType.TANK);
-        EnemyData anotherEnemy = new EnemyData(4, 3, EnemyType.TANK);
+    public void givenListEnemies_whenFieldContainsThreeEnemiesWithDifferentDistance_thenReturnClosest() {
+        EnemyData expected = new EnemyData(0, 2, EnemyType.TANK);
+
         enemies.add(expected);
-        enemies.add(anotherEnemy);
+        enemies.add(new EnemyData(3, 4, EnemyType.TANK));
+        enemies.add(new EnemyData(4, 3, EnemyType.TANK));
 
         EnemyData actual = aimingSystem.catchTarget(enemies);
 
@@ -74,15 +77,16 @@ public class MechanicalInertialAimSystemTest {
     1 |   |   |   |   |   |
     2 |(E)|   |   |   |   |
     3 |   |   |   | E |   |
-    4 |   |   |   |   |   |
+    4 |   |   |   |   | E |
      */
 
     @Test
-    public void givenListEnemies_whenFieldContainsTwoEnemiesWithSameDistanceButTheyLocatedDiffLines_thenReturnClosest() {
-        EnemyData expected = new EnemyData(2, 0, EnemyType.TANK);
-        EnemyData anotherEnemy = new EnemyData(3, 3, EnemyType.TANK);
+    public void givenListEnemies_whenFieldContainsThreeEnemiesWithSameDistanceButTheyLocatedDiffLines_thenReturnClosest() {
+        EnemyData expected = new EnemyData(0, 2, EnemyType.TANK);
+
         enemies.add(expected);
-        enemies.add(anotherEnemy);
+        enemies.add(new EnemyData(3, 3, EnemyType.TANK));
+        enemies.add(new EnemyData(4, 4, EnemyType.TANK));
 
         EnemyData actual = aimingSystem.catchTarget(enemies);
 
@@ -100,12 +104,11 @@ public class MechanicalInertialAimSystemTest {
 
     @Test
     public void givenListEnemies_whenFieldContainsThreeEnemiesWithSameDistanceAndTwoOfTheyLocatedSameLines_thenReturnClosest() {
-        EnemyData expected = new EnemyData(2, 0, EnemyType.TANK);
-        EnemyData anotherEnemy1 = new EnemyData(4, 2, EnemyType.TANK);
-        EnemyData anotherEnemy2 = new EnemyData(2, 4, EnemyType.TANK);
+        EnemyData expected = new EnemyData(0, 2, EnemyType.TANK);
+
         enemies.add(expected);
-        enemies.add(anotherEnemy1);
-        enemies.add(anotherEnemy2);
+        enemies.add(new EnemyData(2, 4, EnemyType.TANK));
+        enemies.add(new EnemyData(4, 2, EnemyType.TANK));
 
         EnemyData actual = aimingSystem.catchTarget(enemies);
 
