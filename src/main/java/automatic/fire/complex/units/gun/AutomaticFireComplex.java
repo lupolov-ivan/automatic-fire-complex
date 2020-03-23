@@ -29,7 +29,7 @@ public class AutomaticFireComplex extends Unit implements Runnable {
     public AutomaticFireComplex(int posX, int posY, int protectionLevel, Ammunition ammunition, RealitySimulationModule rsm) {
         super(posX, posY, protectionLevel);
         this.rsm = rsm;
-        this.aimingSystem = new MechanicalInertialAimSystem();
+        this.aimingSystem = new MechanicalInertialAimSystem(this.getPosX(), this.getPosY());
         this.fireSystem = new FireSystem3000(new AutomationLoadingSystem3000(ammunition));
         this.radar = new Radar(rsm);
         this.ammunition = ammunition;
