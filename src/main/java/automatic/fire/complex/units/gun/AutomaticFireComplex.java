@@ -14,7 +14,6 @@ import automatic.fire.complex.units.enemy.EnemyType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class AutomaticFireComplex extends Unit implements Runnable {
@@ -53,39 +52,25 @@ public class AutomaticFireComplex extends Unit implements Runnable {
 
             EnemyData target = aimingSystem.catchTarget(lastPosition);
 
+            if (target == null) {
+                log.debug("Shooting is not possible. No shells of the required type.");
+                break;
+            }
+
             if(!fireSystem.makeShot(target)) {
+                aimingSystem.addTypeToIgnore(target.getType());
+                log.info("============================================================> No shells for {} \n{}", target.getType().toString(), ammunition);
                 continue;
             }
 
             log.debug("AFC '{}' shot to target '{}'", this, target);
 
             rsm.toDamage(target);
-
-            if (ammunition.getCurrentCassette().getBalance() == 0) {
-                if (!isShootingPossible(lastPosition)) {
-                    List<Unit> remainingEnemy = new ArrayList<>();
-                    lastPosition.forEach(e -> remainingEnemy.add(rsm.getUnit(e.getPosX(), e.getPosY())));
-                    log.debug("Shooting is not possible. No shells of the required type. \nRemaining enemies: \n{}", remainingEnemy);
-                    break;
-                }
-            }
         }
     }
 
     @Override
     public void run() {
         patrol();
-    }
-
-    private boolean isShootingPossible(List<EnemyData> enemies) {
-        EnemyType type = enemies.get(0).getType();
-        for (int i = 1; i < enemies.size(); i++) {
-            EnemyType currentType = enemies.get(i).getType();
-            if (!currentType.equals(type)) {
-                return ammunition.hasNext(currentType);
-            }
-        }
-
-        return ammunition.hasNext(type);
     }
 }

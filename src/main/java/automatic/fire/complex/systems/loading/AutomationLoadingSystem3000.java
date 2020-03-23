@@ -33,7 +33,7 @@ public class AutomationLoadingSystem3000 extends AutomationLoadingSystem {
 
     @Override
     public void disconnectCassette() {
-        if (currentCassette != null && currentCassette.getBalance() != 0) {
+        if (currentCassette.getBalance() != 0) {
             ammunition.addCassette(currentCassette);
         }
         currentEnemyTypeCassette = null;
