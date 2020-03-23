@@ -15,17 +15,14 @@ public class FireSystem3000 extends FireSystem {
 
     @Override
     public boolean makeShot(EnemyData enemyData) {
-        if (enemyData.getType() != loadingSystem.getCurrentEnemyTypeCassette()) {
+        if (enemyData.getType() != loadingSystem.getCurrentEnemyTypeCassette() || !loadingSystem.getCurrentCassette().hasNext()) {
             if(!loadingSystem.loadCassette(enemyData.getType())) {
                 return false;
             }
         }
-        if(!loadingSystem.getCurrentCassette().hasNext()) {
-            loadingSystem.loadCassette(enemyData.getType());
-        }
 
-            currentShell = loadingSystem.getCurrentCassette().getShell();
-            enemyData.setDamage(currentShell.getDamageEnergy() * enemyData.getAccuracyFactor());
-            return true;
+        currentShell = loadingSystem.getCurrentCassette().getShell();
+        enemyData.setDamage(currentShell.getDamageEnergy() * enemyData.getAccuracyFactor());
+        return true;
     }
 }

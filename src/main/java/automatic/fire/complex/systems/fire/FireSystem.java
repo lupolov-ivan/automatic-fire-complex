@@ -4,6 +4,7 @@ package automatic.fire.complex.systems.fire;
 import automatic.fire.complex.ammunition.Shell;
 import automatic.fire.complex.exceptions.ShellJammedException;
 import automatic.fire.complex.simulation.EnemyData;
+
 import java.util.Random;
 
 public abstract class FireSystem {

@@ -10,7 +10,6 @@ import automatic.fire.complex.systems.fire.FireSystem;
 import automatic.fire.complex.systems.fire.FireSystem3000;
 import automatic.fire.complex.systems.loading.AutomationLoadingSystem3000;
 import automatic.fire.complex.units.Unit;
-import automatic.fire.complex.units.enemy.EnemyType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -52,14 +51,9 @@ public class AutomaticFireComplex extends Unit implements Runnable {
 
             EnemyData target = aimingSystem.catchTarget(lastPosition);
 
-//            if (target == null) {
-//                log.debug("Shooting is not possible. No shells of the required type.");
-//                break;
-//            }
-
             if(!fireSystem.makeShot(target)) {
                 radar.addTypeToIgnore(target.getType());
-                log.info("============================================================> No shells for {} \n{}", target.getType().toString(), ammunition);
+                log.info("No shells for {} \n{}", target.getType().toString(), ammunition);
                 continue;
             }
 
