@@ -18,6 +18,9 @@ public class Ammunition {
     private int quantityArmorPiercingCassette;
     private int balanceArmorPiercingCassette;
 
+    private static int quantityShellsInArmorCassette;
+    private static int quantityShellsInBurstCassette;
+
     private Cassette lastReceivedCassette;
 
     private Ammunition(int quantityBurstingCassette, int quantityArmorPiercingCassette) {
@@ -29,12 +32,19 @@ public class Ammunition {
 
     public static Ammunition createAmmunition(int quantityBurstingCassette, int capacityBurstingCassette, int quantityArmorPiercingCassette, int capacityArmorPiercingCassette) {
         Ammunition ammunition = new Ammunition(quantityBurstingCassette, quantityArmorPiercingCassette);
+
+        quantityShellsInArmorCassette = capacityArmorPiercingCassette;
+        quantityShellsInBurstCassette = capacityBurstingCassette;
+
+
         for (int i = 0; i < quantityBurstingCassette; i++) {
             ammunition.addCassette(Cassette.createCassette(TypeShell.BURSTING, capacityBurstingCassette));
         }
         for (int i = 0; i < quantityArmorPiercingCassette; i++) {
             ammunition.addCassette(Cassette.createCassette(TypeShell.ARMOR_PIERCING, capacityArmorPiercingCassette));
         }
+
+
         return ammunition;
     }
 
@@ -81,6 +91,30 @@ public class Ammunition {
             lastReceivedCassette = burstingCassettes.remove(0);
         }
         return lastReceivedCassette;
+    }
+
+    public List<Cassette> getArmorPiercingCassettes() {
+        return armorPiercingCassettes;
+    }
+
+    public List<Cassette> getBurstingCassettes() {
+        return burstingCassettes;
+    }
+
+    public int getQuantityShellsInArmorCassette() {
+        return quantityShellsInArmorCassette;
+    }
+
+    public int getQuantityShellsInBurstCassette() {
+        return quantityShellsInBurstCassette;
+    }
+
+    public int getQuantityArmorPiercingCassette() {
+        return quantityArmorPiercingCassette;
+    }
+
+    public int getQuantityBurstingCassette() {
+        return quantityBurstingCassette;
     }
 
     @Override
