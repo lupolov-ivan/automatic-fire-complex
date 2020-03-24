@@ -17,7 +17,7 @@ public abstract class FireSystem {
     protected void isJammed() throws ShellJammedException {
         Random random = new Random();
 
-        if (random.nextInt() <= 5) {
+        if (random.nextInt(100) < 5) {
             throw new ShellJammedException("Shell is Jammed");
         }
     }
