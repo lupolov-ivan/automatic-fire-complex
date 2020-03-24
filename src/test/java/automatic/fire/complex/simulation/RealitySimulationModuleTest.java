@@ -1,6 +1,5 @@
 package automatic.fire.complex.simulation;
 
-import automatic.fire.complex.units.enemy.Infantry;
 import automatic.fire.complex.units.enemy.Tank;
 import org.junit.Before;
 import org.junit.Test;
