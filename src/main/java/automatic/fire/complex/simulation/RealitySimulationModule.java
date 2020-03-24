@@ -1,5 +1,7 @@
 package automatic.fire.complex.simulation;
 
+import automatic.fire.complex.ammunition.Ammunition;
+import automatic.fire.complex.ammunition.Cassette;
 import automatic.fire.complex.units.Unit;
 import automatic.fire.complex.units.enemy.Enemy;
 import automatic.fire.complex.units.enemy.EnemyType;
@@ -15,8 +17,12 @@ public class RealitySimulationModule {
 
     private volatile Battlefield battlefield;
 
+    private long startTime;
+
+
     public RealitySimulationModule(Battlefield battlefield) {
         this.battlefield = battlefield;
+        startTime = System.currentTimeMillis();
     }
 
     public synchronized Unit getUnit(int x, int y) {
@@ -67,6 +73,42 @@ public class RealitySimulationModule {
             log.debug("Target '{}' destroyed. Type: {}", enemy, data.getType().toString());
         }
 
+    }
+
+    public void battleWasFinished(List<Ammunition> ammunitionList) {
+        long finishTime = System.currentTimeMillis();
+        long battleDuration = finishTime - startTime;
+
+        log.info("=======================");
+        log.info("Duration of the battle was: {}s and {}ms", battleDuration / 1000, battleDuration % 1000);
+
+        int countShotsOfArmor = 0;
+        int countShotsOfBurst = 0;
+
+        log.debug("list of amm size is {}", ammunitionList.size());
+
+        for (Ammunition amm: ammunitionList) {
+            if (amm.getArmorPiercingCassettes().size() < amm.getQuantityArmorPiercingCassette()){
+                countShotsOfArmor += (amm.getQuantityArmorPiercingCassette() - amm.getArmorPiercingCassettes().size())
+                        * amm.getQuantityShellsInArmorCassette();
+            }
+            for (Cassette cassette: amm.getArmorPiercingCassettes()){
+                countShotsOfArmor += (amm.getQuantityShellsInArmorCassette() - cassette.getBalance());
+            }
+
+            if (amm.getBurstingCassettes().size() < amm.getQuantityBurstingCassette()){
+                countShotsOfBurst += (amm.getQuantityBurstingCassette() - amm.getBurstingCassettes().size())
+                        * amm.getQuantityShellsInBurstCassette();
+            }
+
+            for (Cassette cassette: amm.getBurstingCassettes()) {
+                countShotsOfBurst += (amm.getQuantityShellsInBurstCassette() - cassette.getBalance());
+            }
+        }
+
+        log.info("Count shots of armor shells: {}", countShotsOfArmor);
+        log.info("Count shots of burst shells: {}", countShotsOfBurst);
+        log.info("Count shots all shells: {}", countShotsOfBurst + countShotsOfArmor);
     }
 
     public Battlefield getBattlefield() {
