@@ -3,14 +3,19 @@ package automatic.fire.complex.systems.fire;
 import automatic.fire.complex.exceptions.ShellJammedException;
 import automatic.fire.complex.simulation.EnemyData;
 import automatic.fire.complex.systems.loading.AutomationLoadingSystem;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.concurrent.TimeUnit;
 
 public class FireSystem3000 extends FireSystem {
 
-    private final double shotPeriod = 1;
+    Logger log = LoggerFactory.getLogger(FireSystem3000.class);
 
     private AutomationLoadingSystem loadingSystem;
 
     public FireSystem3000(AutomationLoadingSystem loadingSystem) {
+        shotPeriod = 1;
         this.loadingSystem = loadingSystem;
     }
 
@@ -26,6 +31,7 @@ public class FireSystem3000 extends FireSystem {
         try {
             isJammed();
         } catch (ShellJammedException ex) {
+            log.debug("Shell is Jammed. Extracting shell...");
             loadingSystem.extractShell();
         }
 
@@ -33,8 +39,7 @@ public class FireSystem3000 extends FireSystem {
         enemyData.setDamage(currentShell.getDamageEnergy() * enemyData.getAccuracyFactor());
 
         try {
-            int waitTime = (int) (shotPeriod * 1000);
-            Thread.sleep(waitTime);
+            TimeUnit.SECONDS.sleep(shotPeriod);
         } catch (InterruptedException ignored) {
         }
         return true;
