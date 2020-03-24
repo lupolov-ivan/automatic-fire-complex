@@ -2,6 +2,7 @@ package automatic.fire.complex.simulation;
 
 import automatic.fire.complex.ammunition.Ammunition;
 import automatic.fire.complex.ammunition.Cassette;
+import automatic.fire.complex.ammunition.TypeShell;
 import automatic.fire.complex.units.Unit;
 import automatic.fire.complex.units.enemy.Enemy;
 import automatic.fire.complex.units.enemy.EnemyType;
@@ -9,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class RealitySimulationModule {
@@ -46,7 +48,6 @@ public class RealitySimulationModule {
                 }
             }
         }
-
         return units;
     }
 
@@ -92,6 +93,7 @@ public class RealitySimulationModule {
                 countShotsOfArmor += (amm.getQuantityArmorPiercingCassette() - amm.getArmorPiercingCassettes().size())
                         * amm.getQuantityShellsInArmorCassette();
             }
+
             for (Cassette cassette: amm.getArmorPiercingCassettes()){
                 countShotsOfArmor += (amm.getQuantityShellsInArmorCassette() - cassette.getBalance());
             }
@@ -109,6 +111,27 @@ public class RealitySimulationModule {
         log.info("Count shots of armor shells: {}", countShotsOfArmor);
         log.info("Count shots of burst shells: {}", countShotsOfBurst);
         log.info("Count shots all shells: {}", countShotsOfBurst + countShotsOfArmor);
+
+
+        log.info("count of hits for {} equals {}", getAllUnits().get(0).getClass(), getAllUnits().get(0).getHitCount());
+
+        log.info("quantity of units on battlefield {}", getAllUnits().size());
+
+        List<Unit> enemiesList = new LinkedList<>();
+        for (Unit unit: getAllUnits()){
+            if (!unit.sendSecretString().equals("ALLY")) {
+                enemiesList.add(unit);
+            }
+        }
+        log.info("quantity of units on battlefield {}", enemiesList.size());
+
+        int sumShots = 0;
+
+        for (Unit enemy: enemiesList) {
+            sumShots += enemy.getHitCount();
+            log.info("count of hits to {} {} enemy {}",enemy.getPosY(), enemy.getPosX(), enemy.getHitCount());
+        }
+        log.info("count of all shots {}", sumShots);
     }
 
     public Battlefield getBattlefield() {

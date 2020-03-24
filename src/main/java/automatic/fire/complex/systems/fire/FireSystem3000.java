@@ -25,4 +25,9 @@ public class FireSystem3000 extends FireSystem {
         enemyData.setDamage(currentShell.getDamageEnergy() * enemyData.getAccuracyFactor());
         return true;
     }
+
+    @Override
+    public void noMoreEnemies(){
+        loadingSystem.disconnectCassette();
+    }
 }

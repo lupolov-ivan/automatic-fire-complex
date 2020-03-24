@@ -25,4 +25,6 @@ public abstract class FireSystem {
     public int getShotPeriod() {
         return shotPeriod;
     }
+
+    public void noMoreEnemies() {}
 }

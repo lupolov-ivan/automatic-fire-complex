@@ -44,7 +44,6 @@ public class Ammunition {
             ammunition.addCassette(Cassette.createCassette(TypeShell.ARMOR_PIERCING, capacityArmorPiercingCassette));
         }
 
-
         return ammunition;
     }
 
