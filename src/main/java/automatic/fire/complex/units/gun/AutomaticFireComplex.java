@@ -46,6 +46,7 @@ public class AutomaticFireComplex extends Unit implements Runnable {
 
             if (lastPosition.size() == 0) {
                 log.debug("There is no enemies to destroy. Stopping fire...");
+                fireSystem.noMoreEnemies();
                 break;
             }
 
@@ -61,6 +62,8 @@ public class AutomaticFireComplex extends Unit implements Runnable {
 
             rsm.toDamage(target);
         }
+
+
     }
 
     @Override

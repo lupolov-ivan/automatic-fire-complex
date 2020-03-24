@@ -4,6 +4,8 @@ import java.util.Objects;
 
 public abstract class Unit {
 
+    protected int hitCount = 0;
+
     private int posX;
     private int posY;
     private int protectionLevel;
@@ -18,6 +20,15 @@ public abstract class Unit {
     }
 
     abstract public String sendSecretString();
+
+
+    public int getHitCount() {
+        return hitCount;
+    }
+
+    public void setHitCount(int hitCount) {
+        this.hitCount = hitCount;
+    }
 
     @Override
     public boolean equals(Object o) {

@@ -44,4 +44,9 @@ public class FireSystem3000 extends FireSystem {
         }
         return true;
     }
+
+    @Override
+    public void noMoreEnemies(){
+        loadingSystem.disconnectCassette();
+    }
 }
