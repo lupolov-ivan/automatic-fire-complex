@@ -63,6 +63,10 @@ public class Radar {
         return ignoreTypes.remove(enemyType);
     }
 
+    public int getSizeIgnoreList() {
+        return ignoreTypes.size();
+    }
+
     private EnemyType determineEnemyType(Unit unit) {
         if (unit.getClass() == Tank.class) {
             return EnemyType.TANK;

@@ -15,6 +15,9 @@ public class RealitySimulationModule {
 
     private volatile Battlefield battlefield;
 
+    public RealitySimulationModule() {
+    }
+
     public RealitySimulationModule(Battlefield battlefield) {
         this.battlefield = battlefield;
     }
@@ -71,5 +74,9 @@ public class RealitySimulationModule {
 
     public Battlefield getBattlefield() {
         return battlefield;
+    }
+
+    public void setBattlefield(Battlefield battlefield) {
+        this.battlefield = battlefield;
     }
 }
