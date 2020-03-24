@@ -15,16 +15,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 public class SimulationFromProperties {
 
     public static void main(String[] args) {
 
         Yaml cfg = new Yaml();
-        InputStream inputStream = SimulationFromProperties.class.
-                getClassLoader().
+        InputStream inputStream = SimulationFromProperties.class.getClassLoader().
                 getResourceAsStream("configuration-fight.yml");
         Map<String, Object> fight = cfg.load(inputStream);
 
@@ -32,8 +29,6 @@ public class SimulationFromProperties {
         RealitySimulationModule rsm = new RealitySimulationModule();
         List<Unit> guns = new ArrayList<>();
         List<Unit> enemies = new ArrayList<>();
-
-        ExecutorService executorService = Executors.newCachedThreadPool();
 
         Set<Map.Entry<String, Object>> properties = fight.entrySet();
 
