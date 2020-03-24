@@ -5,6 +5,8 @@ import automatic.fire.complex.units.enemy.EnemyType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.concurrent.TimeUnit;
+
 public class AutomationLoadingSystem3000 extends AutomationLoadingSystem {
 
     Logger log = LoggerFactory.getLogger(AutomationLoadingSystem3000.class);
@@ -22,7 +24,7 @@ public class AutomationLoadingSystem3000 extends AutomationLoadingSystem {
 
         if (ammunition.hasNext(enemyType)) {
             try {
-                Thread.sleep(3000);
+                TimeUnit.SECONDS.sleep(3);
             } catch (InterruptedException ignored) {
             }
 
@@ -42,7 +44,7 @@ public class AutomationLoadingSystem3000 extends AutomationLoadingSystem {
             ammunition.addCassette(currentCassette);
         }
         try {
-            Thread.sleep(2000);
+            TimeUnit.SECONDS.sleep(2);
         } catch (InterruptedException ignored) {
         }
 
@@ -53,7 +55,7 @@ public class AutomationLoadingSystem3000 extends AutomationLoadingSystem {
     @Override
     public void extractShell() {
         try {
-            Thread.sleep(10000);
+            TimeUnit.SECONDS.sleep(10);
         } catch (InterruptedException ignored) {
         }
     }
