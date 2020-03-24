@@ -10,8 +10,7 @@ import automatic.fire.complex.systems.loading.AutomationLoadingSystem;
 public class FireSystem3000 extends FireSystem {
 
     private final double shotPeriod = 1;
-    //   private AutomationLoadingSystem automationLoadingSystem;
- //   private Cassette currentCassette;
+
 
     public FireSystem3000(AutomationLoadingSystem automationLoadingSystem) {
 
@@ -60,7 +59,7 @@ public class FireSystem3000 extends FireSystem {
     public boolean changeCassette(TypeShell typeShell) {
 
         automationLoadingSystem.disconnectCassette();
-       return automationLoadingSystem.loadCassette(typeShell);
+        return automationLoadingSystem.loadCassette(typeShell);
 
     }
 
@@ -70,7 +69,7 @@ public class FireSystem3000 extends FireSystem {
         return automationLoadingSystem.getCurrentCassette();
     }
 
-    public void setCurrentCassette(TypeShell typeShell){
+    public void setCurrentCassette(TypeShell typeShell) {
         automationLoadingSystem.loadCassette(typeShell);
     }
 }

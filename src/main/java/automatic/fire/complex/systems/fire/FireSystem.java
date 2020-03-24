@@ -40,4 +40,5 @@ public abstract class FireSystem {
    public abstract boolean changeCassette(TypeShell typeShell);
    public abstract Cassette getCurrentCassette();
    public abstract void setCurrentCassette(TypeShell typeShell);
+
 }

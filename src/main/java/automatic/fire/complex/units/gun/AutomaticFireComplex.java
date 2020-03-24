@@ -2,7 +2,6 @@ package automatic.fire.complex.units.gun;
 
 //import automatic.fire.complex.ShellsSystem.*;
 
-import automatic.fire.complex.ammunition.Ammunition;
 import automatic.fire.complex.ammunition.Cassette;
 import automatic.fire.complex.ammunition.TypeShell;
 import automatic.fire.complex.simulation.EnemyData;
@@ -47,31 +46,37 @@ public class AutomaticFireComplex extends Unit implements Runnable {
     }
 
     public void fire() {
+        int count = 0;
         while (true) {
             lastPosition = radar.checkField();
             if (lastPosition.size() == 0) {
                 break;
             }
             EnemyData target = aimingSystem.catchTarget(lastPosition);
+            if(count == 0){
+                previousEnemyType = target.getType();
+            }
 
-            Cassette currentCassette = fireSystem.getCurrentCassette();
-
-            if (currentCassette == null) {
+            if (fireSystem.getCurrentCassette() == null) {
                 fireSystem.setCurrentCassette(chooseCassette(target.getType()));
             }
-            if (currentCassette.getBalance() == 0 || isTargetTypeChanged(target)) {
+            if (fireSystem.getCurrentCassette().getBalance() == 0 || isTargetTypeChanged(target)) {
                 if (!fireSystem.changeCassette(chooseCassette(target.getType()))) {
+
+
+
                     break;
                 }
             }
 
             previousEnemyType = target.getType();
 
-            if (!fireSystem.makeShot(target)) {  // нечем стрелять
+            if (!fireSystem.makeShot(target)) {
                 break;
             }
             log.debug("AFC '{}' shot to target '{}'", this, target);
             rsm.toDamage(target);
+            count++;
         }
         log.debug("All enemies destroyed. Stopping fire...");
     }
@@ -86,9 +91,9 @@ public class AutomaticFireComplex extends Unit implements Runnable {
 
     private TypeShell chooseCassette(EnemyType enemyType) {
         if (enemyType.equals(EnemyType.INFANTRY)) {
-            return TypeShell.ARMOR_PIERCING;
-        } else {
             return TypeShell.BURSTING;
+        } else {
+            return TypeShell.ARMOR_PIERCING;
         }
     }
 
