@@ -9,7 +9,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 public class RealitySimulationModule {
@@ -19,6 +18,9 @@ public class RealitySimulationModule {
     private volatile Battlefield battlefield;
 
     private long startTime;
+
+    public RealitySimulationModule() {
+    }
 
     public RealitySimulationModule(Battlefield battlefield) {
         this.battlefield = battlefield;
@@ -46,6 +48,7 @@ public class RealitySimulationModule {
                 }
             }
         }
+
         return units;
     }
 
@@ -61,7 +64,6 @@ public class RealitySimulationModule {
         }
 
         enemy.setDamageTaken(data.getDamage() + currentTakenDamage);
-
 
         log.debug("Current number of hit: {}", enemy.getHitCount());
         log.debug("Current taken damage: {}", enemy.getDamageTaken());
@@ -118,7 +120,7 @@ public class RealitySimulationModule {
 
         log.info("quantity of units on battlefield {}", getAllUnits().size());
 
-        List<Unit> enemiesList = new LinkedList<>();
+        List<Unit> enemiesList = new ArrayList<>();
         for (Unit unit: getAllUnits()){
             if (!unit.sendSecretString().equals("ALLY")) {
                 enemiesList.add(unit);
@@ -137,5 +139,9 @@ public class RealitySimulationModule {
 
     public Battlefield getBattlefield() {
         return battlefield;
+    }
+
+    public void setBattlefield(Battlefield battlefield) {
+        this.battlefield = battlefield;
     }
 }
