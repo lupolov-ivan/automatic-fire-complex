@@ -2,7 +2,6 @@ package automatic.fire.complex.simulation;
 
 import automatic.fire.complex.ammunition.Ammunition;
 import automatic.fire.complex.ammunition.Cassette;
-import automatic.fire.complex.ammunition.TypeShell;
 import automatic.fire.complex.units.Unit;
 import automatic.fire.complex.units.enemy.Enemy;
 import automatic.fire.complex.units.enemy.EnemyType;
@@ -20,7 +19,6 @@ public class RealitySimulationModule {
     private volatile Battlefield battlefield;
 
     private long startTime;
-
 
     public RealitySimulationModule(Battlefield battlefield) {
         this.battlefield = battlefield;
@@ -58,8 +56,12 @@ public class RealitySimulationModule {
         int currentHitCount = enemy.getHitCount();
         double currentTakenDamage = enemy.getDamageTaken();
 
-        enemy.setHitCount(++currentHitCount);
+        if(enemy.isAlive()) {
+            enemy.setHitCount(++currentHitCount);
+        }
+
         enemy.setDamageTaken(data.getDamage() + currentTakenDamage);
+
 
         log.debug("Current number of hit: {}", enemy.getHitCount());
         log.debug("Current taken damage: {}", enemy.getDamageTaken());
@@ -73,7 +75,6 @@ public class RealitySimulationModule {
             enemy.setAlive(false);
             log.debug("Target '{}' destroyed. Type: {}", enemy, data.getType().toString());
         }
-
     }
 
     public void battleWasFinished(List<Ammunition> ammunitionList) {
