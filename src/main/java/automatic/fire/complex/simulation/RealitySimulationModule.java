@@ -5,10 +5,13 @@ import automatic.fire.complex.ammunition.Cassette;
 import automatic.fire.complex.units.Unit;
 import automatic.fire.complex.units.enemy.Enemy;
 import automatic.fire.complex.units.enemy.EnemyType;
+import automatic.fire.complex.units.enemy.Infantry;
+import automatic.fire.complex.units.enemy.Tank;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class RealitySimulationModule {
@@ -18,13 +21,17 @@ public class RealitySimulationModule {
     private volatile Battlefield battlefield;
 
     private long startTime;
+    private List<Ammunition> ammunitionList;
 
     public RealitySimulationModule() {
+        startTime = System.currentTimeMillis();
+        ammunitionList = new LinkedList<>();
     }
 
     public RealitySimulationModule(Battlefield battlefield) {
         this.battlefield = battlefield;
         startTime = System.currentTimeMillis();
+        ammunitionList = new LinkedList<>();
     }
 
     public synchronized Unit getUnit(int x, int y) {
@@ -79,7 +86,8 @@ public class RealitySimulationModule {
         }
     }
 
-    public void battleWasFinished(List<Ammunition> ammunitionList) {
+    public void battleWasFinished() {
+
         long finishTime = System.currentTimeMillis();
         long battleDuration = finishTime - startTime;
 
@@ -88,8 +96,6 @@ public class RealitySimulationModule {
 
         int countShotsOfArmor = 0;
         int countShotsOfBurst = 0;
-
-        log.debug("list of amm size is {}", ammunitionList.size());
 
         for (Ammunition amm: ammunitionList) {
             if (amm.getArmorPiercingCassettes().size() < amm.getQuantityArmorPiercingCassette()){
@@ -115,26 +121,72 @@ public class RealitySimulationModule {
         log.info("Count shots of burst shells: {}", countShotsOfBurst);
         log.info("Count shots all shells: {}", countShotsOfBurst + countShotsOfArmor);
 
-
-        log.info("count of hits for {} equals {}", getAllUnits().get(0).getClass(), getAllUnits().get(0).getHitCount());
-
-        log.info("quantity of units on battlefield {}", getAllUnits().size());
-
         List<Unit> enemiesList = new ArrayList<>();
         for (Unit unit: getAllUnits()){
             if (!unit.sendSecretString().equals("ALLY")) {
                 enemiesList.add(unit);
             }
         }
-        log.info("quantity of units on battlefield {}", enemiesList.size());
 
         int sumShots = 0;
 
         for (Unit enemy: enemiesList) {
             sumShots += enemy.getHitCount();
-            log.info("count of hits to {} {} enemy {}",enemy.getPosY(), enemy.getPosX(), enemy.getHitCount());
         }
         log.info("count of all shots {}", sumShots);
+
+        int minShotsToTANK = 0;
+        int maxShotsToTANK = 0;
+        int avgShotsToTANK = 0;
+        int sumShotsToTANK = 0;
+        int countOfDeadTank = 0;
+
+        int minShotsToINFANTRY = 0;
+        int maxShotsToINFANTRY = 0;
+        int avgShotsToINFANTRY = 0;
+        int sumShotsToINFANTRY = 0;
+        int countOfDeadInfantry = 0;
+
+        for (Unit unit: enemiesList) {
+            if (unit.getClass() == Tank.class && !unit.isAlive()) {
+                sumShotsToTANK += unit.getHitCount();
+                countOfDeadTank++;
+                if (minShotsToTANK == 0 || maxShotsToTANK == 0) {
+                    minShotsToTANK = unit.getHitCount();
+                    maxShotsToTANK = unit.getHitCount();
+                } else if (minShotsToTANK > unit.getHitCount()) {
+                    minShotsToTANK = unit.getHitCount();
+                }else if (maxShotsToTANK < unit.getHitCount()) {
+                    maxShotsToTANK = unit.getHitCount();
+                }
+
+
+            } else if (unit.getClass() == Infantry.class && !unit.isAlive()) {
+                sumShotsToINFANTRY += unit.getHitCount();
+                countOfDeadInfantry++;
+                if (minShotsToINFANTRY == 0 || maxShotsToINFANTRY == 0) {
+                    minShotsToINFANTRY = unit.getHitCount();
+                    maxShotsToINFANTRY = unit.getHitCount();
+                }else if (minShotsToINFANTRY > unit.getHitCount()) {
+                    minShotsToINFANTRY = unit.getHitCount();
+                }else if (maxShotsToINFANTRY < unit.getHitCount()) {
+                    maxShotsToINFANTRY = unit.getHitCount();
+                }
+            }
+        }
+        avgShotsToTANK = sumShotsToTANK / countOfDeadTank;
+        avgShotsToINFANTRY = sumShotsToINFANTRY / countOfDeadInfantry;
+
+        log.debug("minShotsToTANK is {}", minShotsToTANK);
+        log.debug("maxShotsToTANK is {}", maxShotsToTANK);
+        log.debug("avgShotsToTANK is {}", avgShotsToTANK);
+        log.debug("minShotsToINFANTRY is {}", minShotsToINFANTRY);
+        log.debug("maxShotsToINFANTRY is {}", maxShotsToINFANTRY);
+        log.debug("avgShotsToINFANTRY is {}", avgShotsToINFANTRY);
+    }
+
+    public synchronized void addAmmunition(Ammunition ammunition) {
+        ammunitionList.add(ammunition);
     }
 
     public Battlefield getBattlefield() {
