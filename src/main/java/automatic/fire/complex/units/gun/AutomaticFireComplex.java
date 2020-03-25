@@ -40,6 +40,11 @@ public class AutomaticFireComplex extends Unit implements Runnable {
     public void patrol() {
         while (true) {
 
+            if (rsm.isCriticalDistanceReached()) {
+                log.debug("XXXXXXXXXXXXXXXXXXXXXX ==]>>>>>>>>> THE BATTLE IS LOST <<<<<<<<<[== XXXXXXXXXXXXXXXXXXXXXX");
+                break;
+            }
+
             List<EnemyData> lastPosition = radar.checkField();
 
             if (lastPosition.size() == 0) {

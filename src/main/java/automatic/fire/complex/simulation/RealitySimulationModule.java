@@ -3,7 +3,6 @@ package automatic.fire.complex.simulation;
 import automatic.fire.complex.ammunition.Ammunition;
 import automatic.fire.complex.ammunition.Cassette;
 import automatic.fire.complex.units.Unit;
-import automatic.fire.complex.units.enemy.Enemy;
 import automatic.fire.complex.units.enemy.EnemyType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,6 +15,7 @@ public class RealitySimulationModule {
     Logger log = LoggerFactory.getLogger(RealitySimulationModule.class);
 
     private volatile Battlefield battlefield;
+    private volatile boolean isCriticalDistanceReached;
 
     private long startTime;
 
@@ -24,6 +24,7 @@ public class RealitySimulationModule {
 
     public RealitySimulationModule(Battlefield battlefield) {
         this.battlefield = battlefield;
+        this.isCriticalDistanceReached = false;
         startTime = System.currentTimeMillis();
     }
 
@@ -82,6 +83,14 @@ public class RealitySimulationModule {
             unit.setAlive(false);
             log.debug("Target '{}' destroyed. Type: {}", unit, data.getType().toString());
         }
+    }
+
+    public synchronized boolean isCriticalDistanceReached() {
+        return isCriticalDistanceReached;
+    }
+
+    public synchronized void setCriticalDistanceReached(boolean criticalDistanceReached) {
+        isCriticalDistanceReached = criticalDistanceReached;
     }
 
     public void battleWasFinished(List<Ammunition> ammunitionList) {
