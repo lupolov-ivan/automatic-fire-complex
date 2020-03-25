@@ -54,28 +54,33 @@ public class RealitySimulationModule {
 
     public synchronized void toDamage(EnemyData data) {
 
-        Enemy enemy = (Enemy) getUnit(data.getPosX(), data.getPosY());
+        Unit unit = getUnit(data.getPosX(), data.getPosY());
 
-        int currentHitCount = enemy.getHitCount();
-        double currentTakenDamage = enemy.getDamageTaken();
-
-        if(enemy.isAlive()) {
-            enemy.setHitCount(++currentHitCount);
+        if(unit == null) {
+            log.debug("Miss! According to these coordinates there is no enemy.");
+            return;
         }
 
-        enemy.setDamageTaken(data.getDamage() + currentTakenDamage);
+        int currentHitCount = unit.getHitCount();
+        double currentTakenDamage = unit.getDamageTaken();
 
-        log.debug("Current number of hit: {}", enemy.getHitCount());
-        log.debug("Current taken damage: {}", enemy.getDamageTaken());
-
-        if (data.getType() == EnemyType.TANK && enemy.getProtectionLevel() <= enemy.getDamageTaken()) {
-            enemy.setAlive(false);
-            log.debug("Target '{}' destroyed. Type: {}", enemy, data.getType().toString());
+        if(unit.isAlive()) {
+            unit.setHitCount(++currentHitCount);
         }
 
-        if (data.getType() == EnemyType.INFANTRY && (enemy.getProtectionLevel()*0.7) <= enemy.getDamageTaken()) {
-            enemy.setAlive(false);
-            log.debug("Target '{}' destroyed. Type: {}", enemy, data.getType().toString());
+        unit.setDamageTaken(data.getDamage() + currentTakenDamage);
+
+        log.debug("Current number of hit: {}", unit.getHitCount());
+        log.debug("Current taken damage: {}", unit.getDamageTaken());
+
+        if (data.getType() == EnemyType.TANK && unit.getProtectionLevel() <= unit.getDamageTaken()) {
+            unit.setAlive(false);
+            log.debug("Target '{}' destroyed. Type: {}", unit, data.getType().toString());
+        }
+
+        if (data.getType() == EnemyType.INFANTRY && (unit.getProtectionLevel()*0.7) <= unit.getDamageTaken()) {
+            unit.setAlive(false);
+            log.debug("Target '{}' destroyed. Type: {}", unit, data.getType().toString());
         }
     }
 
@@ -137,7 +142,7 @@ public class RealitySimulationModule {
         log.info("count of all shots {}", sumShots);
     }
 
-    public Battlefield getBattlefield() {
+    public synchronized Battlefield getBattlefield() {
         return battlefield;
     }
 

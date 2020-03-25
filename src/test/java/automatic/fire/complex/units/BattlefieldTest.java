@@ -1,6 +1,7 @@
 package automatic.fire.complex.units;
 
 import automatic.fire.complex.simulation.Battlefield;
+import automatic.fire.complex.simulation.RealitySimulationModule;
 import automatic.fire.complex.units.enemy.Infantry;
 import automatic.fire.complex.units.enemy.Tank;
 import org.junit.Before;
@@ -32,7 +33,7 @@ public class BattlefieldTest {
 
     @Test
     public void givenBattlefieldW4L3_whenPutUnitToCellX2Y3_thenTrue() {
-        Unit expected = new Tank(3, 2, 10);
+        Unit expected = new Tank(3, 2, 10, 7, new RealitySimulationModule());
 
         battlefield.putUnit(expected);
 
@@ -43,8 +44,8 @@ public class BattlefieldTest {
     public void givenBattlefieldW4L3_whenPutListUnits_thenTrue() {
         List<Unit> units = new ArrayList<>();
 
-        Unit tank = new Tank(2, 2, 10);
-        Unit infantry = new Infantry(3, 2, 10);
+        Unit tank = new Tank(2, 2, 10, 7, new RealitySimulationModule());
+        Unit infantry = new Infantry(3, 2, 10, 7, new RealitySimulationModule());
 
         units.add(tank);
         units.add(infantry);
@@ -57,20 +58,35 @@ public class BattlefieldTest {
     @Test(expected = IndexOutOfBoundsException.class)
     public void givenBattlefieldW4L3_whenPutListContainsWrongUnits_thenIndexOutOfBoundsException() {
         List<Unit> units = new ArrayList<>();
-        units.add(new Tank(3, 2, 10));
-        units.add(new Tank(4, 3, 10));
+        units.add(new Tank(3, 2, 10, 7, new RealitySimulationModule()));
+        units.add(new Tank(4, 3, 10, 7, new RealitySimulationModule()));
 
         battlefield.putUnits(units);
     }
 
     @Test
     public void givenBattlefieldW4L3_whenRemoveExistingUnitToCellX3Y2_thenNullValue() {
-        Unit expected = new Infantry(3, 2, 10);
+        Unit expected = new Infantry(3, 2, 10, 7, new RealitySimulationModule());
 
         battlefield.putUnit(expected);
         assertEquals(expected, battlefield.getCellValue(3,2));
 
         battlefield.clearCellValue(3,2);
+        assertNull(battlefield.getCellValue(3,2));
+    }
+
+    @Test
+    public void givenBattlefieldW4L3_whenClearBattlefield_thenAllUnitsBecomeNull() {
+        List<Unit> units = new ArrayList<>();
+
+        units.add(new Tank(2, 2, 10, 7, new RealitySimulationModule()));
+        units.add(new Infantry(3, 2, 10, 7, new RealitySimulationModule()));
+
+        assertTrue(battlefield.putUnits(units));
+
+        battlefield.clearBattlefield();
+
+        assertNull(battlefield.getCellValue(2,2));
         assertNull(battlefield.getCellValue(3,2));
     }
 }
