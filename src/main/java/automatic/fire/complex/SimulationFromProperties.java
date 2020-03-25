@@ -106,5 +106,7 @@ public class SimulationFromProperties {
         });
 
         BattlefieldPrinter.prettyPrintBattlefieldWithOnlyAliveEnemy(battlefield);
+
+        rsm.battleWasFinished();
     }
 }
