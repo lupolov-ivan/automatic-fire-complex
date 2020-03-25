@@ -50,10 +50,11 @@ public class AutomaticFireComplex extends Unit implements Runnable {
             if (lastPosition.size() == 0) {
                 if(radar.getSizeIgnoreList() > 0) {
                     log.debug("No shells of the required type to destroy remaining targets. Stopping fire...");
+                    fireSystem.noMoreEnemies();
+                    rsm.addAmmunition(ammunition);
                     break;
                 }
                 log.debug("There is no enemies to destroy. Stopping fire...");
-                fireSystem.noMoreEnemies();
                 break;
             }
 
@@ -69,8 +70,6 @@ public class AutomaticFireComplex extends Unit implements Runnable {
 
             rsm.toDamage(target);
         }
-
-
     }
 
     @Override
