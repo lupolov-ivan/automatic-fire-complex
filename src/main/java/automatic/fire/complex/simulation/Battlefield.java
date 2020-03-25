@@ -67,12 +67,4 @@ public class Battlefield {
     public int getLength() {
         return length;
     }
-
-    public void clearBattlefield() {
-        for (int y = 0; y < length; y++) {
-            for (int x = 0; x < width; x++) {
-                battlefield[y][x] = null;
-            }
-        }
-    }
 }

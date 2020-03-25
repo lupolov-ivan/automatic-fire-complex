@@ -74,19 +74,4 @@ public class BattlefieldTest {
         battlefield.clearCellValue(3,2);
         assertNull(battlefield.getCellValue(3,2));
     }
-
-    @Test
-    public void givenBattlefieldW4L3_whenClearBattlefield_thenAllUnitsBecomeNull() {
-        List<Unit> units = new ArrayList<>();
-
-        units.add(new Tank(2, 2, 10, 7, new RealitySimulationModule()));
-        units.add(new Infantry(3, 2, 10, 7, new RealitySimulationModule()));
-
-        assertTrue(battlefield.putUnits(units));
-
-        battlefield.clearBattlefield();
-
-        assertNull(battlefield.getCellValue(2,2));
-        assertNull(battlefield.getCellValue(3,2));
-    }
 }
