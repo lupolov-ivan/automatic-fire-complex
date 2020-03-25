@@ -33,12 +33,12 @@ enemies:
     posX: 3
     posY: 48
     protectionLevel: 10
-    speed: 4
+    speed: 3
   - type: TANK
     posX: 5
     posY: 48
     protectionLevel: 10
-    speed: 4
+    speed: 3
   - type: TANK
     posX: 7
     posY: 48
@@ -48,19 +48,19 @@ enemies:
     posX: 2
     posY: 49
     protectionLevel: 5
-    speed: 1
+    speed: 3
   - type: INFANTRY
     posX: 4
     posY: 49
     protectionLevel: 5
-    speed: 1
+    speed: 2
   - type: INFANTRY
     posX: 6
     posY: 49
     protectionLevel: 5
-    speed: 1
+    speed: 2
   - type: INFANTRY
     posX: 8
     posY: 49
     protectionLevel: 5
-    speed: 1
+    speed: 3

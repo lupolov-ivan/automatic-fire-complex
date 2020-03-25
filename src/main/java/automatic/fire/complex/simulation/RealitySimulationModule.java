@@ -95,6 +95,10 @@ public class RealitySimulationModule {
         }
     }
 
+    public synchronized boolean updateUnitPosition(int oldX, int oldY, Unit unit) {
+        return battlefield.updateUnitPosition(oldX, oldY, unit);
+    }
+
     public synchronized boolean isCriticalDistanceReached() {
         return isCriticalDistanceReached;
     }

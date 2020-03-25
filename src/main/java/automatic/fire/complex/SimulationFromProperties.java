@@ -88,7 +88,7 @@ public class SimulationFromProperties {
             }
         }
 
-        BattlefieldPrinter.prettyPrintBattlefieldWithAllUnits(battlefield);
+        BattlefieldPrinter.prettyPrintBattlefield(battlefield);
 
         List<Thread> joiningList = new ArrayList<>();
 
@@ -110,7 +110,7 @@ public class SimulationFromProperties {
             }
         });
 
-        BattlefieldPrinter.prettyPrintBattlefieldWithOnlyAliveEnemy(battlefield);
+        BattlefieldPrinter.prettyPrintBattlefield(battlefield);
 
         rsm.battleWasFinished();
     }
