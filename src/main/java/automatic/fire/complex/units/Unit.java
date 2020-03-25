@@ -6,8 +6,8 @@ import java.util.Objects;
 
 public abstract class Unit {
 
-    protected int posX;
-    protected int posY;
+    private int posX;
+    private int posY;
     private int protectionLevel;
     private double damageTaken = 0;
     private boolean isAlive;

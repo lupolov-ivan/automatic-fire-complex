@@ -8,10 +8,27 @@ import automatic.fire.complex.units.gun.AutomaticFireComplex;
 
 public class BattlefieldPrinter {
 
-    public static void prettyPrintBattlefield(Battlefield battlefield) {
+    public static void prettyPrintBattlefieldWithAllUnits(Battlefield battlefield) {
 
-        System.out.println("X - alive unit");
-        System.out.println("(X) - dead unit");
+        int width = battlefield.getWidth();
+        int length = battlefield.getLength();
+
+        for (int y = -1; y < length; y++) {
+            if (printFirstLine(width, y)) continue;
+            for (int x = 0; x < width; x++) {
+
+                Unit unit = battlefield.getCellValue(x,y);
+                if (unit == null) {
+                    System.out.print("\t" + "\t|");
+                } else {
+                    System.out.print("\t" + getLetter(unit) + "\t|");
+                }
+            }
+            System.out.println();
+        }
+    }
+
+    public static void prettyPrintBattlefieldWithOnlyAliveEnemy(Battlefield battlefield) {
 
         int width = battlefield.getWidth();
         int length = battlefield.getLength();
