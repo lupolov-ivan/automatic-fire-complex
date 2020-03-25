@@ -16,11 +16,11 @@ public class Tank extends Enemy implements Runnable {
 
     @Override
     void move() {
-        while (isAlive()) {
+        while (isAlive() && !rsm.isCriticalDistanceReached()) {
             int currentPosY = getPosY();
 
             if(currentPosY == 2) {
-                log.debug("XXXXXXXXXXXXXXXXXXXXXX ==]>>>>>>>>> The battle is lost. <<<<<<<<<[== XXXXXXXXXXXXXXXXXXXXXX");
+                rsm.setCriticalDistanceReached(true);
                 break;
             }
 

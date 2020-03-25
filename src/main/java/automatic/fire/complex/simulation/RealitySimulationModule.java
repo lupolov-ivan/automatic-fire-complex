@@ -3,7 +3,6 @@ package automatic.fire.complex.simulation;
 import automatic.fire.complex.ammunition.Ammunition;
 import automatic.fire.complex.ammunition.Cassette;
 import automatic.fire.complex.units.Unit;
-import automatic.fire.complex.units.enemy.Enemy;
 import automatic.fire.complex.units.enemy.EnemyType;
 import automatic.fire.complex.units.enemy.Infantry;
 import automatic.fire.complex.units.enemy.Tank;
@@ -11,7 +10,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 public class RealitySimulationModule {
@@ -19,6 +17,7 @@ public class RealitySimulationModule {
     Logger log = LoggerFactory.getLogger(RealitySimulationModule.class);
 
     private volatile Battlefield battlefield;
+    private volatile boolean isCriticalDistanceReached;
 
     private long startTime;
     private List<Ammunition> ammunitionList;
@@ -28,13 +27,13 @@ public class RealitySimulationModule {
 
     public RealitySimulationModule() {
         startTime = System.currentTimeMillis();
-        ammunitionList = new LinkedList<>();
+        ammunitionList = new ArrayList<>();
     }
 
     public RealitySimulationModule(Battlefield battlefield) {
         this.battlefield = battlefield;
         startTime = System.currentTimeMillis();
-        ammunitionList = new LinkedList<>();
+        ammunitionList = new ArrayList<>();
     }
 
     public synchronized Unit getUnit(int x, int y) {
@@ -64,36 +63,44 @@ public class RealitySimulationModule {
 
     public synchronized void toDamage(EnemyData data) {
 
-        Enemy enemy = (Enemy) getUnit(data.getPosX(), data.getPosY());
+        Unit unit = getUnit(data.getPosX(), data.getPosY());
 
-        if(enemy == null) {
+        if(unit == null) {
             countOfMisses++;
             log.debug("Miss");
             return;
         }
 
-        int currentHitCount = enemy.getHitCount();
-        double currentTakenDamage = enemy.getDamageTaken();
+        int currentHitCount = unit.getHitCount();
+        double currentTakenDamage = unit.getDamageTaken();
 
-        if(enemy.isAlive()) {
-            enemy.setHitCount(++currentHitCount);
-            enemy.setDamageTaken(data.getDamage() + currentTakenDamage);
+        if(unit.isAlive()) {
+            unit.setHitCount(++currentHitCount);
+            unit.setDamageTaken(data.getDamage() + currentTakenDamage);
         }
 
         countOfShots++;
 
-        log.debug("Current number of hit: {}", enemy.getHitCount());
-        log.debug("Current taken damage: {}", enemy.getDamageTaken());
+        log.debug("Current number of hit: {}", unit.getHitCount());
+        log.debug("Current taken damage: {}", unit.getDamageTaken());
 
-        if (data.getType() == EnemyType.TANK && enemy.getProtectionLevel() <= enemy.getDamageTaken()) {
-            enemy.setAlive(false);
-            log.debug("Target '{}' destroyed. Type: {}", enemy, data.getType().toString());
+        if (data.getType() == EnemyType.TANK && unit.getProtectionLevel() <= unit.getDamageTaken()) {
+            unit.setAlive(false);
+            log.debug("Target '{}' destroyed. Type: {}", unit, data.getType().toString());
         }
 
-        if (data.getType() == EnemyType.INFANTRY && (enemy.getProtectionLevel()*0.7) <= enemy.getDamageTaken()) {
-            enemy.setAlive(false);
-            log.debug("Target '{}' destroyed. Type: {}", enemy, data.getType().toString());
+        if (data.getType() == EnemyType.INFANTRY && (unit.getProtectionLevel()*0.7) <= unit.getDamageTaken()) {
+            unit.setAlive(false);
+            log.debug("Target '{}' destroyed. Type: {}", unit, data.getType().toString());
         }
+    }
+
+    public synchronized boolean isCriticalDistanceReached() {
+        return isCriticalDistanceReached;
+    }
+
+    public synchronized void setCriticalDistanceReached(boolean criticalDistanceReached) {
+        isCriticalDistanceReached = criticalDistanceReached;
     }
 
     public void battleWasFinished() {
