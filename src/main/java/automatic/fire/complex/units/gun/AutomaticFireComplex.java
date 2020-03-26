@@ -62,7 +62,7 @@ public class AutomaticFireComplex extends Unit implements Runnable {
 
             if(!fireSystem.makeShot(target)) {
                 radar.addTypeToIgnore(target.getType());
-                log.info("No shells for {} \n{}", target.getType().toString(), ammunition);
+                log.info("No shells for {}", target.getType().toString());
                 continue;
             }
 
