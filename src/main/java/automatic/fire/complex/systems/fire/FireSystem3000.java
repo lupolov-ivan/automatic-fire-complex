@@ -38,10 +38,10 @@ public class FireSystem3000 extends FireSystem {
         currentShell = loadingSystem.getCurrentCassette().getShell();
         enemyData.setDamage(currentShell.getDamageEnergy() * enemyData.getAccuracyFactor());
 
-//        try {
-//            TimeUnit.SECONDS.sleep(shotPeriod);
-//        } catch (InterruptedException ignored) {
-//        }
+        try {
+            TimeUnit.SECONDS.sleep(shotPeriod);
+        } catch (InterruptedException ignored) {
+        }
         return true;
     }
 

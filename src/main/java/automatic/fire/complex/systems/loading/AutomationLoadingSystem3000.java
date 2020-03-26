@@ -23,10 +23,10 @@ public class AutomationLoadingSystem3000 extends AutomationLoadingSystem {
         }
 
         if (ammunition.hasNext(enemyType)) {
-//            try {
-//                TimeUnit.SECONDS.sleep(3);
-//            } catch (InterruptedException ignored) {
-//            }
+            try {
+                TimeUnit.SECONDS.sleep(3);
+            } catch (InterruptedException ignored) {
+            }
 
             currentCassette = ammunition.getCassette(enemyType);
             currentEnemyTypeCassette = enemyType;
@@ -47,10 +47,10 @@ public class AutomationLoadingSystem3000 extends AutomationLoadingSystem {
         if (currentCassette.getBalance() != 0) {
             ammunition.addCassette(currentCassette);
         }
-//        try {
-//            TimeUnit.SECONDS.sleep(2);
-//        } catch (InterruptedException ignored) {
-//        }
+        try {
+            TimeUnit.SECONDS.sleep(2);
+        } catch (InterruptedException ignored) {
+        }
 
         currentEnemyTypeCassette = null;
         currentCassette = null;
@@ -58,10 +58,10 @@ public class AutomationLoadingSystem3000 extends AutomationLoadingSystem {
 
     @Override
     public void extractShell() {
-//        try {
-//            TimeUnit.SECONDS.sleep(10);
-//        } catch (InterruptedException ignored) {
-//        }
+        try {
+            TimeUnit.SECONDS.sleep(10);
+        } catch (InterruptedException ignored) {
+        }
     }
 }
 
