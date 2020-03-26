@@ -22,6 +22,8 @@ public class RealitySimulationModule {
 
     private long startTime;
     private List<Ammunition> ammunitionList;
+    private int countOfMisses = 0;
+
 
     public RealitySimulationModule() {
         startTime = System.currentTimeMillis();
@@ -62,6 +64,12 @@ public class RealitySimulationModule {
     public synchronized void toDamage(EnemyData data) {
 
         Enemy enemy = (Enemy) getUnit(data.getPosX(), data.getPosY());
+
+        if(enemy == null) {
+            countOfMisses++;
+            log.debug("Miss");
+            return;
+        }
 
         int currentHitCount = enemy.getHitCount();
         double currentTakenDamage = enemy.getDamageTaken();
@@ -183,6 +191,8 @@ public class RealitySimulationModule {
         log.debug("minShotsToINFANTRY is {}", minShotsToINFANTRY);
         log.debug("maxShotsToINFANTRY is {}", maxShotsToINFANTRY);
         log.debug("avgShotsToINFANTRY is {}", avgShotsToINFANTRY);
+
+        log.debug("count of misses is {}", countOfMisses);
     }
 
     public synchronized void addAmmunition(Ammunition ammunition) {
