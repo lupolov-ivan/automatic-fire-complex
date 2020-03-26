@@ -22,8 +22,9 @@ public class RealitySimulationModule {
 
     private long startTime;
     private List<Ammunition> ammunitionList;
-    private int countOfMisses = 0;
 
+    private int countOfShots = 0;
+    private int countOfMisses = 0;
 
     public RealitySimulationModule() {
         startTime = System.currentTimeMillis();
@@ -76,9 +77,10 @@ public class RealitySimulationModule {
 
         if(enemy.isAlive()) {
             enemy.setHitCount(++currentHitCount);
+            enemy.setDamageTaken(data.getDamage() + currentTakenDamage);
         }
 
-        enemy.setDamageTaken(data.getDamage() + currentTakenDamage);
+        countOfShots++;
 
         log.debug("Current number of hit: {}", enemy.getHitCount());
         log.debug("Current taken damage: {}", enemy.getDamageTaken());
@@ -129,20 +131,6 @@ public class RealitySimulationModule {
         log.info("Count shots of burst shells: {}", countShotsOfBurst);
         log.info("Count shots all shells: {}", countShotsOfBurst + countShotsOfArmor);
 
-        List<Unit> enemiesList = new ArrayList<>();
-        for (Unit unit: getAllUnits()){
-            if (!unit.sendSecretString().equals("ALLY")) {
-                enemiesList.add(unit);
-            }
-        }
-
-        int sumShots = 0;
-
-        for (Unit enemy: enemiesList) {
-            sumShots += enemy.getHitCount();
-        }
-        log.info("count of all shots {}", sumShots);
-
         int minShotsToTANK = 0;
         int maxShotsToTANK = 0;
         int avgShotsToTANK = 0;
@@ -155,35 +143,48 @@ public class RealitySimulationModule {
         int sumShotsToINFANTRY = 0;
         int countOfDeadInfantry = 0;
 
-        for (Unit unit: enemiesList) {
-            if (unit.getClass() == Tank.class && !unit.isAlive()) {
-                sumShotsToTANK += unit.getHitCount();
-                countOfDeadTank++;
-                if (minShotsToTANK == 0 || maxShotsToTANK == 0) {
-                    minShotsToTANK = unit.getHitCount();
-                    maxShotsToTANK = unit.getHitCount();
-                } else if (minShotsToTANK > unit.getHitCount()) {
-                    minShotsToTANK = unit.getHitCount();
-                }else if (maxShotsToTANK < unit.getHitCount()) {
-                    maxShotsToTANK = unit.getHitCount();
+        for (Unit unit: getAllUnits()){
+            if (!unit.sendSecretString().equals("ALLY")) {
+
+                if (unit.getClass() == Tank.class && !unit.isAlive()) {
+                    sumShotsToTANK += unit.getHitCount();
+                    countOfDeadTank++;
+                    if (minShotsToTANK == 0 || maxShotsToTANK == 0) {
+                        minShotsToTANK = unit.getHitCount();
+                        maxShotsToTANK = unit.getHitCount();
+                    } else if (minShotsToTANK > unit.getHitCount()) {
+                        minShotsToTANK = unit.getHitCount();
+                    } else if (maxShotsToTANK < unit.getHitCount()) {
+                        maxShotsToTANK = unit.getHitCount();
+                    }
+
+                } else if (unit.getClass() == Infantry.class && !unit.isAlive()) {
+                    sumShotsToINFANTRY += unit.getHitCount();
+                    countOfDeadInfantry++;
+                    if (minShotsToINFANTRY == 0 || maxShotsToINFANTRY == 0) {
+                        minShotsToINFANTRY = unit.getHitCount();
+                        maxShotsToINFANTRY = unit.getHitCount();
+                    } else if (minShotsToINFANTRY > unit.getHitCount()) {
+                        minShotsToINFANTRY = unit.getHitCount();
+                    } else if (maxShotsToINFANTRY < unit.getHitCount()) {
+                        maxShotsToINFANTRY = unit.getHitCount();
+                    }
                 }
 
-
-            } else if (unit.getClass() == Infantry.class && !unit.isAlive()) {
-                sumShotsToINFANTRY += unit.getHitCount();
-                countOfDeadInfantry++;
-                if (minShotsToINFANTRY == 0 || maxShotsToINFANTRY == 0) {
-                    minShotsToINFANTRY = unit.getHitCount();
-                    maxShotsToINFANTRY = unit.getHitCount();
-                }else if (minShotsToINFANTRY > unit.getHitCount()) {
-                    minShotsToINFANTRY = unit.getHitCount();
-                }else if (maxShotsToINFANTRY < unit.getHitCount()) {
-                    maxShotsToINFANTRY = unit.getHitCount();
-                }
             }
         }
-        avgShotsToTANK = sumShotsToTANK / countOfDeadTank;
-        avgShotsToINFANTRY = sumShotsToINFANTRY / countOfDeadInfantry;
+
+        log.info("count of all shots: {}", countOfShots);
+        log.debug("count of misses: {}", countOfMisses);
+        log.debug("percent of hit: {}", (1.0*countOfMisses)/countOfShots);
+
+        if(countOfDeadTank > 0) {
+            avgShotsToTANK = sumShotsToTANK / countOfDeadTank;
+        }
+
+        if(countOfDeadInfantry > 0) {
+            avgShotsToINFANTRY = sumShotsToINFANTRY / countOfDeadInfantry;
+        }
 
         log.debug("minShotsToTANK is {}", minShotsToTANK);
         log.debug("maxShotsToTANK is {}", maxShotsToTANK);
@@ -191,8 +192,6 @@ public class RealitySimulationModule {
         log.debug("minShotsToINFANTRY is {}", minShotsToINFANTRY);
         log.debug("maxShotsToINFANTRY is {}", maxShotsToINFANTRY);
         log.debug("avgShotsToINFANTRY is {}", avgShotsToINFANTRY);
-
-        log.debug("count of misses is {}", countOfMisses);
     }
 
     public synchronized void addAmmunition(Ammunition ammunition) {
