@@ -73,13 +73,16 @@ public class RealitySimulationModule {
         int currentHitCount = unit.getHitCount();
         double currentTakenDamage = unit.getDamageTaken();
 
-        if(unit.isAlive()) {
-            unit.setHitCount(++currentHitCount);
-            unit.setDamageTaken(data.getDamage() + currentTakenDamage);
-        }
+        unit.setHitCount(++currentHitCount);
+        unit.setDamageTaken(data.getDamage() + currentTakenDamage);
 
         log.debug("Current number of hit: {}", unit.getHitCount());
         log.debug("Current taken damage: {}", unit.getDamageTaken());
+
+        if(!unit.isAlive()) {
+            log.debug("Target is already destroyed, It was useless shot!");
+            return;
+        }
 
         if (data.getType() == EnemyType.TANK && unit.getProtectionLevel() <= unit.getDamageTaken()) {
             unit.setAlive(false);
@@ -198,6 +201,8 @@ public class RealitySimulationModule {
         log.debug("minShotsToINFANTRY is {}", minShotsToINFANTRY);
         log.debug("maxShotsToINFANTRY is {}", maxShotsToINFANTRY);
         log.debug("avgShotsToINFANTRY is {}", avgShotsToINFANTRY);
+
+        log.debug("sum count of all enemies {}", sumShotsToINFANTRY + sumShotsToTANK);
     }
 
     public synchronized void addAmmunition(Ammunition ammunition) {
