@@ -5,24 +5,24 @@ guns:
   - posX: 2
     posY: 0
     protectionLevel: 20
-    quantityBurstingCassette: 5
-    capacityBurstingCassette: 5
-    quantityArmorPiercingCassette: 10
+    quantityBurstingCassette: 40
+    capacityBurstingCassette: 15
+    quantityArmorPiercingCassette: 40
     capacityArmorPiercingCassette: 10
-  - posX: 5
-    posY: 0
-    protectionLevel: 20
-    quantityBurstingCassette: 5
-    capacityBurstingCassette: 5
-    quantityArmorPiercingCassette: 10
-    capacityArmorPiercingCassette: 10
-  - posX: 8
-    posY: 0
-    protectionLevel: 20
-    quantityBurstingCassette: 5
-    capacityBurstingCassette: 5
-    quantityArmorPiercingCassette: 10
-    capacityArmorPiercingCassette: 10
+#  - posX: 5
+#    posY: 0
+#    protectionLevel: 20
+#    quantityBurstingCassette: 5
+#    capacityBurstingCassette: 5
+#    quantityArmorPiercingCassette: 10
+#    capacityArmorPiercingCassette: 10
+#  - posX: 8
+#    posY: 0
+#    protectionLevel: 20
+#    quantityBurstingCassette: 5
+#    capacityBurstingCassette: 5
+#    quantityArmorPiercingCassette: 10
+#    capacityArmorPiercingCassette: 10
 enemies:
   - type: TANK
     posX: 1
@@ -33,7 +33,7 @@ enemies:
     posX: 3
     posY: 48
     protectionLevel: 10
-    speed: 3
+    speed: 5
   - type: TANK
     posX: 5
     posY: 48
@@ -53,12 +53,12 @@ enemies:
     posX: 4
     posY: 49
     protectionLevel: 5
-    speed: 2
+    speed: 3
   - type: INFANTRY
     posX: 6
     posY: 49
     protectionLevel: 5
-    speed: 2
+    speed: 3
   - type: INFANTRY
     posX: 8
     posY: 49
