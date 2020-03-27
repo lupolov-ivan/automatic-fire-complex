@@ -22,7 +22,6 @@ public class RealitySimulationModule {
     private long startTime;
     private List<Ammunition> ammunitionList;
 
-    private int countOfShots = 0;
     private int countOfMisses = 0;
 
     public RealitySimulationModule() {
@@ -79,8 +78,6 @@ public class RealitySimulationModule {
             unit.setDamageTaken(data.getDamage() + currentTakenDamage);
         }
 
-        countOfShots++;
-
         log.debug("Current number of hit: {}", unit.getHitCount());
         log.debug("Current taken damage: {}", unit.getDamageTaken());
 
@@ -107,7 +104,7 @@ public class RealitySimulationModule {
         isCriticalDistanceReached = criticalDistanceReached;
     }
 
-    public void battleWasFinished() {
+    public void printFightReport() {
 
         long finishTime = System.currentTimeMillis();
         long battleDuration = finishTime - startTime;
@@ -185,9 +182,7 @@ public class RealitySimulationModule {
             }
         }
 
-        log.info("count of all shots: {}", countOfShots);
-        log.debug("count of misses: {}", countOfMisses);
-        log.debug("percent of hit: {}", (1.0*countOfMisses)/countOfShots);
+        log.debug("Count of misses: {} ({} %)", countOfMisses, (100*countOfMisses)/(countShotsOfBurst + countShotsOfArmor));
 
         if(countOfDeadTank > 0) {
             avgShotsToTANK = sumShotsToTANK / countOfDeadTank;

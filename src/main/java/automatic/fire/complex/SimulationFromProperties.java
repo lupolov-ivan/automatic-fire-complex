@@ -112,6 +112,6 @@ public class SimulationFromProperties {
 
         BattlefieldPrinter.prettyPrintBattlefield(battlefield);
 
-        rsm.battleWasFinished();
+        rsm.printFightReport();
     }
 }
