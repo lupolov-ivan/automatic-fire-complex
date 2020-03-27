@@ -16,7 +16,7 @@ public class RealitySimulationModuleTest {
     public void setUp() {
         battlefield = new Battlefield(3,4);
         rsm = new RealitySimulationModule(battlefield);
-        tank = new Tank(0,0, 10);
+        tank = new Tank(0,0, 10, 7, new RealitySimulationModule());
         battlefield.putUnit(tank);
     }
 

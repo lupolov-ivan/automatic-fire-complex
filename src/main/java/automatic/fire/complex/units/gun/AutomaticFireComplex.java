@@ -19,15 +19,13 @@ public class AutomaticFireComplex extends Unit implements Runnable {
 
     Logger log = LoggerFactory.getLogger(AutomaticFireComplex.class);
 
-    private RealitySimulationModule rsm;
     private AimingSystem aimingSystem;
     private FireSystem fireSystem;
     private Radar radar;
     private Ammunition ammunition;
 
     public AutomaticFireComplex(int posX, int posY, int protectionLevel, Ammunition ammunition, RealitySimulationModule rsm) {
-        super(posX, posY, protectionLevel);
-        this.rsm = rsm;
+        super(posX, posY, protectionLevel, rsm);
         this.aimingSystem = new MechanicalInertialAimSystem(this.getPosX(), this.getPosY());
         this.fireSystem = new FireSystem3000(new AutomationLoadingSystem3000(ammunition));
         this.radar = new Radar(rsm);
@@ -42,13 +40,16 @@ public class AutomaticFireComplex extends Unit implements Runnable {
     public void patrol() {
         while (true) {
 
+            if (rsm.isCriticalDistanceReached()) {
+                log.debug("XXXXXXXXXXXXXXXXXXXXXX ==]>>>>>>>>> THE BATTLE IS LOST <<<<<<<<<[== XXXXXXXXXXXXXXXXXXXXXX");
+                break;
+            }
+
             List<EnemyData> lastPosition = radar.checkField();
 
             if (lastPosition.size() == 0) {
                 if(radar.getSizeIgnoreList() > 0) {
                     log.debug("No shells of the required type to destroy remaining targets. Stopping fire...");
-                    fireSystem.noMoreEnemies();
-                    rsm.addAmmunition(ammunition);
                     break;
                 }
                 log.debug("There is no enemies to destroy. Stopping fire...");
@@ -67,6 +68,8 @@ public class AutomaticFireComplex extends Unit implements Runnable {
 
             rsm.toDamage(target);
         }
+        fireSystem.noMoreEnemies();
+        rsm.addAmmunition(ammunition);
     }
 
     @Override

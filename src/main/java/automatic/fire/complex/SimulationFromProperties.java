@@ -67,15 +67,16 @@ public class SimulationFromProperties {
                         int x = (int) enemy.get("posX");
                         int y = (int) enemy.get("posY");
                         int protectionLevel = (int) enemy.get("protectionLevel");
+                        int speed = (int) enemy.get("speed");
                         String type = (String) enemy.get("type");
                         switch (type) {
                             case "TANK" : {
-                                Tank tank = new Tank(x,y,protectionLevel);
+                                Tank tank = new Tank(x,y,protectionLevel, speed, rsm);
                                 enemies.add(tank);
                                 break;
                             }
                             case "INFANTRY" : {
-                                Infantry infantry = new Infantry(x,y,protectionLevel);
+                                Infantry infantry = new Infantry(x,y,protectionLevel, speed, rsm);
                                 enemies.add(infantry);
                                 break;
                             }
@@ -87,9 +88,13 @@ public class SimulationFromProperties {
             }
         }
 
-        BattlefieldPrinter.prettyPrintBattlefieldWithAllUnits(battlefield);
+        BattlefieldPrinter.prettyPrintBattlefield(battlefield);
 
         List<Thread> joiningList = new ArrayList<>();
+
+        enemies.forEach(enemy -> {
+            new Thread((Runnable) enemy).start();
+        });
 
         guns.forEach(gun -> {
             Thread t = new Thread((Runnable) gun);
@@ -105,8 +110,8 @@ public class SimulationFromProperties {
             }
         });
 
-        BattlefieldPrinter.prettyPrintBattlefieldWithOnlyAliveEnemy(battlefield);
+        BattlefieldPrinter.prettyPrintBattlefield(battlefield);
 
-        rsm.battleWasFinished();
+        rsm.printFightReport();
     }
 }

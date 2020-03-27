@@ -1,58 +1,66 @@
 battlefield:
-  length: 10
+  length: 50
   width: 10
 guns:
   - posX: 2
     posY: 0
     protectionLevel: 20
-    quantityBurstingCassette: 2
+    quantityBurstingCassette: 5
     capacityBurstingCassette: 5
-    quantityArmorPiercingCassette: 20
+    quantityArmorPiercingCassette: 10
     capacityArmorPiercingCassette: 10
   - posX: 5
     posY: 0
     protectionLevel: 20
-    quantityBurstingCassette: 2
+    quantityBurstingCassette: 5
     capacityBurstingCassette: 5
-    quantityArmorPiercingCassette: 20
+    quantityArmorPiercingCassette: 10
     capacityArmorPiercingCassette: 10
   - posX: 8
     posY: 0
     protectionLevel: 20
-    quantityBurstingCassette: 2
+    quantityBurstingCassette: 5
     capacityBurstingCassette: 5
-    quantityArmorPiercingCassette: 20
+    quantityArmorPiercingCassette: 10
     capacityArmorPiercingCassette: 10
 enemies:
-  - posX: 1
-    posY: 2
+  - type: TANK
+    posX: 1
+    posY: 48
     protectionLevel: 10
-    type: TANK
-  - posX: 6
-    posY: 3
+    speed: 4
+  - type: TANK
+    posX: 3
+    posY: 48
     protectionLevel: 10
-    type: TANK
-  - posX: 8
-    posY: 7
+    speed: 4
+  - type: TANK
+    posX: 5
+    posY: 48
     protectionLevel: 10
-    type: TANK
-  - posX: 4
-    posY: 8
+    speed: 4
+  - type: TANK
+    posX: 7
+    posY: 48
     protectionLevel: 10
-    type: TANK
-  - posX: 5
-    posY: 5
-    protectionLevel: 20
-    type: INFANTRY
-  - posX: 1
-    posY: 4
-    protectionLevel: 20
-    type: INFANTRY
-  - posX: 8
-    posY: 2
-    protectionLevel: 20
-    type: INFANTRY
-  - posX: 2
-    posY: 7
-    protectionLevel: 20
-    type: INFANTRY
+    speed: 4
+  - type: INFANTRY
+    posX: 2
+    posY: 49
+    protectionLevel: 5
+    speed: 3
+  - type: INFANTRY
+    posX: 4
+    posY: 49
+    protectionLevel: 5
+    speed: 2
+  - type: INFANTRY
+    posX: 6
+    posY: 49
+    protectionLevel: 5
+    speed: 2
+  - type: INFANTRY
+    posX: 8
+    posY: 49
+    protectionLevel: 5
+    speed: 3

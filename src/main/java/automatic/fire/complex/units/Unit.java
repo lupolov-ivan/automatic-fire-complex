@@ -1,22 +1,26 @@
 package automatic.fire.complex.units;
 
+import automatic.fire.complex.simulation.RealitySimulationModule;
+
 import java.util.Objects;
 
 public abstract class Unit {
 
-    protected int hitCount = 0;
-
-    private int posX;
-    private int posY;
+    protected int posX;
+    protected int posY;
     private int protectionLevel;
     private double damageTaken = 0;
     private boolean isAlive;
+    private int hitCount = 0;
 
-    public Unit(int posX, int posY, int protectionLevel) {
+    protected RealitySimulationModule rsm;
+
+    public Unit(int posX, int posY, int protectionLevel, RealitySimulationModule rsm) {
         this.posX = posX;
         this.posY = posY;
         this.protectionLevel = protectionLevel;
         this.isAlive = true;
+        this.rsm = rsm;
     }
 
     abstract public String sendSecretString();

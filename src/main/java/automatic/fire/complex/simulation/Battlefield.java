@@ -1,12 +1,7 @@
 package automatic.fire.complex.simulation;
 
 import automatic.fire.complex.units.Unit;
-import automatic.fire.complex.units.enemy.Infantry;
-import automatic.fire.complex.units.enemy.Tank;
-import automatic.fire.complex.units.gun.AutomaticFireComplex;
-import org.w3c.dom.ls.LSOutput;
 
-import java.util.Arrays;
 import java.util.List;
 
 public class Battlefield {
@@ -46,6 +41,11 @@ public class Battlefield {
         return true;
     }
 
+    public boolean updateUnitPosition(int oldX, int oldY, Unit unit) {
+        clearCellValue(oldX, oldY);
+        return putUnit(unit);
+    }
+
     public void clearCellValue(int x, int y) {
         if (battlefield[y][x] != null) {
             battlefield[y][x] = null;
@@ -66,5 +66,13 @@ public class Battlefield {
 
     public int getLength() {
         return length;
+    }
+
+    public void clearBattlefield() {
+        for (int y = 0; y < length; y++) {
+            for (int x = 0; x < width; x++) {
+                battlefield[y][x] = null;
+            }
+        }
     }
 }
