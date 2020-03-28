@@ -16,5 +16,5 @@ dependencies {
 }
 
 application {
-    mainClassName = 'automatic.fire.complex.App'
+    mainClassName = 'automatic.fire.complex.SimulationFromProperties'
 }
